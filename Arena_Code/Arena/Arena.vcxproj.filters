@@ -50,5 +50,11 @@
     <ClInclude Include="vector.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="creature.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
