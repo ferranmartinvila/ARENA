@@ -3,11 +3,16 @@
 
 #include "vector.h"
 #include "entity.h"
+#include "player.h"
+#include "room.h"
 
 class world{
 private:
-	vector<entity> data;
+
+	vector<entity*> data;
+
 public:
+
 	//Constructor
 	world(){
 

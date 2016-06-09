@@ -5,6 +5,8 @@ enum TYPE{
 
 	OBJECT,
 	CREATURE,
+	ROOM,
+	EXIT,
 	UNDEFINED
 };
 

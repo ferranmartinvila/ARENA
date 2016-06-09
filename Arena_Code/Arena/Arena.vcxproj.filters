@@ -19,6 +19,15 @@
     <Filter Include="World">
       <UniqueIdentifier>{fe2279b8-fe91-42cb-a4c3-6992d461110d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities\Objects">
+      <UniqueIdentifier>{37319f68-53df-472c-804d-9b25e13c721c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Creatures">
+      <UniqueIdentifier>{ced229d4-81e2-483f-93c0-bef593e4f5a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Scenes">
+      <UniqueIdentifier>{dd6eeef1-3b17-44c1-b384-72ee3e6f701d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,10 +60,16 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="object.h">
-      <Filter>Entities</Filter>
+      <Filter>Entities\Objects</Filter>
     </ClInclude>
     <ClInclude Include="creature.h">
-      <Filter>Entities</Filter>
+      <Filter>Entities\Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="room.h">
+      <Filter>Entities\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Entities\Creatures</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

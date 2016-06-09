@@ -2,11 +2,13 @@
 #define _string_
 #include "vector.h"
 class string{
-
 private:
+
 	char* STR = nullptr;
 	unsigned int max_capacity;
+
 public:
+
 	string();
 	string(const char*cadena);
 	string(const string& copy);

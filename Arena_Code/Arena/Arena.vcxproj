@@ -74,6 +74,8 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="object.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="room.h" />
     <ClInclude Include="string.h" />
     <ClInclude Include="vector.h" />
     <ClInclude Include="World.h" />
