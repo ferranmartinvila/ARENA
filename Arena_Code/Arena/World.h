@@ -8,13 +8,14 @@
 #include "exit.h"
 #include "string.h"
 
+#define MAX_ENTITY 14
 class world{
-private:
+public:
 
+	//DATA
 	player* user;
 	vector<entity*> data;
 
-public:
 
 	//Constructor
 	world(){

@@ -6,7 +6,7 @@
 #include <Windows.h>
 #include <conio.h>
 
-#define INSTRUCTION_SIZE 15
+#define INSTRUCTION_SIZE 35
 
 int main(){
 	//Instruction data

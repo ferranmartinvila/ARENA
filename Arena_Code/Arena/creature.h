@@ -1,6 +1,5 @@
 #ifndef _CREATURE_
 #define _CREATURE_
-#include "Globals.h"
 #include "entity.h"
 #include "exit.h"
 enum CREATURE_TYPE{
@@ -11,19 +10,21 @@ enum CREATURE_TYPE{
 };
 
 class creature :public entity{
-private:
+public:
 
-	CREATURE_TYPE type;
+	//DATA
+	room*location;
+	CREATURE_TYPE creature_type;
 	uint live_points;
 	uint attack;
 	uint defense;
 	uint stamina;
 
-public:
+
 	//Constructor
-	creature(char* name, char* description, CREATURE_TYPE type, uint live_points, uint defense = 0, uint attack = 0, uint stamina = 0) :entity(name, description, CREATURE), live_points(live_points), defense(defense), attack(attack), stamina(stamina), type(type) {}
+	creature(char* name, char* description, CREATURE_TYPE type, room* location, uint live_points, uint defense = 0, uint attack = 0, uint stamina = 0) :entity(name, description, CREATURE), live_points(live_points), defense(defense), attack(attack), stamina(stamina), creature_type(type),location(location) {}
 
 	//FUNCTIONS
-	void move(DIRECTION direction){};
+	void move(DIRECTION direction);
 };
 #endif

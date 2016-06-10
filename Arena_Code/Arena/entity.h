@@ -1,6 +1,9 @@
 #ifndef _ENTITY_
 #define _ENTITY_
 #include "double_list.h"
+#include "string.h"
+#include "Globals.h"
+
 enum TYPE{
 
 	OBJECT,
@@ -11,16 +14,17 @@ enum TYPE{
 };
 
 class entity{
-private:
+public:
 
+	//DATA
 	TYPE type;
-	char*name;
-	char* description;
+	string name;
+	string description;
 	list_double<entity*> buffer;
 
-public:
+
 	//FUNCTIONS
-	void insert(entity* added);
+	void look_it()const;
 	//CONSTRUCTORS
 	//Undefined constructor
 	entity(){ name = nullptr, description = nullptr, type = UNDEFINED; }

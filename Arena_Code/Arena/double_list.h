@@ -153,6 +153,7 @@ public:
 		}
 		else return false;
 	}
+	//ERASES
 	//erase position
 	bool erase(unsigned int position){
 		if (position == get_size() - 1){
@@ -196,6 +197,28 @@ public:
 			to_delete = nullptr;
 		}
 		return deleted;
+	}
+	//rease entity
+	bool erase_data(const type& to_delete){
+		node* temp = first_element;
+		while (temp){
+			if (temp->data == to_delete)break;
+			temp = temp->next;
+		}
+		if (temp == last_element()){
+			pop_back();
+		}
+		else if (temp == first_element){
+			pop_front();
+		}
+		else{
+
+			temp->prev->next = temp->next;
+			temp->next->prev = temp->prev;
+			delete temp;
+			temp = nullptr;
+		}
+		return true;
 	}
 
 };

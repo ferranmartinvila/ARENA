@@ -10,14 +10,13 @@ enum DIRECTION{
 };
 
 class exit:public entity{
-private:
-	DIRECTION direction;
-	room* from_room;
-	room* next_room;
-
 public:
+	//DATA
+	DIRECTION direction;
+	room* from_room = nullptr;
+	room* next_room = nullptr;
 
 	//Constructor
-	exit(char* name, char* description, room*from, room*to, DIRECTION direction) :entity(name, description, EXIT), from_room(from_room), next_room(next_room), direction(direction) {}
+	exit(char* name, char* description, room*from_room, room*next_room, DIRECTION direction) :entity(name, description, EXIT), from_room(from_room), next_room(next_room), direction(direction) {}
 };
 #endif

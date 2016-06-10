@@ -23,13 +23,13 @@ public:
 	bool operator ==(const char* string);
 	void operator +=(const char*string);//es suma a si mateix amb una cadena
 	void operator +=(const string& string);//es suma a si mateix amb una class cadena
-	string* operator +(const char*string)const;//resultat now sumant cadena 
-	string* operator +(const string& string)const;//resultat now sumant class cadena
+	string operator +(const char*string)const;//resultat now sumant cadena 
+	string operator +(const string& string)const;//resultat now sumant class cadena
 	void operator =(const char*string);//operator = //es modifica igualant a class cadena
 	void operator =(const string& string);//es modifica igualnt a class cadena
 	bool operator!=(const char* string);
 	bool operator !=(const string&string);
-	char* get_string();
+	char* get_string()const;
 	void memory_size(unsigned int);
 };
 vector<string> tokenize(char*);//separa l'ordre

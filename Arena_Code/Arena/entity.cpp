@@ -1,5 +1,5 @@
 #include "entity.h"
 
-void entity::insert(entity* added){
-	buffer.push_back(added);
+void entity::look_it()const{
+	printf("\n%s:\n%s\n", name.get_string(), description.get_string());
 }

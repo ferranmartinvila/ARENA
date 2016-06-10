@@ -50,7 +50,7 @@ bool string::erase(){
 }
 
 //get string
-char* string::get_string(){
+char* string::get_string()const{
 	return STR;
 }
 
@@ -131,13 +131,13 @@ void string::operator =(const string& string){
 }
 
 //operator +
-string* string::operator +(const char* string_entered)const{
-	string* result = new string(strcat(STR, string_entered));
+string string::operator +(const char* string_entered)const{
+	string result = (strcat(STR, string_entered));
 	return result;
 }
-string* string::operator +(const string& string_entered)const{
+string string::operator +(const string& string_entered)const{
 
-	string* result = new string(strcat(strcat({ STR }, " "), { string_entered.STR }));
+	string result = (strcat(strcat({ STR }, " "), { string_entered.STR }));
 	return result;
 }
 

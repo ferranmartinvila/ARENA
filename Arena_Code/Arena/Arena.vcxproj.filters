@@ -42,6 +42,12 @@
     <ClCompile Include="entity.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="creature.cpp">
+      <Filter>Entities\Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Entities\Creatures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="entity.h">
