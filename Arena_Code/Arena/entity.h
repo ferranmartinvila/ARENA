@@ -19,7 +19,8 @@ private:
 	list_double<entity*> buffer;
 
 public:
-
+	//FUNCTIONS
+	void insert(entity* added);
 	//CONSTRUCTORS
 	//Undefined constructor
 	entity(){ name = nullptr, description = nullptr, type = UNDEFINED; }

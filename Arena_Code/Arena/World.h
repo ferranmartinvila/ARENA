@@ -5,10 +5,13 @@
 #include "entity.h"
 #include "player.h"
 #include "room.h"
+#include "exit.h"
+#include "string.h"
 
 class world{
 private:
 
+	player* user;
 	vector<entity*> data;
 
 public:
@@ -23,6 +26,7 @@ public:
 	}
 	//FUNCTIONS
 	void Initialize();
+	bool Apply_Instruction(vector<string> instruction);
 };
 //External game data pointer
 extern world* game;

@@ -39,6 +39,9 @@
     <ClCompile Include="world.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="entity.h">
@@ -70,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="player.h">
       <Filter>Entities\Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="exit.h">
+      <Filter>Entities\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

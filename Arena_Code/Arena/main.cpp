@@ -21,7 +21,8 @@ int main(){
 	world game;
 	game.Initialize();
 	//Game loop
-	while (1){
+	bool loop = true;
+	while (loop){
 		//timer
 		current_time = GetTickCount();
 		//Game update
@@ -40,6 +41,8 @@ int main(){
 				else{
 					phrase[phrase_position - 1] = '\0';
 					printf("Instruction: %s\n", phrase);
+					instruction = tokenize(phrase);
+					loop = game.Apply_Instruction(instruction);
 					phrase_position = 0;
 				}
 			}

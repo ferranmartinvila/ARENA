@@ -64,6 +64,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="world.cpp" />
@@ -72,6 +73,7 @@
     <ClInclude Include="creature.h" />
     <ClInclude Include="double_list.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="exit.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />
