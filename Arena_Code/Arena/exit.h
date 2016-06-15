@@ -2,13 +2,6 @@
 #define _EXIT_
 #include "entity.h"
 #include "room.h"
-enum DIRECTION{
-	NORTH,
-	SOUTH,
-	EAST,
-	WEST
-};
-
 class exit:public entity{
 public:
 	//DATA

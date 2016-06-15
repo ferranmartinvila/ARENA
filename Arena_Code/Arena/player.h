@@ -4,7 +4,7 @@
 class player :public creature{
 public:
 
-	entity* entity_focused = nullptr;;
+	//NONE EXTRA DATA
 
 
 	//FUNCTIONS

@@ -6,9 +6,10 @@
 #include "player.h"
 #include "room.h"
 #include "exit.h"
+#include "object.h"
 #include "string.h"
 
-#define MAX_ENTITY 14
+#define MAX_ENTITY 26
 class world{
 public:
 

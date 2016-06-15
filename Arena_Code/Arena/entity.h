@@ -4,15 +4,6 @@
 #include "string.h"
 #include "Globals.h"
 
-enum TYPE{
-
-	OBJECT,
-	CREATURE,
-	ROOM,
-	EXIT,
-	UNDEFINED
-};
-
 class entity{
 public:
 
@@ -20,6 +11,7 @@ public:
 	TYPE type;
 	string name;
 	string description;
+	entity* location = nullptr;
 	list_double<entity*> buffer;
 
 
@@ -29,6 +21,6 @@ public:
 	//Undefined constructor
 	entity(){ name = nullptr, description = nullptr, type = UNDEFINED; }
 	//Defined constructor
-	entity(char* name,char* description,TYPE type):name(name),description(description),type(type){}
+	entity(char* name,char* description,TYPE type, entity* location = nullptr):name(name),description(description),type(type),location(location){}
 };
 #endif

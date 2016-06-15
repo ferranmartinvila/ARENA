@@ -198,7 +198,7 @@ public:
 		}
 		return deleted;
 	}
-	//rease entity
+	//erase entity
 	bool erase_data(const type& to_delete){
 		node* temp = first_element;
 		while (temp){
@@ -219,6 +219,22 @@ public:
 			temp = nullptr;
 		}
 		return true;
+	}
+	//swap entities(entity to erase , list destination , list from(optional))
+	void swap_entities(const type& A , list_double<type>& Other_list, list_double<type>& A_list){
+		if (this != nullptr){
+			A_list.erase_data(A);
+			Other_list.push_back(A);
+		}
+	}
+	//find data 
+	bool find_data(const type& data){
+		node* temp = first_element;
+		while (temp){
+			if (temp->data == data)return true;
+			temp = temp->next;
+		}
+		return false;
 	}
 
 };
