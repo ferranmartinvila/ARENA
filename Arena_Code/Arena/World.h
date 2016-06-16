@@ -8,10 +8,11 @@
 #include "exit.h"
 #include "object.h"
 #include "Goblin.h"
+#include "Merchant.h"
 #include "string.h"
 
 
-#define MAX_ENTITY 27
+#define MAX_ENTITY 28
 class world{
 public:
 

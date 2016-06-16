@@ -46,39 +46,41 @@ void world::Initialize(){
 
 	//OBJECTS
 	//Fighter equipation
-	object* Fighter_Helm = new object("Fighter Helm", "Basic but light helm", HELM,Principal_Square, 10, 2, 0, 2);
+	object* Fighter_Helm = new object("Fighter Helm", "Basic but light helm", HELM,Principal_Square, 10, 2, 0, 2, 60);
 	data.push_back(Fighter_Helm);
-	object* Fighter_Armor = new object("Fighter Armor", "Basic but light Armor", ARMOR,Principal_Square, 25, 4, 0, 2);
+	object* Fighter_Armor = new object("Fighter Armor", "Basic but light Armor", ARMOR,Principal_Square, 25, 4, 0, 2, 150);
 	data.push_back(Fighter_Armor);
-	object* Fighter_Globes = new object("Fighter Globes", "Basic but light Globes", GLOBES,Principal_Square, 5, 1, 0, 2);
+	object* Fighter_Globes = new object("Fighter Globes", "Basic but light Globes", GLOBES,Principal_Square, 5, 1, 0, 2, 45);
 	data.push_back(Fighter_Globes);
-	object* Fighter_Pants = new object("Fighter Pants", "Basic but light Pants", PANTS,Principal_Square, 15, 3, 0, 2);
+	object* Fighter_Pants = new object("Fighter Pants", "Basic but light Pants", PANTS,Principal_Square, 15, 3, 0, 2, 100);
 	data.push_back(Fighter_Pants);
-	object* Fighter_Boots = new object("Fighter Boots", "Basic but light Boots", BOOTS,Principal_Square, 10, 2, 0, 2);
+	object* Fighter_Boots = new object("Fighter Boots", "Basic but light Boots", BOOTS,Principal_Square, 10, 2, 0, 2, 50);
 	data.push_back(Fighter_Boots);
-	object* Fighter_Weapon = new object("Fighter Weapon", "Basic but light Weapon", WEAPON,Principal_Square, 0, 0, 10, 0);
+	object* Fighter_Weapon = new object("Fighter Weapon", "Basic but light Weapon", WEAPON,Principal_Square, 0, 0, 10, 0, 250);
 	data.push_back(Fighter_Weapon);
 	//Assassin equipation
-	object* Assassin_Helm = new object("Assassin Helm", "Shiny golden helm", HELM,Principal_Square, 15, 3, 0, 3);
+	object* Assassin_Helm = new object("Assassin Helm", "Shiny golden helm", HELM,Principal_Square, 15, 3, 0, 3, 120);
 	data.push_back(Assassin_Helm);
-	object* Assassin_Armor = new object("Ass", "Shiny golden Armor", ARMOR,Principal_Square, 30, 5, 0, 3);
+	object* Assassin_Armor = new object("Assassin Armor", "Shiny golden Armor", ARMOR,Principal_Square, 30, 5, 0, 3, 300);
 	data.push_back(Assassin_Armor);
-	object* Assassin_Globes = new object("Assassin Globes", "Shiny golden Globes",GLOBES, Principal_Square, 10, 2, 0, 3);
+	object* Assassin_Globes = new object("Assassin Globes", "Shiny golden Globes",GLOBES, Principal_Square, 10, 2, 0, 3, 90);
 	data.push_back(Assassin_Globes);
-	object* Assassin_Pants = new object("Assassin Pants", "Shiny golden Pants", PANTS, Principal_Square, 20, 4, 0, 3);
+	object* Assassin_Pants = new object("Assassin Pants", "Shiny golden Pants", PANTS, Principal_Square, 20, 4, 0, 3, 200);
 	data.push_back(Assassin_Pants);
-	object* Assassin_Boots = new object("Assassin Boots", "Shiny golden Boots", BOOTS, Principal_Square, 15, 3, 0, 3);
+	object* Assassin_Boots = new object("Assassin Boots", "Shiny golden Boots", BOOTS, Principal_Square, 15, 3, 0, 3, 100);
 	data.push_back(Assassin_Boots);
-	object* Assassin_Weapon = new object("Assassin Weapon", "Shiny golden Weapon", WEAPON, Principal_Square, 0, 0, 20, 0);
+	object* Assassin_Weapon = new object("Assassin Weapon", "Shiny golden Weapon", WEAPON, Principal_Square, 0, 0, 20, 0, 500);
 	data.push_back(Assassin_Weapon);
 	//rest equipations
 	printf("\n* objects added");
 
 	//NPCs
 	//Goblin
-	goblin* Test_Goblin = new goblin("Goblin", "A little but fast green monster.", Principal_Square);
-	data.push_back(Test_Goblin);
-	
+	goblin* Goblin = new goblin("Goblin", "A little but fast green monster.", Arena);
+	data.push_back(Goblin);
+	//Merchant
+	merchant* Merchant = new merchant("Merchant", "This merchant have all the equipment needed for fight", Market);
+	data.push_back(Merchant);
 
 	//PLAYER AVATAR
 	user = new player("Goul", "The shadows warrior", Principal_Square, 150, 0, 5, 15);
@@ -86,23 +88,41 @@ void world::Initialize(){
 	printf("\n* user added");
 
 	//GAME DATA STUCT
+	
+	//NPCs
+	//Merchant
+	//Fighter equipation
+	Merchant->buffer.push_back(Fighter_Helm);
+	Merchant->buffer.push_back(Fighter_Armor);
+	Merchant->buffer.push_back(Fighter_Globes);
+	Merchant->buffer.push_back(Fighter_Pants);
+	Merchant->buffer.push_back(Fighter_Boots);
+	Merchant->buffer.push_back(Fighter_Weapon);
+	//Assasin equipation
+	Merchant->buffer.push_back(Assassin_Helm);
+	Merchant->buffer.push_back(Assassin_Armor);
+	Merchant->buffer.push_back(Assassin_Globes);
+	Merchant->buffer.push_back(Assassin_Pants);
+	Merchant->buffer.push_back(Assassin_Boots);
+	Merchant->buffer.push_back(Assassin_Weapon);
+	
+	//MAP
 	//Principal Square
 	Principal_Square->buffer.push_back(Principal_Square_to_Market);
 	Principal_Square->buffer.push_back(Principal_Square_to_Black_Market);
 	Principal_Square->buffer.push_back(Principal_Square_to_House);
 	Principal_Square->buffer.push_back(Principal_Square_to_Arena);
-	Principal_Square->buffer.push_back(Test_Goblin);
-	Principal_Square->buffer.push_back(Assassin_Armor);
 	Principal_Square->buffer.push_back(user);
 	//Market
 	Market->buffer.push_back(Market_to_Principal_Square);
+	Market->buffer.push_back(Merchant);
 	//Black Market
 	Black_Market->buffer.push_back(Black_Market_to_Principal_Square);
 	//House
 	House->buffer.push_back(House_to_Principal_Square);
 	//Arena
 	Arena->buffer.push_back(Arena_to_Principal_Square);
-	printf("\n* game struct defined");
+	printf("\n* game struct defined\n\n");
 
 
 	
@@ -111,16 +131,22 @@ void world::Initialize(){
 }
 
 bool world::Apply_Instruction(vector<string> instruction){
+	//Word position that have to be compared
+	uint position = 1;
 	//Update the user pointed entity
-	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick" || instruction.buffer[0] == "attack") && instruction.get_size() > 1){
+	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick" || instruction.buffer[0] == "attack" || instruction.buffer[0] == "talk") && instruction.get_size() > 1){
 		//the entity can have a composen name so the correct words are fused
-		if (instruction.get_size()>2) instruction.buffer[1] += instruction.buffer[2];
-		if (instruction.get_size()>3) instruction.buffer[1] += instruction.buffer[3];
+		if (instruction.buffer[1] == "to")position++;
+		else
+		{
+			if (instruction.get_size() > 2) instruction.buffer[position + 1] += instruction.buffer[position + 2];
+			if (instruction.get_size() > 3) instruction.buffer[position + 1] += instruction.buffer[position + 3];
+		}
 		for (uint k = 0; k < MAX_ENTITY; k++){
-			if (instruction.buffer[1] == data.buffer[k]->name){
+			if (instruction.buffer[position] == data.buffer[k]->name){
 				if (instruction.buffer[0] == "look")user->entity_focused = data.buffer[k];
 				else if (instruction.buffer[0] == "pick" && data.buffer[k]->type == OBJECT)user->entity_focused = data.buffer[k];
-				else if (instruction.buffer[0] == "attack" && data.buffer[k]->type == CREATURE)user->entity_focused = data.buffer[k];
+				else if ((instruction.buffer[0] == "attack" || instruction.buffer[0] == "talk") && data.buffer[k]->type == CREATURE)user->entity_focused = data.buffer[k];
 				break;
 			}
 			else if (k == MAX_ENTITY - 1)user->entity_focused = nullptr;
@@ -129,7 +155,9 @@ bool world::Apply_Instruction(vector<string> instruction){
 
 
 	//quit instruction
-	if (instruction.buffer[0] == "quit")return false;
+	if (instruction.buffer[0] == "quit")
+		if (user->state == IDLE)return false;
+		else user->state = IDLE;
 	
 
 	else if (user->state == IDLE){
@@ -150,6 +178,14 @@ bool world::Apply_Instruction(vector<string> instruction){
 		else if (instruction.buffer[0] == "pick")user->pick((object*)user->entity_focused);
 		//pull instruction
 		else if (instruction.buffer[0] == "throw")user->pull((object*)user->entity_focused);
+		//talk instruction
+		else if (instruction.buffer[0] == "talk"){
+			if (user->entity_focused != nullptr && user->entity_focused->location == user->location){
+				user->state = TALK;
+				((creature*)user->entity_focused)->talk();
+			}
+			else printf("Invalid NPC.");
+		}
 		//attack instruction
 		else if (instruction.buffer[0] == "attack")user->attack();
 		//invalid instruction

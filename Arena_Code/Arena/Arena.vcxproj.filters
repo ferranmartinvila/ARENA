@@ -27,6 +27,9 @@
     <Filter Include="Entities\Creatures\NPCs">
       <UniqueIdentifier>{1ba4b443-fb68-4d25-a602-8c6614670533}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities\Creatures\Player">
+      <UniqueIdentifier>{5a7207cb-4efc-46a2-9243-ef0c0c20262e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,11 +47,11 @@
     <ClCompile Include="creature.cpp">
       <Filter>Entities\Creatures</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>Entities\Creatures</Filter>
-    </ClCompile>
     <ClCompile Include="object.cpp">
       <Filter>Entities\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Entities\Creatures\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,23 +79,20 @@
     <ClInclude Include="room.h">
       <Filter>Entities\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>Entities\Creatures</Filter>
-    </ClInclude>
     <ClInclude Include="exit.h">
       <Filter>Entities\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Globals.h">
       <Filter>Code</Filter>
     </ClInclude>
-    <ClInclude Include="NPC.h">
-      <Filter>Entities\Creatures\NPCs</Filter>
-    </ClInclude>
     <ClInclude Include="Goblin.h">
       <Filter>Entities\Creatures\NPCs</Filter>
     </ClInclude>
     <ClInclude Include="Merchant.h">
       <Filter>Entities\Creatures\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Entities\Creatures\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -25,6 +25,12 @@ void creature::update(){
 
 }
 
+void creature::talk(){
+	printf("Sorry I don't want to talk.");
+	state = IDLE;
+}
+
+
 void creature::move(DIRECTION direction){
 	list_double<entity*>::node* temp = location->buffer.first_element;
 	while (temp){

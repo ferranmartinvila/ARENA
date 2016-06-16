@@ -44,7 +44,7 @@ int main(){
 				}
 				else{
 					phrase[phrase_position - 1] = '\0';
-					printf("Instruction: %s\n", phrase);
+					printf("Instruction: %s\n\n", phrase);
 					instruction = tokenize(phrase);
 					loop = game.Apply_Instruction(instruction);
 					phrase_position = 0;

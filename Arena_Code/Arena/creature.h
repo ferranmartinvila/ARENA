@@ -24,7 +24,7 @@ public:
 	//FUNCTIONS
 	void look_it()const;
 	void update();
-
+	virtual void talk();
 	void move(DIRECTION direction);
 	void pick(object* object_focused);
 	void pull(object* object_focused);
