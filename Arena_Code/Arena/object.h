@@ -14,5 +14,8 @@ public:
 
 	//Constructor
 	object(char* name, char* description, OBJECT_TYPE object_type, entity* location, uint live_buff = 0, uint defence_buff = 0, uint attack_buff = 0, uint stamina_buff = 0) :entity(name, description, OBJECT, location), object_type(object_type) , live_buff(live_buff), defence_buff(defence_buff), attack_buff(attack_buff), stamina_buff(stamina_buff) {}
+
+	//FUNCTIONS
+	void look_it()const;
 };
 #endif

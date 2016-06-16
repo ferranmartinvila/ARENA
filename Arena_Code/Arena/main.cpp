@@ -20,6 +20,8 @@ int main(){
 	//World data
 	world game;
 	game.Initialize();
+	
+	
 	//Game loop
 	bool loop = true;
 	while (loop){
@@ -27,7 +29,9 @@ int main(){
 		current_time = GetTickCount();
 		//Game update
 		if (current_time > last_time + update_rate){
-			printf("\nBase Code");
+			for (uint k = 0; k < MAX_ENTITY; k++){
+				game.data.buffer[k]->update();
+			}
 			last_time = current_time;
 		}
 		//User imput

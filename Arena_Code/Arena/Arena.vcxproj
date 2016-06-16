@@ -67,6 +67,7 @@
     <ClCompile Include="creature.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="object.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="world.cpp" />
@@ -77,6 +78,8 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="exit.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Goblin.h" />
+    <ClInclude Include="NPC.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="room.h" />

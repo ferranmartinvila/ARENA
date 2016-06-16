@@ -24,6 +24,9 @@
     <Filter Include="Entities\Scenes">
       <UniqueIdentifier>{dd6eeef1-3b17-44c1-b384-72ee3e6f701d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities\Creatures\NPCs">
+      <UniqueIdentifier>{1ba4b443-fb68-4d25-a602-8c6614670533}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -43,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>Entities\Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>Entities\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +84,12 @@
     </ClInclude>
     <ClInclude Include="Globals.h">
       <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Entities\Creatures\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Goblin.h">
+      <Filter>Entities\Creatures\NPCs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

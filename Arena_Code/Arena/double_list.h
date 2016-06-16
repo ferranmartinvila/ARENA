@@ -220,7 +220,7 @@ public:
 		}
 		return true;
 	}
-	//swap entities(entity to erase , list destination , list from(optional))
+	//swap entities(entity to erase , list destination , list from)
 	void swap_entities(const type& A , list_double<type>& Other_list, list_double<type>& A_list){
 		if (this != nullptr){
 			A_list.erase_data(A);

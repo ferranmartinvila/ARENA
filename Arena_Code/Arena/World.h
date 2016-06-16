@@ -7,9 +7,11 @@
 #include "room.h"
 #include "exit.h"
 #include "object.h"
+#include "Goblin.h"
 #include "string.h"
 
-#define MAX_ENTITY 26
+
+#define MAX_ENTITY 27
 class world{
 public:
 

@@ -74,6 +74,12 @@ void world::Initialize(){
 	//rest equipations
 	printf("\n* objects added");
 
+	//NPCs
+	//Goblin
+	goblin* Test_Goblin = new goblin("Goblin", "A little but fast green monster.", Principal_Square);
+	data.push_back(Test_Goblin);
+	
+
 	//PLAYER AVATAR
 	user = new player("Goul", "The shadows warrior", Principal_Square, 150, 0, 5, 15);
 	data.push_back(user);
@@ -85,6 +91,7 @@ void world::Initialize(){
 	Principal_Square->buffer.push_back(Principal_Square_to_Black_Market);
 	Principal_Square->buffer.push_back(Principal_Square_to_House);
 	Principal_Square->buffer.push_back(Principal_Square_to_Arena);
+	Principal_Square->buffer.push_back(Test_Goblin);
 	Principal_Square->buffer.push_back(user);
 	//Market
 	Market->buffer.push_back(Market_to_Principal_Square);
@@ -104,7 +111,7 @@ void world::Initialize(){
 
 bool world::Apply_Instruction(vector<string> instruction){
 	//Update the user pointed entity
-	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick") && instruction.get_size() > 1){
+	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick" || instruction.buffer[0] == "attack") && instruction.get_size() > 1){
 		//the entity can have a composen name so the correct words are fused
 		if (instruction.get_size()>2) instruction.buffer[1] += instruction.buffer[2];
 		if (instruction.get_size()>3) instruction.buffer[1] += instruction.buffer[3];
@@ -112,6 +119,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 			if (instruction.buffer[1] == data.buffer[k]->name){
 				if (instruction.buffer[0] == "look")user->entity_focused = data.buffer[k];
 				else if (instruction.buffer[0] == "pick" && data.buffer[k]->type == OBJECT)user->entity_focused = data.buffer[k];
+				else if (instruction.buffer[0] == "attack" && data.buffer[k]->type == CREATURE)user->entity_focused = data.buffer[k];
 				break;
 			}
 			else if (k == MAX_ENTITY - 1)user->entity_focused = nullptr;
@@ -121,20 +129,26 @@ bool world::Apply_Instruction(vector<string> instruction){
 
 	//quit instruction
 	if (instruction.buffer[0] == "quit")return false;
-	//look instruction
-	else if (instruction.buffer[0] == "look" && instruction.get_size() > 1){
-		if (instruction.buffer[1] == "room")user->entity_focused = user->location;
-		user->look(user->entity_focused);
+	
+
+	else if (user->state == IDLE){
+		//look instruction
+		if (instruction.buffer[0] == "look" && instruction.get_size() > 1){
+			if (instruction.buffer[1] == "room")user->entity_focused = user->location;
+			user->look(user->entity_focused);
+		}
+		//go instruction
+		else if (instruction.buffer[0] == "go"){
+			if (instruction.buffer[1] == "north")user->move(NORTH);
+			else if (instruction.buffer[1] == "south")user->move(SOUTH);
+			else if (instruction.buffer[1] == "east")user->move(EAST);
+			else if (instruction.buffer[1] == "west")user->move(WEST);
+		}
+		//pick instruction
+		else if (instruction.buffer[0] == "pick")user->pick((object*)user->entity_focused);
+		//attack instruction
+		else if (instruction.buffer[0] == "attack")user->attack();
 	}
-	//go instruction
-	else if (instruction.buffer[0] == "go"){
-		if (instruction.buffer[1] == "north")user->move(NORTH);
-		else if (instruction.buffer[1] == "south")user->move(SOUTH);
-		else if (instruction.buffer[1] == "east")user->move(EAST);
-		else if (instruction.buffer[1] == "west")user->move(WEST);
-	}
-	//pick instruction
-	else if (instruction.buffer[0] == "pick")user->pick((object*)user->entity_focused);
 	//invalid instruction
 	else printf("Invalid comand.");
 	return true;

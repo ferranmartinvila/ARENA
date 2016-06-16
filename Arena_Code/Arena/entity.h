@@ -16,7 +16,8 @@ public:
 
 
 	//FUNCTIONS
-	void look_it()const;
+	virtual void look_it()const;
+	virtual void update(){};
 	//CONSTRUCTORS
 	//Undefined constructor
 	entity(){ name = nullptr, description = nullptr, type = UNDEFINED; }
