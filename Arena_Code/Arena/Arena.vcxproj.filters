@@ -91,5 +91,8 @@
     <ClInclude Include="Goblin.h">
       <Filter>Entities\Creatures\NPCs</Filter>
     </ClInclude>
+    <ClInclude Include="Merchant.h">
+      <Filter>Entities\Creatures\NPCs</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

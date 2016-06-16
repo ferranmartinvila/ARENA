@@ -61,7 +61,7 @@ void world::Initialize(){
 	//Assassin equipation
 	object* Assassin_Helm = new object("Assassin Helm", "Shiny golden helm", HELM,Principal_Square, 15, 3, 0, 3);
 	data.push_back(Assassin_Helm);
-	object* Assassin_Armor = new object("Assassin Armor", "Shiny golden Armor", ARMOR,Principal_Square, 30, 5, 0, 3);
+	object* Assassin_Armor = new object("Ass", "Shiny golden Armor", ARMOR,Principal_Square, 30, 5, 0, 3);
 	data.push_back(Assassin_Armor);
 	object* Assassin_Globes = new object("Assassin Globes", "Shiny golden Globes",GLOBES, Principal_Square, 10, 2, 0, 3);
 	data.push_back(Assassin_Globes);
@@ -92,6 +92,7 @@ void world::Initialize(){
 	Principal_Square->buffer.push_back(Principal_Square_to_House);
 	Principal_Square->buffer.push_back(Principal_Square_to_Arena);
 	Principal_Square->buffer.push_back(Test_Goblin);
+	Principal_Square->buffer.push_back(Assassin_Armor);
 	Principal_Square->buffer.push_back(user);
 	//Market
 	Market->buffer.push_back(Market_to_Principal_Square);
@@ -135,6 +136,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 		//look instruction
 		if (instruction.buffer[0] == "look" && instruction.get_size() > 1){
 			if (instruction.buffer[1] == "room")user->entity_focused = user->location;
+			else if (instruction.buffer[1] == "me")user->entity_focused = user;
 			user->look(user->entity_focused);
 		}
 		//go instruction
@@ -146,10 +148,12 @@ bool world::Apply_Instruction(vector<string> instruction){
 		}
 		//pick instruction
 		else if (instruction.buffer[0] == "pick")user->pick((object*)user->entity_focused);
+		//pull instruction
+		else if (instruction.buffer[0] == "throw")user->pull((object*)user->entity_focused);
 		//attack instruction
 		else if (instruction.buffer[0] == "attack")user->attack();
+		//invalid instruction
+		else printf("Invalid comand.");
 	}
-	//invalid instruction
-	else printf("Invalid comand.");
 	return true;
 }

@@ -79,6 +79,7 @@
     <ClInclude Include="exit.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Goblin.h" />
+    <ClInclude Include="Merchant.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />

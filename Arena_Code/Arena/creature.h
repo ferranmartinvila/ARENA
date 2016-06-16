@@ -27,6 +27,7 @@ public:
 
 	void move(DIRECTION direction);
 	void pick(object* object_focused);
+	void pull(object* object_focused);
 	void attack();
 	void drop(creature* killer);
 	void die();

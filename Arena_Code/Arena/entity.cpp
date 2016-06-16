@@ -1,12 +1,12 @@
 #include "entity.h"
 #include "creature.h"
 void entity::look_it()const{
-	printf("\n%s:\n%s\nCONTENT:", name.get_string(), description.get_string());
-	list_double<entity*>::node* temp = this->buffer.first_element;
+	printf("\n%s:\n%s\nCONTENT:\n", name.get_string(), description.get_string());
+	list_double<entity*>::node* temp = buffer.first_element;
 	uint k = 0;
 	while (temp){
 		if (temp->data->type != EXIT  && temp->data->name != "Goul"){
-			printf("\n%s", temp->data->name.get_string());
+			printf("%s\n", temp->data->name.get_string());
 			k++;
 		}
 		temp = temp->next;

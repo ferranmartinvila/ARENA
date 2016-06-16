@@ -5,6 +5,14 @@ void creature::look_it()const{
 	printf("\n%s:\n%s\n", name.get_string(), description.get_string());
 	//Stats
 	printf("STATS:\nlive[%i]\nattack[%i]\ndefense[%i]\nstamina[%i]\n", live_points, damage, defense, stamina);
+	//Storage
+	printf("STORAGE:\n");
+	list_double<entity*>::node* temp = buffer.first_element;
+	if (temp == nullptr)printf("empty\n");
+	while (temp){
+		printf("%s\n", temp->data->name.get_string());
+		temp = temp->next;
+	}
 }
 
 void creature::update(){
@@ -22,10 +30,10 @@ void creature::move(DIRECTION direction){
 	while (temp){
 		if (((exit*)temp->data)->direction == direction && temp->data->type == EXIT){
 			//Swap the creature allocation for other list
-			this->location->buffer.swap_entities(this, ((exit*)temp->data)->next_room->buffer,buffer);
+			this->location->buffer.swap_entities(this, ((exit*)temp->data)->next_room->buffer,location->buffer);
 			//Change the location of the creature
 			location = ((exit*)temp->data)->next_room;
-			printf("%s:\n%s", location->name.get_string(), location->description.get_string());
+			location->look_it();
 			break;
 		}
 		temp = temp->next;
@@ -37,14 +45,29 @@ void creature::pick(object* object_focused){
 	if (entity_focused != nullptr){
 		if (location->buffer.find_data((entity*)object_focused)){
 			//Swap the object allocation for user 
-			buffer.swap_entities((entity*)object_focused, buffer, location->buffer);
+			this->buffer.swap_entities((entity*)object_focused, buffer, location->buffer);
 			//Change object location
 			object_focused->location = this;
-			printf("%s is now in your inventory.", object_focused->name.get_string());
+			printf("%s is now in your inventory.\n", object_focused->name.get_string());
 		}
-		else printf("This object isn't here");
+		else printf("This object isn't here\n");
 	}
-	else printf("Invalid Object");
+	else printf("Invalid Object\n");
+
+}
+
+void creature::pull(object* object_focused){
+	if (entity_focused != nullptr){
+		if (this->buffer.find_data((entity*)object_focused)){
+			//Swap the object allocation for user 
+			this->buffer.swap_entities((entity*)object_focused, location->buffer, buffer);
+			//Change object location
+			object_focused->location = location;
+			printf("You throw the %s.\n", object_focused->name.get_string());
+		}
+		else printf("This object isn't in your inventory\n");
+	}
+	else printf("Invalid Object\n");
 
 }
 
@@ -71,12 +94,12 @@ void creature::attack(){
 }
 
 void creature::drop(creature* killer){
-	if (buffer.empty() == false){
+	if (this->buffer.empty() == false){
 		list_double<entity*>::node* temp = buffer.first_element;
 		list_double<entity*>::node* temp_next = temp->next;
 		//Removes all the killed entity buffer data
 		while (temp){
-			buffer.swap_entities(temp->data, location->buffer, buffer);
+			this->buffer.swap_entities(temp->data, location->buffer, buffer);
 			if (temp_next != nullptr)temp_next = temp_next->next;
 			temp = temp_next;
 		}
