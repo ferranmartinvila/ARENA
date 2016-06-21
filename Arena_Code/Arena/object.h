@@ -1,6 +1,7 @@
 #ifndef _OBJECT_
 #define _OBJECT_
 #include "entity.h"
+class creature;
 class object :public entity{
 public:
 
@@ -17,5 +18,7 @@ public:
 
 	//FUNCTIONS
 	void look_it()const;
+	void add_buffs(creature* target);
+	void rest_buffs(creature* target);
 };
 #endif

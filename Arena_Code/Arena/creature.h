@@ -2,7 +2,6 @@
 #define _CREATURE_
 #include "entity.h"
 #include "exit.h"
-#include "object.h"
 class object;
 class creature :public entity{
 public:

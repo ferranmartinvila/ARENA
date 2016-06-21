@@ -1,6 +1,7 @@
 #ifndef _PLAYER_
 #define _PLAYER_
 #include "creature.h"
+#include "object.h"
 class player :public creature{
 public:
 

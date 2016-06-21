@@ -1,4 +1,5 @@
 #include "creature.h"
+#include "object.h"
 
 void creature::look_it()const{
 	//Name & description

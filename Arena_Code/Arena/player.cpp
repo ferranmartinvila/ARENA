@@ -25,47 +25,28 @@ void player::equip_object(){
 	else if (entity_focused->type != OBJECT)printf("This object can't be equiped\n");
 	//Item already equiped
 	else if (entity_focused == helm || entity_focused == armor || entity_focused == globes || entity_focused == pants || entity_focused == boots || entity_focused == weapon)
-			printf("%s was equiped before.\n", entity_focused->name.get_string());
+			printf("%s is still equiped.\n", entity_focused->name.get_string());
 	//Equip object and put the other current equipation to the inventory
 	else{
 		OBJECT_TYPE type_check = ((object*)entity_focused)->object_type;
-		switch (type_check){
-		case HELM:
-			helm = (object*)entity_focused;
-			buffer.erase_data(helm);
-			printf("Now your helm is [%s]\n", helm->name.get_string());
-			break;
-		case ARMOR:
-			armor = (object*)entity_focused;
-			buffer.erase_data(armor);
-			printf("Now your armor is [%s]\n", armor->name.get_string());
-			break;
-		case GLOBES:
-			globes = (object*)entity_focused;
-			buffer.erase_data(globes);
-			printf("Now your globes is [%s]\n", globes->name.get_string());
-			break;
-		case PANTS:
-			pants = (object*)entity_focused;
-			buffer.erase_data(pants);
-			printf("Now your pants is [%s]\n", pants->name.get_string());
-			break;
-		case BOOTS:
-			boots = (object*)entity_focused;
-			buffer.erase_data(boots);
-			printf("Now your boots is [%s]\n", boots->name.get_string());
-			break;
-		case WEAPON:
-			weapon = (object*)entity_focused;
-			buffer.erase_data(weapon);
-			printf("Now your weapon is [%s]\n", weapon->name.get_string());
-			break;
-		case POTION:
-			printf("You can't equip a potion");
-			break;
-		case RUNE:
-			printf("You can't equip a rune");
-			break;
+		object* item_focused = nullptr;
+		//Find the item object type and equip it
+		if (type_check == POTION || type_check == RUNE)printf("Invalid Object\n");
+		else if (type_check == HELM){ item_focused = helm, helm = (object*)entity_focused; }
+		else if (type_check == ARMOR){item_focused = armor, armor = (object*)entity_focused;}
+		else if (type_check == GLOBES){item_focused = globes, globes = (object*)entity_focused;}
+		else if (type_check == PANTS){item_focused = pants, pants = (object*)entity_focused;}
+		else if (type_check == BOOTS){item_focused = boots, boots = (object*)entity_focused;}
+		else if (type_check == WEAPON){ item_focused = weapon, weapon = (object*)entity_focused;}
+		//If there was other item equiped before replace buffs & push it to the bag
+		if (item_focused != nullptr){
+			((object*)item_focused)->rest_buffs(this);
+			this->buffer.push_back(item_focused);
+			printf("[%s] has been unequiped.\n", item_focused->name.get_string());
 		}
+		//Add the equip buffs & erase it from bag
+		((object*)entity_focused)->add_buffs(this);
+		buffer.erase_data(entity_focused);
+		printf("[%s] has been equiped\n", entity_focused->name.get_string());
 	}
 }

@@ -202,7 +202,7 @@ public:
 	bool erase_data(const type& to_delete){
 		node* temp = first_element;
 		while (temp){
-			if (temp->data == to_delete)break; 
+			if (temp->data == to_delete || first_element->next == nullptr)break; 
 			temp = temp->next;
 		}
 		if (temp == last_element()){
