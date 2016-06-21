@@ -76,13 +76,14 @@ bool string::operator !=(const char* word){
 //operator +=
 void string::operator +=(const char* string){
 	if (strlen(string) + strlen(STR) <= max_capacity){
-		strcat(STR, string);
+		strcat(strcat(STR, " "), string);
 	}
 	else{
+		char* str_cpy = STR;
 		memory_size(strlen(string) + strlen(STR) + 1);
-		delete STR;
-		STR = new char[strlen(STR) + strlen(STR) + 1];
-		strcat(STR, string);
+		STR = new char[strlen(string) + strlen(str_cpy) + 1];
+		strcpy_s(STR, strlen(STR) + 1, str_cpy);
+		strcat(strcat(STR, " "), string);
 	}
 }
 void string::operator+=(const string& string){
@@ -92,8 +93,8 @@ void string::operator+=(const string& string){
 	else{
 		char* str_cpy = STR;
 		memory_size(strlen(string.STR) + strlen(STR) + 1);
-		delete STR;
-		STR = new char[strlen(string.STR) + strlen(STR) + 1];
+		STR = new char[strlen(string.STR) + strlen(str_cpy) + 1];
+		strcpy_s(STR, strlen(STR) + 1, str_cpy);
 		strcat(strcat(STR, " "), string.STR);
 	}
 }

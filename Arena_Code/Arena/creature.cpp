@@ -36,7 +36,7 @@ void creature::move(DIRECTION direction){
 	while (temp){
 		if (((exit*)temp->data)->direction == direction && temp->data->type == EXIT){
 			//Swap the creature allocation for other list
-			this->location->buffer.swap_entities(this, ((exit*)temp->data)->next_room->buffer,location->buffer);
+			this->location->buffer.pass_entity(this, ((exit*)temp->data)->next_room->buffer, location->buffer);
 			//Change the location of the creature
 			location = ((exit*)temp->data)->next_room;
 			location->look_it();
@@ -51,14 +51,14 @@ void creature::pick(object* object_focused){
 	if (entity_focused != nullptr){
 		if (location->buffer.find_data((entity*)object_focused)){
 			//Swap the object allocation for user 
-			this->buffer.swap_entities((entity*)object_focused, buffer, location->buffer);
+			this->buffer.pass_entity((entity*)object_focused, buffer, location->buffer);
 			//Change object location
 			object_focused->location = this;
 			printf("%s is now in your inventory.\n", object_focused->name.get_string());
 		}
 		else printf("This object isn't here\n");
 	}
-	else printf("Invalid Object\n");
+	else printf("Invalid Name\n");
 
 }
 
@@ -66,7 +66,7 @@ void creature::pull(object* object_focused){
 	if (entity_focused != nullptr){
 		if (this->buffer.find_data((entity*)object_focused)){
 			//Swap the object allocation for user 
-			this->buffer.swap_entities((entity*)object_focused, location->buffer, buffer);
+			this->buffer.pass_entity((entity*)object_focused, location->buffer, buffer);
 			//Change object location
 			object_focused->location = location;
 			printf("You throw the %s.\n", object_focused->name.get_string());
@@ -105,7 +105,7 @@ void creature::drop(creature* killer){
 		list_double<entity*>::node* temp_next = temp->next;
 		//Removes all the killed entity buffer data
 		while (temp){
-			this->buffer.swap_entities(temp->data, location->buffer, buffer);
+			this->buffer.pass_entity(temp->data, location->buffer, buffer);
 			if (temp_next != nullptr)temp_next = temp_next->next;
 			temp = temp_next;
 		}

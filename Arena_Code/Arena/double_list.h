@@ -220,11 +220,22 @@ public:
 		}
 		return true;
 	}
-	//swap entities(entity to erase , list destination , list from)
-	void swap_entities(const type& A , list_double<type>& Other_list, list_double<type>& A_list){
+	//pass entity(entity to erase , list destination , list from)
+	void pass_entity(const type& A , list_double<type>& Other_list, list_double<type>& A_list){
 		if (this != nullptr){
 			A_list.erase_data(A);
 			Other_list.push_back(A);
+		}
+	}
+	//swap entities(entity A(from this list),entity B, B_list)
+	void swap_entities(const type& A, const type& B, list_double<type>& B_list){
+		if (this != nullptr){
+			this->erase_data(A);
+			B_list->push_back(A);
+			if (B != nullptr){
+				B_list->erase_data(B);
+				this->push_back(B);
+			}
 		}
 	}
 	//find data 

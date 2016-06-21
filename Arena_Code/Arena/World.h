@@ -12,7 +12,7 @@
 #include "string.h"
 
 
-#define MAX_ENTITY 28
+#define MAX_ENTITY 32
 class world{
 public:
 
