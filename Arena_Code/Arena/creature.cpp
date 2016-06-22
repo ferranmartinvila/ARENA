@@ -59,7 +59,7 @@ void creature::pick(object* object_focused){
 		}
 		else printf("This object isn't here\n");
 	}
-	else printf("Invalid Name\n");
+	else printf("Invalid Object\n");
 
 }
 

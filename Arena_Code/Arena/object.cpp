@@ -19,5 +19,9 @@ void object::add_buffs(creature* target){
 
 void object::rest_buffs(creature* target){
 	//Rest all the object buffs to the creature and output the result
+	if (live_buff > 0){ target->live_points -= live_buff, printf("-%u live", live_buff); }
+	if (defence_buff > 0){ target->defense -= defence_buff, printf("-%u defence", defence_buff); }
+	if (attack_buff > 0){ target->damage -= attack_buff, printf("-%u attack", attack_buff); }
+	if (stamina_buff > 0){ target->stamina -= stamina_buff, printf("-%u stamina", stamina_buff); }
 	printf("\n");
 }

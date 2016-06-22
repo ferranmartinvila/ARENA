@@ -21,8 +21,6 @@ void player::equip_object(){
 	if (entity_focused == nullptr)printf("Invalid Object\n");
 	//Invalid location
 	else if (entity_focused->location != this)printf("You don't have this object\n");
-	//Invalid entity type
-	else if (entity_focused->type != OBJECT)printf("This object can't be equiped\n");
 	//Item already equiped
 	else if (entity_focused == helm || entity_focused == armor || entity_focused == globes || entity_focused == pants || entity_focused == boots || entity_focused == weapon)
 			printf("%s is still equiped.\n", entity_focused->name.get_string());
@@ -49,4 +47,30 @@ void player::equip_object(){
 		buffer.erase_data(entity_focused);
 		printf("[%s] has been equiped\n", entity_focused->name.get_string());
 	}
+}
+
+void player::unequip_object(){
+	//Not entoty focused
+	if (entity_focused == nullptr)printf("Invalid Object\n");
+	//Unequip the object
+	else if (entity_focused == helm || entity_focused == armor || entity_focused == globes || entity_focused == pants || entity_focused == boots || entity_focused == weapon){
+		//Entity type check
+		OBJECT_TYPE type_check = ((object*)entity_focused)->object_type;
+		//Object pointer
+		object* item_focused = nullptr;
+		//Find the object cell end erase it
+		if (type_check == HELM){ item_focused = helm, helm = nullptr; }
+		else if (type_check == ARMOR){ item_focused = armor, armor = nullptr; }
+		else if (type_check == GLOBES){ item_focused = globes, globes = nullptr; }
+		else if (type_check == PANTS){ item_focused = pants, pants = nullptr; }
+		else if (type_check == BOOTS){ item_focused = boots, boots = nullptr; }
+		else if (type_check == WEAPON){ item_focused = weapon, weapon = nullptr; }
+		//Rest teh item buffs
+		item_focused->rest_buffs(this);
+		//Push the unequiped item to the bag
+		this->buffer.push_back(item_focused);
+		printf("[%s] is now in your bag.\n", item_focused->name.get_string());
+	}
+	//Not equiped object
+	else printf("This object isn't equiped.\n");
 }
