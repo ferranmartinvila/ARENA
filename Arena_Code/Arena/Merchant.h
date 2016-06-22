@@ -8,11 +8,11 @@ public:
 	merchant(char* name, char* description, entity* location) : creature(name, description, MERCHANT, location, 100, 0, 1000){}
 
 	//FUNCTIONS
-	void talk(){
+	void talk()const{
 		printf("Hey! Im %s do you want to buy some stuff?\n\n", name.get_string());
 		show_storage();
 	}
-	void show_storage(){
+	void show_storage()const{
 		char k = 'a';
 		printf("STORAGE:\nOption || Item || live_buff || def_buff || attack_buff || stamina_buff || price\n\n");
 		list_double<entity*>::node* temp = this->buffer.first_element;

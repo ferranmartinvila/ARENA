@@ -8,7 +8,10 @@ public:
 	goblin(char* name, char* description, entity* location) : creature(name, description, GOBLIN, location, 20, 0, 5, 2, 50,30){}
 
 
+	
 	//FUNCTIONS
-
+	void talk()const{
+		printf("Sorry I don't want to talk.");
+	}
 };
 #endif

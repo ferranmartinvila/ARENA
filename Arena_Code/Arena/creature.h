@@ -23,10 +23,10 @@ public:
 	//FUNCTIONS
 	void look_it()const;
 	void update();
-	virtual void talk();
+	virtual void talk()const;
 	void move(DIRECTION direction);
-	void pick(object* object_focused);
-	void pull(object* object_focused);
+	void pick();
+	void pull();
 	void attack();
 	void drop(creature* killer);
 	void die();

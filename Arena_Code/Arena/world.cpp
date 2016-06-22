@@ -158,8 +158,9 @@ bool world::Apply_Instruction(vector<string> instruction){
 	//Word position that have to be compared
 	uint position = 1;
 	//Update the user pointed entity
-	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick" || instruction.buffer[0] == "attack" || 
-		instruction.buffer[0] == "talk" || instruction.buffer[0] == "equip" || instruction.buffer[0] == "unequip") && instruction.get_size() > 1){
+	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick" || instruction.buffer[0] == "throw" 
+		|| instruction.buffer[0] == "attack" || instruction.buffer[0] == "talk" 
+		|| instruction.buffer[0] == "equip" || instruction.buffer[0] == "unequip") && instruction.get_size() > 1){
 		//the entity can have a composen name so the correct words are fused
 		if (instruction.buffer[1] == "to")position++;
 		else
@@ -171,7 +172,8 @@ bool world::Apply_Instruction(vector<string> instruction){
 		for (uint k = 0; k < MAX_ENTITY; k++){
 			if (instruction.buffer[position] == data.buffer[k]->name){
 				if (instruction.buffer[0] == "look")user->entity_focused = data.buffer[k];
-				else if ((instruction.buffer[0] == "pick" || instruction.buffer[0] == "equip" ||instruction.buffer[0] == "unequip") && data.buffer[k]->type == OBJECT)user->entity_focused = data.buffer[k];
+				else if ((instruction.buffer[0] == "pick"  || instruction.buffer[0] == "throw" 
+						|| instruction.buffer[0] == "equip" ||instruction.buffer[0] == "unequip") && data.buffer[k]->type == OBJECT)user->entity_focused = data.buffer[k];
 				else if ((instruction.buffer[0] == "attack" || instruction.buffer[0] == "talk") && data.buffer[k]->type == CREATURE)user->entity_focused = data.buffer[k];
 				if (data.buffer[k]->type == OBJECT)printf("\n[item]%s", data.buffer[k]->name.get_string());
 				break;
@@ -193,7 +195,9 @@ bool world::Apply_Instruction(vector<string> instruction){
 	else if (user->state == IDLE){
 		//look instruction
 		if (instruction.buffer[0] == "look" && instruction.get_size() > 1){
+			//look room instruction
 			if (instruction.buffer[1] == "room")user->entity_focused = user->location;
+			//look me instruction
 			else if (instruction.buffer[1] == "me")user->entity_focused = user;
 			user->look(user->entity_focused);
 		}
@@ -205,21 +209,15 @@ bool world::Apply_Instruction(vector<string> instruction){
 			else if (instruction.buffer[1] == "west")user->move(WEST);
 		}
 		//pick instruction
-		else if (instruction.buffer[0] == "pick")user->pick((object*)user->entity_focused);
+		else if (instruction.buffer[0] == "pick")user->pick();
 		//pull instruction
-		else if (instruction.buffer[0] == "throw")user->pull((object*)user->entity_focused);
+		else if (instruction.buffer[0] == "throw")user->pull();
 		//equip instruction
 		else if (instruction.buffer[0] == "equip")user->equip_object();
 		//unequip instruction
 		else if (instruction.buffer[0] == "unequip")user->unequip_object();
 		//talk instruction
-		else if (instruction.buffer[0] == "talk"){
-			if (user->entity_focused != nullptr && user->entity_focused->location == user->location){
-				user->state = TALK;
-				((creature*)user->entity_focused)->talk();
-			}
-			else printf("Invalid NPC.");
-		}
+		else if (instruction.buffer[0] == "talk")user->talk();
 		//attack instruction
 		else if (instruction.buffer[0] == "attack")user->attack();
 		//invalid instruction

@@ -26,9 +26,14 @@ void creature::update(){
 
 }
 
-void creature::talk(){
-	printf("Sorry I don't want to talk.");
-	state = IDLE;
+void creature::talk()const{
+	if (entity_focused != nullptr){
+		if (entity_focused != this){
+			((creature*)entity_focused)->talk();
+		}
+		else printf("You can't talk to yourselve.\n");
+	}
+	else printf("Invalid Creature\n");
 }
 
 
@@ -48,14 +53,14 @@ void creature::move(DIRECTION direction){
 	if (temp == nullptr)printf("There's nothing there.");
 }
 
-void creature::pick(object* object_focused){
+void creature::pick(){
 	if (entity_focused != nullptr){
-		if (location->buffer.find_data((entity*)object_focused)){
+		if (location->buffer.find_data(entity_focused)){
 			//Swap the object allocation for user 
-			this->buffer.pass_entity((entity*)object_focused, buffer, location->buffer);
+			this->buffer.pass_entity(entity_focused, buffer, location->buffer);
 			//Change object location
-			object_focused->location = this;
-			printf("%s is now in your inventory.\n", object_focused->name.get_string());
+			entity_focused->location = this;
+			printf("%s is now in your inventory.\n", entity_focused->name.get_string());
 		}
 		else printf("This object isn't here\n");
 	}
@@ -63,14 +68,14 @@ void creature::pick(object* object_focused){
 
 }
 
-void creature::pull(object* object_focused){
+void creature::pull(){
 	if (entity_focused != nullptr){
-		if (this->buffer.find_data((entity*)object_focused)){
+		if (entity_focused->location == this){
 			//Swap the object allocation for user 
-			this->buffer.pass_entity((entity*)object_focused, location->buffer, buffer);
+			this->buffer.pass_entity(entity_focused, location->buffer, buffer);
 			//Change object location
-			object_focused->location = location;
-			printf("You throw the %s.\n", object_focused->name.get_string());
+			entity_focused->location = location;
+			printf("You throw the %s.\n", entity_focused->name.get_string());
 		}
 		else printf("This object isn't in your inventory\n");
 	}
