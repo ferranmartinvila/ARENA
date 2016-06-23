@@ -199,7 +199,8 @@ bool world::Apply_Instruction(vector<string> instruction){
 			if (instruction.buffer[1] == "room")user->entity_focused = user->location;
 			//look me instruction
 			else if (instruction.buffer[1] == "me")user->entity_focused = user;
-			user->look(user->entity_focused);
+			//Apply look instruction
+			user->look();
 		}
 		//go instruction
 		else if (instruction.buffer[0] == "go"){

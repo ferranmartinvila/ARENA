@@ -27,13 +27,7 @@ void creature::update(){
 }
 
 void creature::talk()const{
-	if (entity_focused != nullptr){
-		if (entity_focused != this){
-			((creature*)entity_focused)->talk();
-		}
-		else printf("You can't talk to yourselve.\n");
-	}
-	else printf("Invalid Creature\n");
+	printf("Sorry I don't want to talk.\n");
 }
 
 

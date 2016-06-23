@@ -1,6 +1,6 @@
 #include "player.h"
 
-void player::look(entity* entity_focused)const{
+void player::look()const{
 	if (entity_focused != nullptr){
 		list_double<entity*>::node* temp = location->buffer.first_element;
 		while (temp){
@@ -73,4 +73,15 @@ void player::unequip_object(){
 	}
 	//Not equiped object
 	else printf("This object isn't equiped.\n");
+}
+
+void player::talk(){
+	if (entity_focused != nullptr){
+		if (entity_focused != this){
+			((creature*)entity_focused)->talk();
+			this->state = TALK;
+		}
+		else printf("You can't talk to yourselve.\n");
+	}
+	else printf("Invalid Creature\n");
 }

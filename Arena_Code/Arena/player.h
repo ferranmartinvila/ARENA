@@ -17,9 +17,10 @@ public:
 
 
 	//FUNCTIONS
-	void look(entity* entity_focused)const;
+	void look()const;
 	void equip_object();
 	void unequip_object();
+	void talk();
 	//Constructor
 	player(char* name, char* description, room* location, uint live_points, uint defense = 0, uint attack = 0, uint stamina = 0) :creature(name, description, PLAYER, location, live_points, defense, attack, stamina){}
 };

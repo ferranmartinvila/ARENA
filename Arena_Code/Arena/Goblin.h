@@ -10,8 +10,6 @@ public:
 
 	
 	//FUNCTIONS
-	void talk()const{
-		printf("Sorry I don't want to talk.");
-	}
+
 };
 #endif
