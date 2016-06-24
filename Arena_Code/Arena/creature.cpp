@@ -16,17 +16,34 @@ void creature::look_it()const{
 	}
 }
 
+void creature::show_storage(creature* subject)const{
+	//Item index
+	char k = 'a';
+	//Number of items
+	uint elements = 0;
+	//Items states index
+	printf("STORAGE:\nOption || Item || live_buff || def_buff || attack_buff || stamina_buff || price\n\n");
+	//Prints all the buffer items
+	list_double<entity*>::node* temp = subject->buffer.first_element;
+	while (temp){
+		printf("[%c] -%s [ %i | %i | %i | %i ] price:%i\n", k, temp->data->name.get_string(), ((object*)temp->data)->live_buff, ((object*)temp->data)->defence_buff, ((object*)temp->data)->attack_buff, ((object*)temp->data)->stamina_buff, ((object*)temp->data)->price);
+		k++;
+		elements++;
+		temp = temp->next;
+	}
+	//In case of empty buffer
+	if (elements == 0)printf("empty\n");
+}
+
 void creature::update(){
 	//Attack update
 	if (state == ATTACK){
 		attack();
 	}
-	//Talk update
-
-
 }
 
-void creature::talk()const{
+void creature::talk(){
+	//Predeterminate talk
 	printf("Sorry I don't want to talk.\n");
 }
 

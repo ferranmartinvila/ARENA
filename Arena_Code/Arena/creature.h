@@ -21,14 +21,20 @@ public:
 	creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint live_points, uint defense = 0, uint damage = 0, uint stamina = 0, uint money = 0, uint xp = 0) :entity(name, description, CREATURE, location), live_points(live_points), defense(defense), damage(damage), stamina(stamina), creature_type(type), money(money), xp(xp), state(IDLE) {}
 
 	//FUNCTIONS
-	void look_it()const;
+	//System
 	void update();
-	virtual void talk()const;
-	void move(DIRECTION direction);
+	//Lore
+	void look_it()const;
+	void show_storage(creature* )const;
+	virtual void talk();
+	//Position
+	void move(DIRECTION );
+	//Inventory
 	void pick();
 	void pull();
+	//Fight
 	void attack();
-	void drop(creature* killer);
+	void drop(creature* );
 	void die();
 };
 #endif

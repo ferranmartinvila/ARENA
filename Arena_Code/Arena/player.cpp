@@ -1,5 +1,22 @@
 #include "player.h"
 
+void player::talk(){
+	if (entity_focused != nullptr){
+		if (entity_focused != this){
+			//Focus the NPC to you
+			((creature*)entity_focused)->entity_focused = this;
+			//NPC & user TALK state
+			this->state = TALK;
+			((creature*)entity_focused)->state = TALK;
+			//Apply NPC talk 
+			((creature*)entity_focused)->talk();
+			
+		}
+		else printf("You can't talk to yourselve.\n");
+	}
+	else printf("Invalid Creature\n");
+}
+
 void player::look()const{
 	if (entity_focused != nullptr){
 		list_double<entity*>::node* temp = location->buffer.first_element;
@@ -75,13 +92,34 @@ void player::unequip_object(){
 	else printf("This object isn't equiped.\n");
 }
 
-void player::talk(){
-	if (entity_focused != nullptr){
-		if (entity_focused != this){
-			((creature*)entity_focused)->talk();
-			this->state = TALK;
+void player::choose_option(char option){
+		list_double<entity*>::node* temp = this->entity_focused->buffer.first_element;
+		char init = 'a';
+		uint position = 0;
+		while (init < option){
+			init++;
+			position++;
+			temp = temp->next;
 		}
-		else printf("You can't talk to yourselve.\n");
+		if (position > this->entity_focused->buffer.get_size() + 1)printf("Invalid Selection.\n");
+		else this->buy((object*)temp);
+}
+
+void player::buy(object* to_buy){
+	if (to_buy->price > this->money)printf("You don't have enough money.\n");
+	else{
+		//Rest user money and push the object
+		this->money -= to_buy->price;
+		this->buffer.push_back(to_buy);
+		//Erase the item from the merchant
+		this->entity_focused->buffer.erase_data(to_buy);
+		printf("You buy [%s]\n", to_buy->name.get_string());
 	}
-	else printf("Invalid Creature\n");
+}
+
+void player::sell(object* to_sell){
+	//Adds user money and push the object to merchant
+	this->money += to_sell->price;
+	this->buffer.erase_data(to_sell);
+	printf("You sell [%s]\n", to_sell->name.get_string());
 }

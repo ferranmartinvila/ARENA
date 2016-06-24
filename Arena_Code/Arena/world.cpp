@@ -1,5 +1,4 @@
 #include "World.h"
-
 void world::Initialize(){
 
 	//ROOMS
@@ -155,12 +154,13 @@ void world::Initialize(){
 }
 
 bool world::Apply_Instruction(vector<string> instruction){
+	//ENTITY FOCUS
 	//Word position that have to be compared
 	uint position = 1;
 	//Update the user pointed entity
 	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick" || instruction.buffer[0] == "throw" 
 		|| instruction.buffer[0] == "attack" || instruction.buffer[0] == "talk" 
-		|| instruction.buffer[0] == "equip" || instruction.buffer[0] == "unequip") && instruction.get_size() > 1){
+		|| instruction.buffer[0] == "equip" || instruction.buffer[0] == "unequip") && instruction.get_size() > 1 && user->state == IDLE){
 		//the entity can have a composen name so the correct words are fused
 		if (instruction.buffer[1] == "to")position++;
 		else
@@ -182,14 +182,40 @@ bool world::Apply_Instruction(vector<string> instruction){
 			else if (k == MAX_ENTITY - 1)user->entity_focused = nullptr;
 		}
 	}
-	else user->entity_focused = nullptr;
+	else if(user->state == IDLE)user->entity_focused = nullptr;
 
+	
+	
+	//STATE ACTIONS
+	//Talk(Buy/Sell/Converse)
+	if ((user->state == BUY || user->state == SELL) && instruction.buffer[0] != "quit"){
+		//Change trade mode
+		if (instruction.buffer[0] == "change"){
+			//BUY to SELL
+			if (user->state == BUY){ user->state = SELL, ((creature*)user->entity_focused)->state = SELL; }
+			//SELL to BUY
+			else if (user->state == SELL){ user->state = BUY, ((creature*)user->entity_focused)->state = BUY; }
+			//Re-print the storage
+			((creature*)user->entity_focused)->talk();
+		}
+		else{
+			//Apply choosed option
+			user->choose_option(instruction.buffer[0].get_string()[0]);
+		}
+	}
+		
+	
+	//INTRUCTIONS
 	//quit instruction
 	if (instruction.buffer[0] == "quit")
+		//Quit from the game
 		if (user->state == IDLE)return false;
 		else {
+			//Quit from the action
 			printf("\nSee you soon!\n");
+			//Resets the states
 			user->state = IDLE;
+			((creature*)user->entity_focused)->state = IDLE;
 		}
 
 	else if (user->state == IDLE){
@@ -204,7 +230,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 		}
 		//go instruction
 		else if (instruction.buffer[0] == "go"){
-			if (instruction.buffer[1] == "north")user->move(NORTH);
+				 if (instruction.buffer[1] == "north")user->move(NORTH);
 			else if (instruction.buffer[1] == "south")user->move(SOUTH);
 			else if (instruction.buffer[1] == "east")user->move(EAST);
 			else if (instruction.buffer[1] == "west")user->move(WEST);

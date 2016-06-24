@@ -24,6 +24,8 @@ enum CREATURE_TYPE{
 enum CREATURE_STATE{
 	IDLE,
 	TALK,
+	BUY,
+	SELL,
 	ATTACK,
 	DEAD
 };
