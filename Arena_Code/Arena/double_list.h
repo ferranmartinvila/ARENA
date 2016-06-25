@@ -220,6 +220,13 @@ public:
 		}
 		return true;
 	}
+
+	void erase_all(){
+		node* temp = first_element;
+		while (temp){
+			this->pop_back();
+		}
+	}
 	//pass entity(entity to erase , list destination , list from)
 	void pass_entity(const type& A , list_double<type>& Other_list, list_double<type>& A_list){
 		if (this != nullptr){

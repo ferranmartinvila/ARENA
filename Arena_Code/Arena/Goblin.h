@@ -10,7 +10,7 @@ public:
 		live_points = 20;
 		damage = 3;
 		stamina = 1;
-		build_from_lvl();
+		lvl_up(lvl);
 	}
 };
 #endif

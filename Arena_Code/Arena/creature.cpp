@@ -13,39 +13,42 @@ void creature::check_lvl(){
 		lvl++;
 		current_xp -= next_lvl_xp;
 		printf("[%s] lvl up!\n");
-		build_from_lvl();
+		lvl_up(1);
 	}
 }
 
-void creature::build_from_lvl(){
+void creature::lvl_up(uint levels){
 	//Universal levels
-	next_lvl_xp = current_xp*(4 * lvl);
-	//Type checker
+	for (uint k = 0; k < levels; k++){
+		next_lvl_xp *= 2;
+	}
+	//Type check
 	CREATURE_TYPE check = this->creature_type;
 	//Upgrade checking the creature type
 	switch (check){
 	
 	case PLAYER:
-		live_points += 15 * lvl;
-		damage += 2 * lvl;
-		defense += 2 * lvl;
-		stamina += 1 * lvl;
+		live_points += 15 * levels;
+		damage += 2 * levels;
+		defense += 2 * levels;
+		stamina += 1 * levels;
 		break;
 	
 	case GOBLIN:
-		live_points += 5 * lvl;
-		damage += 2 * lvl;
-		defense += 1 * lvl;
-		stamina += 1 * lvl;
-		money += 10 * lvl;
+		live_points += 5 * levels;
+		damage += 2 * levels;
+		defense += 1 * levels;
+		stamina += 1 * levels;
+		money += 10 * levels;
+		current_xp = levels * 20;
 		break;
 	
 	case MERCHANT:
-		live_points += 50 * lvl;
-		damage += 20 * lvl;
-		defense += 5 * lvl;
-		stamina += 2 * lvl;
-		money += 200 * lvl;
+		live_points += 50 * levels;
+		damage += 20 * levels;
+		defense += 5 * levels;
+		stamina += 2 * levels;
+		money += 200 * levels;
 		break;
 	}
 }
@@ -168,7 +171,7 @@ void creature::attack(){
 			//Apply damage
 			((creature*)entity_focused)->live_points -= damage;
 			printf("%s damage %i to %s\n", name.get_string(), damage, entity_focused->name.get_string());
-			if (((creature*)entity_focused)->live_points < 1){
+			if (((creature*)entity_focused)->live_points <= 0){
 				printf("%s defeat %s!", name.get_string(), entity_focused->name.get_string());
 				((creature*)entity_focused)->drop(this);
 				((creature*)entity_focused)->die();
@@ -191,14 +194,35 @@ void creature::drop(creature* killer){
 			temp = temp_next;
 		}
 	}
-	//Adds money & xp to the user avatar
-	printf("+%i money +%i xp\n", money, current_xp);
+	//Adds money & xp to the winner creature
+	printf("+%i money +%i xp\n",money, current_xp);
 	killer->money += money;
 	killer->current_xp += current_xp;
 }
 
+//LIVE-------------------------
 void creature::die(){
 	//Erase the creature from the location
 	location->buffer.erase_data(this);
 	state = DEAD;
+}
+
+void creature::regen(){
+	uint max_live = 0;
+	switch (this->creature_type){
+	
+	case PLAYER:
+		max_live = 150 + (this->lvl * 15);
+		break;
+
+	case GOBLIN:
+		max_live = 20 + (this->lvl * 5);
+		break;
+
+	case MERCHANT:
+		max_live = 500 + (this->lvl * 50);
+		break;
+	}
+	this->live_points = max_live;
+
 }

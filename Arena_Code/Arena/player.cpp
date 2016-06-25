@@ -1,13 +1,41 @@
 #include "player.h"
 #include <stdlib.h>
+
+//SYSTEM-----------------------------
+void player::die(){
+	printf("%s defeat you!\n", entity_focused->name.get_string());
+	printf("Enter RESET to respawn in the last checkpoint.\n");
+	//TODO: Finish this
+	//Erase player from the location
+	location->buffer.erase_data(this);
+	state = DEAD;
+}
+
+void player::reset(){
+	//Erase player buffer
+	this->buffer.erase_all();
+	printf("Bag items deleted.\n");
+	//Erase money & current xp
+	this->money = 0;
+	this->current_xp = 0;
+	printf("Money and current xp reset to zero.\n");
+	//Revive player
+	this->state = IDLE;
+	this->regen();
+	printf("States reset.\n");
+	this->location->buffer.push_back(this);
+}
+
+
+//LORE-------------------------------
 void player::look_it()const{
 	system("cls");
 	//Name & description
-	printf("\n%s:\n%s\n", name.get_string(), description.get_string());
+	printf("\n%s:%s\n\n", name.get_string(), description.get_string());
 	//Stats
-	printf("lvl[%i]\nSTATS:\nlive[%i]\nattack[%i]\ndefense[%i]\nstamina[%i]\nmoney[%i]\n", current_xp, live_points, damage, defense, stamina, money);
+	printf("LEVEL[%u] -> next lvl (%u xp)\n\nSTATS:\nlive[%i]\nattack[%u]\ndefense[%u]\nstamina[%u]\nmoney[%u]\n", lvl,next_lvl_xp, live_points, damage, defense, stamina, money);
 	//Equipation
-	printf("EQUIPATION:\n");
+	printf("\nEQUIPATION:\n");
 	if (helm)printf("helm [%s]\n", helm->name.get_string());
 	else printf("helm none\n");
 	if (armor)printf("armor [%s]\n", armor->name.get_string());
@@ -21,7 +49,7 @@ void player::look_it()const{
 	if (weapon)printf("weapon [%s]\n", weapon->name.get_string());
 	else printf("weapon none\n");
 	//Storage
-	printf("STORAGE:\n");
+	printf("\nSTORAGE:\n");
 	list_double<entity*>::node* temp = buffer.first_element;
 	if (temp == nullptr)printf("empty\n");
 	while (temp){
@@ -31,20 +59,17 @@ void player::look_it()const{
 }
 
 void player::talk(){
-	if (entity_focused != nullptr){
-		if (entity_focused != this){
-			//Focus the NPC to you
-			((creature*)entity_focused)->entity_focused = this;
-			//NPC & user TALK state
-			this->state = TALK;
-			((creature*)entity_focused)->state = TALK;
-			//Apply NPC talk 
-			((creature*)entity_focused)->talk();
-			
-		}
-		else printf("You can't talk to yourselve.\n");
+	if (entity_focused == nullptr)printf("Invalid Creature\n");
+	else if (entity_focused == this)printf("You can't talk to yourselve.\n");
+	else{
+		//Focus the NPC to you
+		((creature*)entity_focused)->entity_focused = this;
+		//NPC & user TALK state
+		this->state = TALK;
+		((creature*)entity_focused)->state = TALK;
+		//Apply NPC talk 
+		((creature*)entity_focused)->talk();
 	}
-	else printf("Invalid Creature\n");
 }
 
 void player::look()const{
@@ -66,6 +91,8 @@ void player::look()const{
 	else printf("Invalid object.\n");
 }
 
+
+//INVENTORY--------------------------
 void player::equip_object(){
 	//Not entoty focused
 	if (entity_focused == nullptr)printf("Invalid Object\n");
@@ -125,6 +152,8 @@ void player::unequip_object(){
 	else printf("This object isn't equiped.\n");
 }
 
+
+//NPC ACTIONS------------------------
 void player::choose_option(char option){
 	//Temp data
 	list_double<entity*>::node* temp = nullptr;

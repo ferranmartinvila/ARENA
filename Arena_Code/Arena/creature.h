@@ -16,7 +16,7 @@ public:
 	//State
 	CREATURE_STATE state;
 	//Stats
-	uint live_points;
+	int live_points;
 	uint damage;
 	uint defense;
 	uint stamina;
@@ -32,7 +32,7 @@ public:
 	//System
 	void update();
 	void check_lvl();
-	void build_from_lvl();
+	void lvl_up(uint );
 	//Lore
 	virtual void look_it()const;
 	void show_storage(creature* )const;
@@ -47,6 +47,8 @@ public:
 	//Fight
 	void attack();
 	void drop(creature* );
-	void die();
+	//Live
+	virtual void die();
+	void regen();
 };
 #endif

@@ -11,8 +11,8 @@
 #include "Merchant.h"
 #include "string.h"
 
-
-#define MAX_ENTITY 32
+// 33 with Golbin
+#define MAX_ENTITY 33
 class world{
 public:
 

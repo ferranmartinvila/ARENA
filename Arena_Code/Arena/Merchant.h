@@ -12,7 +12,7 @@ public:
 		live_points = 500;
 		damage = 50;
 		defense = 75;
-		build_from_lvl();
+		lvl_up(lvl);
 	}
 
 	//FUNCTIONS

@@ -21,7 +21,8 @@ int main(){
 	world game;
 	game.Initialize();
 	
-	
+	printf("                              |ARENA THE GAME|\n\n");
+	printf("-> enter help to see all the commands\n");
 	//Game loop
 	bool loop = true;
 	while (loop){

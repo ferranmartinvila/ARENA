@@ -21,10 +21,13 @@ public:
 		live_points = 150;
 		damage = 5;
 		stamina = 2;
-		build_from_lvl();
+		lvl_up(lvl);
 	}
 
 	//FUNCTIONS
+	//System
+	void die();
+	void reset();
 	//Lore
 	void look_it()const;
 	void look()const;

@@ -17,7 +17,6 @@ void world::Initialize(){
 	//Arena
 	room* Arena = new room("Arena", "The ground if full of blood and the public shout kill!");
 	data.push_back(Arena);
-	printf("\n* rooms added");
 
 	//EXITS
 	//Principal Square
@@ -41,22 +40,22 @@ void world::Initialize(){
 	//Arena
 	exit* Arena_to_Principal_Square = new exit("Arena exit", "There's the Principal Square", Arena, Principal_Square, SOUTH);
 	data.push_back(Arena_to_Principal_Square);
-	printf("\n* exits added");
 
 	
 
 	//NPCs
+	//Goblin
+	goblin* Goblin = new goblin("Goblin", "Little green monster", Principal_Square, 1);
+	data.push_back(Goblin);
 	//Merchant
 	merchant* Merchant = new merchant("Merchant", "This merchant have all the equipment needed for fight", Market, 25);
 	data.push_back(Merchant);
 	//Magic Merchant
 	merchant* Magic_Merchant = new merchant("Runner", "This merchant have all type of runes to ugrade objects", Black_Market, 25);
 	data.push_back(Magic_Merchant);
-	printf("\n* NPCs added");
 	//PLAYER AVATAR
 	user = new player("Goul", "The shadows warrior", Principal_Square,1);
 	data.push_back(user);
-	printf("\n* user added");
 
 	//OBJECTS
 	//Fighter equipation
@@ -94,7 +93,6 @@ void world::Initialize(){
 	data.push_back(Attack_Rune);
 	object* Stamina_Rune = new object("Rune of Stamina", "Adds a stamina buff to the object", RUNE, Magic_Merchant, 0, 0, 0, 15, 100);
 	data.push_back(Stamina_Rune);
-	printf("\n* objects added");
 	
 	
 	
@@ -132,6 +130,7 @@ void world::Initialize(){
 	Principal_Square->buffer.push_back(Fighter_Helm);
 	Principal_Square->buffer.push_back(Assassin_Armor);
 	Principal_Square->buffer.push_back(user);
+	Principal_Square->buffer.push_back(Goblin);
 	//Market
 	Market->buffer.push_back(Market_to_Principal_Square);
 	Market->buffer.push_back(Merchant);
@@ -142,7 +141,6 @@ void world::Initialize(){
 	House->buffer.push_back(House_to_Principal_Square);
 	//Arena
 	Arena->buffer.push_back(Arena_to_Principal_Square);
-	printf("\n* game struct defined\n\n");
 
 
 	
@@ -202,10 +200,11 @@ bool world::Apply_Instruction(vector<string> instruction){
 		}
 		else printf("Invalid Comand.\n");
 	}
-		
+	//Dead(RESET)
+	else if (instruction.buffer[0] == "RESET" && user->state == DEAD)user->reset();
 	
 	//QUITS---------------------------
-	else if (instruction.buffer[0] == "quit")
+	else if (instruction.buffer[0] == "quit" && user->state != DEAD)
 		//Quit from the game
 		if (user->state == IDLE)return false;
 		else {
@@ -215,7 +214,22 @@ bool world::Apply_Instruction(vector<string> instruction){
 			user->state = IDLE;
 			((creature*)user->entity_focused)->state = IDLE;
 		}
-
+	//HELP---------------------------
+	else if (instruction.buffer[0] == "help")printf(
+		"help -> Show all the instructions\n"
+		"quit(in idle) -> Quit from the game\n"
+		"quit(in action) -> Quit frim the action\n"
+		"go + direction -> Move around the rooms\n"
+		"look + me -> Look avatar\n"
+		"look + room -> Look current location\n"
+		"look + entity name -> Look the entity\n"
+		"pick + item name -> Pick the choosed item\n"
+		"throw + item name -> Throw the choose item\n"
+		"equip + item name -> Equip the choosed item\n"
+		"unequip + item name -> Unequip the choosed item\n"
+		"attack + NPC name -> Attack the choosed NPC\n"
+		"(in talk)buy + item name -> Buy the choosed item\n"
+		"(in talk)sell + item name -> Sell the choosed item\n");
 
 	//INTRUCTIONS--------------------
 	else if (user->state == IDLE){
@@ -257,5 +271,6 @@ bool world::Apply_Instruction(vector<string> instruction){
 		//invalid instruction
 		else printf("Invalid comand.\n");
 	}
+	else printf("Invalid comand.\n");
 	return true;
 }
