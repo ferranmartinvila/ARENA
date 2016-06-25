@@ -154,8 +154,8 @@ void world::Initialize(){
 }
 
 bool world::Apply_Instruction(vector<string> instruction){
-	//ENTITY FOCUS
-	//Word position that have to be compared
+	//ENTITY FOCUS--------------------
+	//Vector position that have to be compared
 	uint position = 1;
 	//Update the user pointed entity
 	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick" || instruction.buffer[0] == "throw" 
@@ -186,7 +186,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 
 	
 	
-	//STATE ACTIONS
+	//STATE ACTIONS--------------------
 	//Talk(Buy/Sell/Converse)
 	if ((user->state == BUY || user->state == SELL) && instruction.buffer[0] != "quit"){
 		//Change trade mode
@@ -198,16 +198,17 @@ bool world::Apply_Instruction(vector<string> instruction){
 			//Re-print the storage
 			((creature*)user->entity_focused)->talk();
 		}
-		else{
+		//Choose option 
+		else if (instruction.buffer[0].lenght() == 1 && instruction.get_size() == 1){
 			//Apply choosed option
 			user->choose_option(instruction.buffer[0].get_string()[0]);
 		}
+		else printf("Invalid Comand.\n");
 	}
 		
 	
-	//INTRUCTIONS
-	//quit instruction
-	if (instruction.buffer[0] == "quit")
+	//QUITS---------------------------
+	else if (instruction.buffer[0] == "quit")
 		//Quit from the game
 		if (user->state == IDLE)return false;
 		else {
@@ -218,6 +219,8 @@ bool world::Apply_Instruction(vector<string> instruction){
 			((creature*)user->entity_focused)->state = IDLE;
 		}
 
+
+	//INTRUCTIONS--------------------
 	else if (user->state == IDLE){
 		//look instruction
 		if (instruction.buffer[0] == "look" && instruction.get_size() > 1){
@@ -248,7 +251,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 		//attack instruction
 		else if (instruction.buffer[0] == "attack")user->attack();
 		//invalid instruction
-		else printf("Invalid comand.");
+		else printf("Invalid comand.\n");
 	}
 	return true;
 }

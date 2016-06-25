@@ -24,7 +24,7 @@ public:
 	//System
 	void update();
 	//Lore
-	void look_it()const;
+	virtual void look_it()const;
 	void show_storage(creature* )const;
 	virtual void talk();
 	//Position
@@ -32,6 +32,8 @@ public:
 	//Inventory
 	void pick();
 	void pull();
+	void buy(object* );
+	void sell(object* );
 	//Fight
 	void attack();
 	void drop(creature* );

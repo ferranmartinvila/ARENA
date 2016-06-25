@@ -20,6 +20,7 @@ public:
 
 	//FUNCTIONS
 	//Lore
+	void look_it()const;
 	void look()const;
 	void talk();
 	//Inventory
@@ -27,8 +28,6 @@ public:
 	void unequip_object();
 	//NPC ACTIONS
 	void choose_option(char option);
-	void buy(object*);
-	void sell(object*);
 
 };
 #endif

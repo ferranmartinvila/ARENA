@@ -94,6 +94,26 @@ void creature::pull(){
 
 }
 
+//TODO: REPAIR BUY/SELL
+void creature::buy(object* to_buy){
+	if (to_buy->price > this->money)printf("You don't have enough money for [%s].\n",to_buy->name.get_string());
+	else{
+		//Rest user money and push the object
+		this->money -= to_buy->price;
+		this->buffer.push_back(to_buy);
+		//Erase the item from the merchant
+		this->entity_focused->buffer.erase_data(to_buy);
+		printf("You buy [%s] -%u money\n", to_buy->name.get_string(), to_buy->price);
+	}
+}
+
+void creature::sell(object* to_sell){
+	//Adds user money and push the object to merchant
+	this->money += to_sell->price;
+	this->buffer.erase_data(to_sell);
+	printf("You sell [%s] +%u money\n", to_sell->name.get_string(), to_sell->price);
+}
+
 void creature::attack(){
 	if (entity_focused != nullptr){
 		if (entity_focused != this){

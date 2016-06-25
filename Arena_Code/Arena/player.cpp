@@ -1,4 +1,34 @@
 #include "player.h"
+#include <stdlib.h>
+void player::look_it()const{
+	system("cls");
+	//Name & description
+	printf("\n%s:\n%s\n", name.get_string(), description.get_string());
+	//Stats
+	printf("lvl[%i]\nSTATS:\nlive[%i]\nattack[%i]\ndefense[%i]\nstamina[%i]\nmoney[%i]\n", xp, live_points, damage, defense, stamina, money);
+	//Equipation
+	printf("EQUIPATION:\n");
+	if (helm)printf("helm [%s]\n", helm->name.get_string());
+	else printf("helm none\n");
+	if (armor)printf("armor [%s]\n", armor->name.get_string());
+	else printf("armor none\n");
+	if (globes)printf("globes [%s]\n", globes->name.get_string());
+	else printf("globes none\n");
+	if (pants)printf("pants [%s]\n", pants->name.get_string());
+	else printf("pants none\n");
+	if (boots)printf("boots [%s]\n", boots->name.get_string());
+	else printf("boots none\n");
+	if (weapon)printf("weapon [%s]\n", weapon->name.get_string());
+	else printf("weapon none\n");
+	//Storage
+	printf("STORAGE:\n");
+	list_double<entity*>::node* temp = buffer.first_element;
+	if (temp == nullptr)printf("empty\n");
+	while (temp){
+		printf("%s\n", temp->data->name.get_string());
+		temp = temp->next;
+	}
+}
 
 void player::talk(){
 	if (entity_focused != nullptr){
@@ -20,6 +50,7 @@ void player::talk(){
 void player::look()const{
 	if (entity_focused != nullptr){
 		list_double<entity*>::node* temp = location->buffer.first_element;
+		//Find the item in the location buffer
 		while (temp){
 			if (temp->data->name == entity_focused->name){
 				entity_focused->look_it();
@@ -27,7 +58,9 @@ void player::look()const{
 			}
 			temp = temp->next;
 		}
+		//Look room
 		if (entity_focused == location)entity_focused->look_it();
+		//Entity out of sight
 		else if (temp == nullptr)printf("This object is not here.");
 	}
 	else printf("Invalid object.");
@@ -93,33 +126,27 @@ void player::unequip_object(){
 }
 
 void player::choose_option(char option){
-		list_double<entity*>::node* temp = this->entity_focused->buffer.first_element;
-		char init = 'a';
-		uint position = 0;
-		while (init < option){
-			init++;
-			position++;
-			temp = temp->next;
-		}
-		if (position > this->entity_focused->buffer.get_size() + 1)printf("Invalid Selection.\n");
-		else this->buy((object*)temp);
-}
-
-void player::buy(object* to_buy){
-	if (to_buy->price > this->money)printf("You don't have enough money.\n");
-	else{
-		//Rest user money and push the object
-		this->money -= to_buy->price;
-		this->buffer.push_back(to_buy);
-		//Erase the item from the merchant
-		this->entity_focused->buffer.erase_data(to_buy);
-		printf("You buy [%s]\n", to_buy->name.get_string());
+	//Temp data
+	list_double<entity*>::node* temp = nullptr;
+	char init = 'a';
+	uint position = 0;
+	//In BUY MODE focus the entity_focuse buffer
+	if (state == BUY)temp = this->entity_focused->buffer.first_element;
+	//In SELL MODE focus this buffer
+	else if (state == SELL)temp = this->buffer.first_element;
+	//Find the item position in the focused buffer
+	while (init < option && temp != nullptr){
+		init++;
+		position++;
+		temp = temp->next;
 	}
-}
-
-void player::sell(object* to_sell){
-	//Adds user money and push the object to merchant
-	this->money += to_sell->price;
-	this->buffer.erase_data(to_sell);
-	printf("You sell [%s]\n", to_sell->name.get_string());
+	//Invalid selection
+	if (temp == nullptr)printf("Invalid Selection.\n");
+	//Valid Selection
+	else {
+		//In BUY MODE
+		if(state == BUY)this->buy((object*)temp->data);
+		//In SELL MODE
+		if(state == SELL)this->sell((object*)temp->data);
+	}
 }
