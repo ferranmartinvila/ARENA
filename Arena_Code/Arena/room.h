@@ -9,5 +9,8 @@ public:
 
 	//Constructor
 	room(char* name, char* description) :entity(name, description, ROOM){}
+
+	//FUNCTIONS
+	entity* find_exit(DIRECTION);
 };
 #endif

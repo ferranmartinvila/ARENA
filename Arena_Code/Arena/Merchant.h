@@ -3,9 +3,17 @@
 #include "creature.h"
 class merchant :public creature{
 public:
+
 	//NON EXTRA DATA
+
 	//Constructor
-	merchant(char* name, char* description, entity* location) : creature(name, description, MERCHANT, location, 100, 0, 1000){}
+	merchant(char* name, char* description, entity* location, uint lvl) : creature(name, description, MERCHANT, location, lvl){
+		//Initial Stats
+		live_points = 500;
+		damage = 50;
+		defense = 75;
+		build_from_lvl();
+	}
 
 	//FUNCTIONS
 	void talk(){

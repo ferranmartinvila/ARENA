@@ -5,11 +5,12 @@ class goblin :public creature{
 public:
 
 	//Constructor
-	goblin(char* name, char* description, entity* location) : creature(name, description, GOBLIN, location, 20, 0, 5, 2, 50,30){}
-
-
-	
-	//FUNCTIONS
-
+	goblin(char* name, char* description, entity* location, uint lvl) : creature(name, description, GOBLIN, location, lvl){
+		//Initial Stats
+		live_points = 20;
+		damage = 3;
+		stamina = 1;
+		build_from_lvl();
+	}
 };
 #endif

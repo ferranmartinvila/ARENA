@@ -16,7 +16,13 @@ public:
 	uint inventory_size = 6;
 
 	//Constructor
-	player(char* name, char* description, room* location, uint live_points, uint defense = 0, uint attack = 0, uint stamina = 0) :creature(name, description, PLAYER, location, live_points, defense, attack, stamina){}
+	player(char* name, char* description, room* location, uint lvl) :creature(name, description, PLAYER, location, lvl){ 
+		//Initial Stats
+		live_points = 150;
+		damage = 5;
+		stamina = 2;
+		build_from_lvl();
+	}
 
 	//FUNCTIONS
 	//Lore

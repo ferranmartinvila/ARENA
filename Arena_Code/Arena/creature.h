@@ -7,22 +7,32 @@ class creature :public entity{
 public:
 
 	//DATA
+	//Type
 	CREATURE_TYPE creature_type;
+	//Lvl
+	uint lvl;
+	uint current_xp;
+	uint next_lvl_xp;
+	//State
+	CREATURE_STATE state;
+	//Stats
 	uint live_points;
 	uint damage;
 	uint defense;
 	uint stamina;
+	//Inventory
 	uint money;
-	uint xp;
-	CREATURE_STATE state;
+	//Action focus
 	entity* entity_focused = nullptr;
 
 	//Constructor
-	creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint live_points, uint defense = 0, uint damage = 0, uint stamina = 0, uint money = 0, uint xp = 0) :entity(name, description, CREATURE, location), live_points(live_points), defense(defense), damage(damage), stamina(stamina), creature_type(type), money(money), xp(xp), state(IDLE) {}
+	creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl) :entity(name, description, CREATURE, location), creature_type(type), state(IDLE), lvl(lvl), current_xp(0), next_lvl_xp(100){}
 
 	//FUNCTIONS
 	//System
 	void update();
+	void check_lvl();
+	void build_from_lvl();
 	//Lore
 	virtual void look_it()const;
 	void show_storage(creature* )const;

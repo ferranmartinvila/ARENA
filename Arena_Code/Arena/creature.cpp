@@ -1,6 +1,56 @@
 #include "creature.h"
 #include "object.h"
+//SYSTEM-------------------------------
+void creature::update(){
+	//Attack update
+	if (state == ATTACK){
+		attack();
+	}
+}
 
+void creature::check_lvl(){
+	if (current_xp >= next_lvl_xp){
+		lvl++;
+		current_xp -= next_lvl_xp;
+		printf("[%s] lvl up!\n");
+		build_from_lvl();
+	}
+}
+
+void creature::build_from_lvl(){
+	//Universal levels
+	next_lvl_xp = current_xp*(4 * lvl);
+	//Type checker
+	CREATURE_TYPE check = this->creature_type;
+	//Upgrade checking the creature type
+	switch (check){
+	
+	case PLAYER:
+		live_points += 15 * lvl;
+		damage += 2 * lvl;
+		defense += 2 * lvl;
+		stamina += 1 * lvl;
+		break;
+	
+	case GOBLIN:
+		live_points += 5 * lvl;
+		damage += 2 * lvl;
+		defense += 1 * lvl;
+		stamina += 1 * lvl;
+		money += 10 * lvl;
+		break;
+	
+	case MERCHANT:
+		live_points += 50 * lvl;
+		damage += 20 * lvl;
+		defense += 5 * lvl;
+		stamina += 2 * lvl;
+		money += 200 * lvl;
+		break;
+	}
+}
+
+//LORE--------------------------------
 void creature::look_it()const{
 	//Name & description
 	printf("\n%s:\n%s\n", name.get_string(), description.get_string());
@@ -35,19 +85,12 @@ void creature::show_storage(creature* subject)const{
 	if (elements == 0)printf("empty\n");
 }
 
-void creature::update(){
-	//Attack update
-	if (state == ATTACK){
-		attack();
-	}
-}
-
 void creature::talk(){
 	//Predeterminate talk
 	printf("Sorry I don't want to talk.\n");
 }
 
-
+//POSITION------------------------
 void creature::move(DIRECTION direction){
 	list_double<entity*>::node* temp = location->buffer.first_element;
 	while (temp){
@@ -64,6 +107,7 @@ void creature::move(DIRECTION direction){
 	if (temp == nullptr)printf("There's nothing there.");
 }
 
+//INVENTORY-----------------------
 void creature::pick(){
 	if (entity_focused != nullptr){
 		if (location->buffer.find_data(entity_focused)){
@@ -94,7 +138,6 @@ void creature::pull(){
 
 }
 
-//TODO: REPAIR BUY/SELL
 void creature::buy(object* to_buy){
 	if (to_buy->price > this->money)printf("You don't have enough money for [%s].\n",to_buy->name.get_string());
 	else{
@@ -114,6 +157,7 @@ void creature::sell(object* to_sell){
 	printf("You sell [%s] +%u money\n", to_sell->name.get_string(), to_sell->price);
 }
 
+//FIGHT----------------------------
 void creature::attack(){
 	if (entity_focused != nullptr){
 		if (entity_focused != this){
@@ -148,9 +192,9 @@ void creature::drop(creature* killer){
 		}
 	}
 	//Adds money & xp to the user avatar
-	printf("+%i money +%i xp\n", money,xp);
+	printf("+%i money +%i xp\n", money, current_xp);
 	killer->money += money;
-	killer->xp += xp;
+	killer->current_xp += current_xp;
 }
 
 void creature::die(){

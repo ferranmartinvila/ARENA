@@ -5,7 +5,7 @@ void player::look_it()const{
 	//Name & description
 	printf("\n%s:\n%s\n", name.get_string(), description.get_string());
 	//Stats
-	printf("lvl[%i]\nSTATS:\nlive[%i]\nattack[%i]\ndefense[%i]\nstamina[%i]\nmoney[%i]\n", xp, live_points, damage, defense, stamina, money);
+	printf("lvl[%i]\nSTATS:\nlive[%i]\nattack[%i]\ndefense[%i]\nstamina[%i]\nmoney[%i]\n", current_xp, live_points, damage, defense, stamina, money);
 	//Equipation
 	printf("EQUIPATION:\n");
 	if (helm)printf("helm [%s]\n", helm->name.get_string());
@@ -61,9 +61,9 @@ void player::look()const{
 		//Look room
 		if (entity_focused == location)entity_focused->look_it();
 		//Entity out of sight
-		else if (temp == nullptr)printf("This object is not here.");
+		else if (temp == nullptr)printf("This object is not here.\n");
 	}
-	else printf("Invalid object.");
+	else printf("Invalid object.\n");
 }
 
 void player::equip_object(){

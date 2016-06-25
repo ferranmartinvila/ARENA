@@ -46,18 +46,15 @@ void world::Initialize(){
 	
 
 	//NPCs
-	//Goblin
-	//goblin* Goblin = new goblin("Goblin", "A little but fast green monster.", Arena);
-	//data.push_back(Goblin);
 	//Merchant
-	merchant* Merchant = new merchant("Merchant", "This merchant have all the equipment needed for fight", Market);
+	merchant* Merchant = new merchant("Merchant", "This merchant have all the equipment needed for fight", Market, 25);
 	data.push_back(Merchant);
 	//Magic Merchant
-	merchant* Magic_Merchant = new merchant("Runner", "This merchant have all type of runes to ugrade objects", Black_Market);
+	merchant* Magic_Merchant = new merchant("Runner", "This merchant have all type of runes to ugrade objects", Black_Market, 25);
 	data.push_back(Magic_Merchant);
 	printf("\n* NPCs added");
 	//PLAYER AVATAR
-	user = new player("Goul", "The shadows warrior", Principal_Square, 150, 0, 5, 15);
+	user = new player("Goul", "The shadows warrior", Principal_Square,1);
 	data.push_back(user);
 	printf("\n* user added");
 
@@ -106,15 +103,15 @@ void world::Initialize(){
 	//NPCs
 	//Merchant
 	//Fighter equipation
-	//Merchant->buffer.push_back(Fighter_Helm);
+	Merchant->buffer.push_back(Fighter_Helm);
 	Merchant->buffer.push_back(Fighter_Armor);
 	Merchant->buffer.push_back(Fighter_Globes);
 	Merchant->buffer.push_back(Fighter_Pants);
 	Merchant->buffer.push_back(Fighter_Boots);
 	Merchant->buffer.push_back(Fighter_Weapon);
 	//Assasin equipation
-	//Merchant->buffer.push_back(Assassin_Helm);
-	//Merchant->buffer.push_back(Assassin_Armor);
+	Merchant->buffer.push_back(Assassin_Helm);
+	Merchant->buffer.push_back(Assassin_Armor);
 	Merchant->buffer.push_back(Assassin_Globes);
 	Merchant->buffer.push_back(Assassin_Pants);
 	Merchant->buffer.push_back(Assassin_Boots);
@@ -222,33 +219,40 @@ bool world::Apply_Instruction(vector<string> instruction){
 
 	//INTRUCTIONS--------------------
 	else if (user->state == IDLE){
-		//look instruction
+		//LOOK instruction
 		if (instruction.buffer[0] == "look" && instruction.get_size() > 1){
 			//look room instruction
 			if (instruction.buffer[1] == "room")user->entity_focused = user->location;
 			//look me instruction
 			else if (instruction.buffer[1] == "me")user->entity_focused = user;
+			//directional look instruction
+			else{
+				if (instruction.buffer[1] == "north")user->entity_focused =((room*)user->location)->find_exit(NORTH);
+				else if (instruction.buffer[1] == "east")user->entity_focused = ((room*)user->location)->find_exit(EAST);
+				else if(instruction.buffer[1] == "west")user->entity_focused = ((room*)user->location)->find_exit(WEST);
+				else if(instruction.buffer[1] == "south")user->entity_focused = ((room*)user->location)->find_exit(SOUTH);
+			}
 			//Apply look instruction
 			user->look();
 		}
-		//go instruction
+		//GO instruction
 		else if (instruction.buffer[0] == "go"){
 				 if (instruction.buffer[1] == "north")user->move(NORTH);
 			else if (instruction.buffer[1] == "south")user->move(SOUTH);
 			else if (instruction.buffer[1] == "east")user->move(EAST);
 			else if (instruction.buffer[1] == "west")user->move(WEST);
 		}
-		//pick instruction
+		//PICK instruction
 		else if (instruction.buffer[0] == "pick")user->pick();
-		//pull instruction
+		//PULL instruction
 		else if (instruction.buffer[0] == "throw")user->pull();
-		//equip instruction
+		//EQUIP instruction
 		else if (instruction.buffer[0] == "equip")user->equip_object();
-		//unequip instruction
+		//UNEQUIP instruction
 		else if (instruction.buffer[0] == "unequip")user->unequip_object();
-		//talk instruction
+		//TALK instruction
 		else if (instruction.buffer[0] == "talk")user->talk();
-		//attack instruction
+		//ATTACK instruction
 		else if (instruction.buffer[0] == "attack")user->attack();
 		//invalid instruction
 		else printf("Invalid comand.\n");
