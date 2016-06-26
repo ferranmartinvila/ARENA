@@ -9,9 +9,8 @@ public:
 	//Constructor
 	merchant(char* name, char* description, entity* location, uint lvl) : creature(name, description, MERCHANT, location, lvl){
 		//Initial Stats
-		live_points = 500;
+		current_live_points = live_points = 500;
 		damage = 50;
-		defense = 75;
 		lvl_up(lvl);
 	}
 

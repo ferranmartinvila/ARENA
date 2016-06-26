@@ -21,6 +21,7 @@ void player::reset(){
 	printf("Money and current xp reset to zero.\n");
 	//Revive player
 	this->state = IDLE;
+	((creature*)this->entity_focused)->state = IDLE;
 	this->regen();
 	printf("States reset.\n");
 	this->location->buffer.push_back(this);

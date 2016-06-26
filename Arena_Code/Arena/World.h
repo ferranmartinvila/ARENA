@@ -1,18 +1,22 @@
 #ifndef _WORLD_
 #define _WORLD_
 
+//Source
 #include "vector.h"
+#include "string.h"
 #include "entity.h"
-#include "player.h"
+//Objects
 #include "room.h"
 #include "exit.h"
 #include "object.h"
+//Creatures
+#include "player.h"
 #include "Goblin.h"
 #include "Merchant.h"
-#include "string.h"
+#include "Crafter.h"
 
-// 33 with Golbin
-#define MAX_ENTITY 33
+// 34 with Golbin + Crafter
+#define MAX_ENTITY 34
 class world{
 public:
 

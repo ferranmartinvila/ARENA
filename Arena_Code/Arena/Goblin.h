@@ -7,7 +7,7 @@ public:
 	//Constructor
 	goblin(char* name, char* description, entity* location, uint lvl) : creature(name, description, GOBLIN, location, lvl){
 		//Initial Stats
-		live_points = 20;
+		current_live_points = live_points = 20;
 		damage = 3;
 		stamina = 1;
 		lvl_up(lvl);

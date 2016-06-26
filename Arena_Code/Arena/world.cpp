@@ -53,6 +53,10 @@ void world::Initialize(){
 	//Magic Merchant
 	merchant* Magic_Merchant = new merchant("Runner", "This merchant have all type of runes to ugrade objects", Black_Market, 25);
 	data.push_back(Magic_Merchant);
+	//Crafter
+	crafter*Crafter = new crafter("Crafter", "With the hablitiy for craft anything", Principal_Square, 25);
+	data.push_back(Crafter);
+	
 	//PLAYER AVATAR
 	user = new player("Goul", "The shadows warrior", Principal_Square,1);
 	data.push_back(user);
@@ -131,6 +135,7 @@ void world::Initialize(){
 	Principal_Square->buffer.push_back(Assassin_Armor);
 	Principal_Square->buffer.push_back(user);
 	Principal_Square->buffer.push_back(Goblin);
+	Principal_Square->buffer.push_back(Crafter);
 	//Market
 	Market->buffer.push_back(Market_to_Principal_Square);
 	Market->buffer.push_back(Merchant);
@@ -228,8 +233,9 @@ bool world::Apply_Instruction(vector<string> instruction){
 		"equip + item name -> Equip the choosed item\n"
 		"unequip + item name -> Unequip the choosed item\n"
 		"attack + NPC name -> Attack the choosed NPC\n"
-		"(in talk)buy + item name -> Buy the choosed item\n"
-		"(in talk)sell + item name -> Sell the choosed item\n");
+		"(in talk with Merchant)change -> Swap between SELL & BUY mode"
+		"(in talk with Merchant)buy + item name -> Buy the choosed item\n"
+		"(in talk with Merchant)sell + item name -> Sell the choosed item\n");
 
 	//INTRUCTIONS--------------------
 	else if (user->state == IDLE){

@@ -6,6 +6,8 @@ void creature::update(){
 	if (state == ATTACK){
 		attack();
 	}
+	//Health update
+	else if (current_live_points < live_points)regen();
 }
 
 void creature::check_lvl(){
@@ -38,7 +40,6 @@ void creature::lvl_up(uint levels){
 		live_points += 5 * levels;
 		damage += 2 * levels;
 		defense += 1 * levels;
-		stamina += 1 * levels;
 		money += 10 * levels;
 		current_xp = levels * 20;
 		break;
@@ -46,10 +47,13 @@ void creature::lvl_up(uint levels){
 	case MERCHANT:
 		live_points += 50 * levels;
 		damage += 20 * levels;
-		defense += 5 * levels;
-		stamina += 2 * levels;
 		money += 200 * levels;
 		break;
+
+	case CRAFTER:
+		live_points += 50 * levels;
+		damage += 20 * levels;
+		money += 200 * levels;
 	}
 }
 
@@ -169,9 +173,9 @@ void creature::attack(){
 			((creature*)entity_focused)->entity_focused = this;
 			((creature*)entity_focused)->state = ATTACK;
 			//Apply damage
-			((creature*)entity_focused)->live_points -= damage;
+			((creature*)entity_focused)->current_live_points -= damage;
 			printf("%s damage %i to %s\n", name.get_string(), damage, entity_focused->name.get_string());
-			if (((creature*)entity_focused)->live_points <= 0){
+			if (((creature*)entity_focused)->current_live_points <= 0){
 				printf("%s defeat %s!", name.get_string(), entity_focused->name.get_string());
 				((creature*)entity_focused)->drop(this);
 				((creature*)entity_focused)->die();
@@ -208,21 +212,8 @@ void creature::die(){
 }
 
 void creature::regen(){
-	uint max_live = 0;
-	switch (this->creature_type){
-	
-	case PLAYER:
-		max_live = 150 + (this->lvl * 15);
-		break;
-
-	case GOBLIN:
-		max_live = 20 + (this->lvl * 5);
-		break;
-
-	case MERCHANT:
-		max_live = 500 + (this->lvl * 50);
-		break;
+	//Regen the live points
+	while (current_live_points < live_points){
+		current_live_points++;
 	}
-	this->live_points = max_live;
-
 }
