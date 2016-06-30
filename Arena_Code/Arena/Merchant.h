@@ -22,9 +22,9 @@ public:
 			((creature*)entity_focused)->state = BUY;
 		}
 		//Buy mode
-		if (state == BUY){ printf("BUY MODE\n"),show_storage(this); }
+		if (state == BUY){ printf("BUY MODE\n"),this->show_storage(); }
 		//Sell mode
-		if (state == SELL){ printf("SELL MODE\n"), show_storage((creature*)this->entity_focused); }
+		if (state == SELL){ printf("SELL MODE\n"), ((creature*)this->entity_focused)->show_storage(); }
 	}
 };
 #endif

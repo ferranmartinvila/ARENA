@@ -73,7 +73,7 @@ void creature::look_it()const{
 	}
 }
 
-void creature::show_storage(creature* subject)const{
+void creature::show_storage()const{
 	//Item index
 	char k = 'a';
 	//Number of items
@@ -81,7 +81,7 @@ void creature::show_storage(creature* subject)const{
 	//Items states index
 	printf("STORAGE:\nOption || Item || live_buff || def_buff || attack_buff || stamina_buff || price\n\n");
 	//Prints all the buffer items
-	list_double<entity*>::node* temp = subject->buffer.first_element;
+	list_double<entity*>::node* temp = buffer.first_element;
 	while (temp){
 		printf("[%c] -%s [ %i | %i | %i | %i ] price:%i\n", k, temp->data->name.get_string(), ((object*)temp->data)->live_buff, ((object*)temp->data)->defence_buff, ((object*)temp->data)->attack_buff, ((object*)temp->data)->stamina_buff, ((object*)temp->data)->price);
 		k++;
@@ -90,6 +90,27 @@ void creature::show_storage(creature* subject)const{
 	}
 	//In case of empty buffer
 	if (elements == 0)printf("empty\n");
+}
+
+bool creature::show_objects_class(OBJECT_TYPE type, bool show)const{
+	//Creature buffer pointer
+	list_double<entity*>::node* temp = this->buffer.first_element;
+	//Index of type item
+	char k = 'a';
+	//Number of items
+	uint elements = 0;
+	while (temp){
+		if (((object*)temp->data)->object_type == type){
+			//Show all the type object states
+			if (show)printf("[%c] -%s [ %i | %i | %i | %i ] price:%i\n", k, temp->data->name.get_string(), ((object*)temp->data)->live_buff, ((object*)temp->data)->defence_buff, ((object*)temp->data)->attack_buff, ((object*)temp->data)->stamina_buff, ((object*)temp->data)->price);
+			k++;
+			elements++;
+		}
+		temp = temp->next;
+	}
+	//Empty(false) else true
+	if (elements == 0)return false;
+	else return true;
 }
 
 void creature::talk(){

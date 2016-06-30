@@ -13,7 +13,7 @@
 #include "player.h"
 #include "Goblin.h"
 #include "Merchant.h"
-#include "Crafter.h"
+#include "Runner.h"
 
 // 34 with Golbin + Crafter
 #define MAX_ENTITY 34

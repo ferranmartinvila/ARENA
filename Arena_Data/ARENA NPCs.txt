@@ -1,0 +1,43 @@
+##Arena NPCs
+
+###Equipation NPCs
+
+####Merchant:
+
+The merchant of arena can buy and sell anything for a good price. 
+If you want to get the best equipation talk with him in the Market,
+at the east exit of the Principal Square.
+
+####Magic Merchant:
+
+The magic merchant have all the required materials to enchant or upgrade 
+you equipation. Like runnes, rituals, etc. 
+The Magic Merchant is in the Black Market,at the south exit of the Principal Square.
+
+####Merchant of Potions:
+
+This merchant is specialized in potions that will hive you more power for fight.
+His prices are economic so is not a bad idea to visit him before a fight.
+He is in the Market at the east exit of the Principal Square.
+
+####Runner:
+
+The runner is the only in arena that can fuse materials, 
+so if you want to add runes to your equipation talk with him and
+he will show all his prices.The runner is located in the Black Market,
+at the south exit of the Principal Square.
+
+####Enchanter
+
+The runner have the hability to enchant equipation and upgrade it
+A simlpe equipation can become a legend with ritual that upgrade the class.
+The enchanter is known for his magic powers but for his high prices too, 
+so you need a lot of money to trade with him. He is in the Black Market,
+at the south exit of the Principal Square.
+
+###Battle NPCs
+
+####Goblin(Pasive)
+
+The Goblin is a green and little creature that only attacks if you attack
+him beffore. Are fast and can evade some attacks but thiey don't have too much live.

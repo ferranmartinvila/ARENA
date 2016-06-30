@@ -51,11 +51,11 @@ void world::Initialize(){
 	merchant* Merchant = new merchant("Merchant", "This merchant have all the equipment needed for fight", Market, 25);
 	data.push_back(Merchant);
 	//Magic Merchant
-	merchant* Magic_Merchant = new merchant("Runner", "This merchant have all type of runes to ugrade objects", Black_Market, 25);
+	merchant* Magic_Merchant = new merchant("Magic Merchant", "This merchant have all type of magic items to ugrade objects", Black_Market, 25);
 	data.push_back(Magic_Merchant);
-	//Crafter
-	crafter*Crafter = new crafter("Crafter", "With the hablitiy for craft anything", Principal_Square, 25);
-	data.push_back(Crafter);
+	//Runner
+	runner*Runner = new runner("Runner", "The runner is the only in arena that can fuse materials", Principal_Square, 25);
+	data.push_back(Runner);
 	
 	//PLAYER AVATAR
 	user = new player("Goul", "The shadows warrior", Principal_Square,1);
@@ -89,7 +89,7 @@ void world::Initialize(){
 	object* Assassin_Weapon = new object("Assassin Weapon", "Shiny golden Weapon", WEAPON, Merchant, 0, 0, 20, 0, 500);
 	data.push_back(Assassin_Weapon);
 	//Runes
-	object* Vitality_Rune = new object("Rune of Vitality", "Adds a live buff to the object", RUNE, Magic_Merchant, 15, 0, 0, 0, 100);
+	object* Vitality_Rune = new object("Rune of Vitality", "Adds a live buff to the object", RUNE, Magic_Merchant, 15, 0, 0, 0, 0);
 	data.push_back(Vitality_Rune);
 	object* Defence_Rune = new object("Rune of Defence", "Adds a defence buff to the object", RUNE, Magic_Merchant, 0, 15, 0, 0, 100);
 	data.push_back(Defence_Rune);
@@ -135,7 +135,7 @@ void world::Initialize(){
 	Principal_Square->buffer.push_back(Assassin_Armor);
 	Principal_Square->buffer.push_back(user);
 	Principal_Square->buffer.push_back(Goblin);
-	Principal_Square->buffer.push_back(Crafter);
+	Principal_Square->buffer.push_back(Runner);
 	//Market
 	Market->buffer.push_back(Market_to_Principal_Square);
 	Market->buffer.push_back(Merchant);
@@ -146,11 +146,6 @@ void world::Initialize(){
 	House->buffer.push_back(House_to_Principal_Square);
 	//Arena
 	Arena->buffer.push_back(Arena_to_Principal_Square);
-
-
-	
-
-
 }
 
 bool world::Apply_Instruction(vector<string> instruction){
@@ -158,11 +153,14 @@ bool world::Apply_Instruction(vector<string> instruction){
 	//Vector position that have to be compared
 	uint position = 1;
 	//Update the user pointed entity
-	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick" || instruction.buffer[0] == "throw" 
-		|| instruction.buffer[0] == "attack" || instruction.buffer[0] == "talk" 
+	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick" || instruction.buffer[0] == "throw"
+		|| instruction.buffer[0] == "attack" || instruction.buffer[0] == "talk"
 		|| instruction.buffer[0] == "equip" || instruction.buffer[0] == "unequip") && instruction.get_size() > 1 && user->state == IDLE){
 		//the entity can have a composen name so the correct words are fused
-		if (instruction.buffer[1] == "to")position++;
+		if (instruction.buffer[1] == "to"){
+			position++;
+			if (instruction.get_size() > 3)instruction.buffer[position] += instruction.buffer[position + 1];
+		}
 		else
 		{
 			if (instruction.get_size() > 2) instruction.buffer[position] += instruction.buffer[position + 1];
@@ -172,8 +170,8 @@ bool world::Apply_Instruction(vector<string> instruction){
 		for (uint k = 0; k < MAX_ENTITY; k++){
 			if (instruction.buffer[position] == data.buffer[k]->name){
 				if (instruction.buffer[0] == "look")user->entity_focused = data.buffer[k];
-				else if ((instruction.buffer[0] == "pick"  || instruction.buffer[0] == "throw" 
-						|| instruction.buffer[0] == "equip" ||instruction.buffer[0] == "unequip") && data.buffer[k]->type == OBJECT)user->entity_focused = data.buffer[k];
+				else if ((instruction.buffer[0] == "pick" || instruction.buffer[0] == "throw"
+					|| instruction.buffer[0] == "equip" || instruction.buffer[0] == "unequip") && data.buffer[k]->type == OBJECT)user->entity_focused = data.buffer[k];
 				else if ((instruction.buffer[0] == "attack" || instruction.buffer[0] == "talk") && data.buffer[k]->type == CREATURE)user->entity_focused = data.buffer[k];
 				if (data.buffer[k]->type == OBJECT)printf("\n[item]%s", data.buffer[k]->name.get_string());
 				break;
@@ -182,12 +180,12 @@ bool world::Apply_Instruction(vector<string> instruction){
 			else if (k == MAX_ENTITY - 1)user->entity_focused = nullptr;
 		}
 	}
-	else if(user->state == IDLE)user->entity_focused = nullptr;
-
+	else if (user->state == IDLE)user->entity_focused = nullptr;
+	
 	
 	
 	//STATE ACTIONS--------------------
-	//Talk(Buy/Sell/Converse)
+	//Merchant Talk(Buy/Sell)
 	if ((user->state == BUY || user->state == SELL) && instruction.buffer[0] != "quit"){
 		//Change trade mode
 		if (instruction.buffer[0] == "change"){
@@ -205,11 +203,19 @@ bool world::Apply_Instruction(vector<string> instruction){
 		}
 		else printf("Invalid Comand.\n");
 	}
+	//Runner Talk(Enchant)
+	else if (user->state == FUSE_RUNES && instruction.buffer[0] != "quit"){
+	
+	
+	
+	}
 	//Dead(RESET)
 	else if (instruction.buffer[0] == "RESET" && user->state == DEAD)user->reset();
 	
+	
+	
 	//QUITS---------------------------
-	else if (instruction.buffer[0] == "quit" && user->state != DEAD)
+	else if (instruction.buffer[0] == "quit" && user->state != DEAD){
 		//Quit from the game
 		if (user->state == IDLE)return false;
 		else {
@@ -219,6 +225,8 @@ bool world::Apply_Instruction(vector<string> instruction){
 			user->state = IDLE;
 			((creature*)user->entity_focused)->state = IDLE;
 		}
+	}
+		
 	//HELP---------------------------
 	else if (instruction.buffer[0] == "help")printf(
 		"help -> Show all the instructions\n"
@@ -237,6 +245,8 @@ bool world::Apply_Instruction(vector<string> instruction){
 		"(in talk with Merchant)buy + item name -> Buy the choosed item\n"
 		"(in talk with Merchant)sell + item name -> Sell the choosed item\n");
 
+	
+	
 	//INTRUCTIONS--------------------
 	else if (user->state == IDLE){
 		//LOOK instruction

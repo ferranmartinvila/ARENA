@@ -5,7 +5,7 @@ void entity::look_it()const{
 	list_double<entity*>::node* temp = buffer.first_element;
 	uint k = 0;
 	while (temp){
-		if (temp->data->type != EXIT  && temp->data->name != "Goul"){
+		if ((temp->data->type == CREATURE && ((creature*)temp->data)->creature_type != PLAYER )|| temp->data->type == OBJECT){
 			printf("%s\n", temp->data->name.get_string());
 			k++;
 		}

@@ -14,14 +14,11 @@ public:
 	entity* location = nullptr;
 	list_double<entity*> buffer;
 
+	//Constructor
+	entity(char* name, char* description, TYPE type, entity* location = nullptr) :name(name), description(description), type(type), location(location){}
 
 	//FUNCTIONS
 	virtual void look_it()const;
 	virtual void update(){};
-	//CONSTRUCTORS
-	//Undefined constructor
-	entity(){ name = nullptr, description = nullptr, type = UNDEFINED; }
-	//Defined constructor
-	entity(char* name,char* description,TYPE type, entity* location = nullptr):name(name),description(description),type(type),location(location){}
 };
 #endif

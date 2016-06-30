@@ -36,7 +36,8 @@ public:
 	void lvl_up(uint );
 	//Lore
 	virtual void look_it()const;
-	void show_storage(creature* )const;
+	void show_storage()const;
+	bool show_objects_class(OBJECT_TYPE, bool)const;
 	virtual void talk();
 	//Position
 	void move(DIRECTION );
