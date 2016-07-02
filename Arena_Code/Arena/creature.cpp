@@ -81,7 +81,7 @@ void creature::show_storage()const{
 	//Items states index
 	printf("STORAGE:\nOption || Item || live_buff || def_buff || attack_buff || stamina_buff || price\n\n");
 	//Prints all the buffer items
-	list_double<entity*>::node* temp = buffer.first_element;
+	list_double<entity*>::node* temp = this->buffer.first_element;
 	while (temp){
 		printf("[%c] -%s [ %i | %i | %i | %i ] price:%i\n", k, temp->data->name.get_string(), ((object*)temp->data)->live_buff, ((object*)temp->data)->defence_buff, ((object*)temp->data)->attack_buff, ((object*)temp->data)->stamina_buff, ((object*)temp->data)->price);
 		k++;
@@ -92,7 +92,7 @@ void creature::show_storage()const{
 	if (elements == 0)printf("empty\n");
 }
 
-bool creature::show_objects_class(OBJECT_TYPE type, bool show)const{
+bool creature::show_storage_for_class(OBJECT_TYPE type, bool show)const{
 	//Creature buffer pointer
 	list_double<entity*>::node* temp = this->buffer.first_element;
 	//Index of type item
@@ -141,8 +141,6 @@ void creature::pick(){
 		if (location->buffer.find_data(entity_focused)){
 			//Swap the object allocation for user 
 			this->buffer.pass_entity(entity_focused, buffer, location->buffer);
-			//Change object location
-			entity_focused->location = this;
 			printf("%s is now in your inventory.\n", entity_focused->name.get_string());
 		}
 		else printf("This object isn't here\n");
@@ -153,11 +151,9 @@ void creature::pick(){
 
 void creature::pull(){
 	if (entity_focused != nullptr){
-		if (entity_focused->location == this){
+		if (this->buffer.find_data(entity_focused) == true){
 			//Swap the object allocation for user 
 			this->buffer.pass_entity(entity_focused, location->buffer, buffer);
-			//Change object location
-			entity_focused->location = location;
 			printf("You throw the %s.\n", entity_focused->name.get_string());
 		}
 		else printf("This object isn't in your inventory\n");

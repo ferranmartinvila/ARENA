@@ -15,6 +15,8 @@ public:
 	uint next_lvl_xp;
 	//State
 	CREATURE_STATE state;
+	//Location
+	entity* location = nullptr;
 	//Stats
 	int live_points;
 	int current_live_points;
@@ -27,7 +29,7 @@ public:
 	entity* entity_focused = nullptr;
 
 	//Constructor
-	creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl) :entity(name, description, CREATURE, location), creature_type(type), state(IDLE), lvl(lvl), current_xp(0), next_lvl_xp(100){}
+	creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl) :entity(name, description, CREATURE), creature_type(type), location(location), state(IDLE), lvl(lvl), current_xp(0), next_lvl_xp(100){}
 
 	//FUNCTIONS
 	//System
@@ -37,7 +39,7 @@ public:
 	//Lore
 	virtual void look_it()const;
 	void show_storage()const;
-	bool show_objects_class(OBJECT_TYPE, bool)const;
+	bool show_storage_for_class(OBJECT_TYPE, bool)const;
 	virtual void talk();
 	//Position
 	void move(DIRECTION );

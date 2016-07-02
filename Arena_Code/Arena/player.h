@@ -36,7 +36,7 @@ public:
 	void equip_object();
 	void unequip_object();
 	//NPC ACTIONS
-	void choose_option(char option);
-
+	void choose_option(char );
+	object* choose_option_for_type(char, OBJECT_TYPE);
 };
 #endif

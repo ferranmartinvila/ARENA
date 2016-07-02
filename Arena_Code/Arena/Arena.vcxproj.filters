@@ -5,30 +5,30 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Entities">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Source">
       <UniqueIdentifier>{3f8ae41b-4639-4aa9-9258-27fb6bbce91d}</UniqueIdentifier>
     </Filter>
     <Filter Include="World">
       <UniqueIdentifier>{fe2279b8-fe91-42cb-a4c3-6992d461110d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entities\Objects">
+    <Filter Include="World\Entities">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="World\Entities\Objects">
       <UniqueIdentifier>{37319f68-53df-472c-804d-9b25e13c721c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entities\Creatures">
+    <Filter Include="World\Entities\Creatures">
       <UniqueIdentifier>{ced229d4-81e2-483f-93c0-bef593e4f5a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entities\Scenes">
-      <UniqueIdentifier>{dd6eeef1-3b17-44c1-b384-72ee3e6f701d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entities\Creatures\NPCs">
+    <Filter Include="World\Entities\Creatures\NPCs">
       <UniqueIdentifier>{1ba4b443-fb68-4d25-a602-8c6614670533}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entities\Creatures\Player">
+    <Filter Include="World\Entities\Creatures\Player">
       <UniqueIdentifier>{5a7207cb-4efc-46a2-9243-ef0c0c20262e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\Entities\Scenes">
+      <UniqueIdentifier>{dd6eeef1-3b17-44c1-b384-72ee3e6f701d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,24 +42,24 @@
       <Filter>World</Filter>
     </ClCompile>
     <ClCompile Include="entity.cpp">
-      <Filter>Entities</Filter>
+      <Filter>World\Entities</Filter>
     </ClCompile>
     <ClCompile Include="creature.cpp">
-      <Filter>Entities\Creatures</Filter>
+      <Filter>World\Entities\Creatures</Filter>
     </ClCompile>
     <ClCompile Include="object.cpp">
-      <Filter>Entities\Objects</Filter>
+      <Filter>World\Entities\Objects</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
-      <Filter>Entities\Creatures\Player</Filter>
+      <Filter>World\Entities\Creatures\Player</Filter>
     </ClCompile>
     <ClCompile Include="room.cpp">
-      <Filter>Entities\Scenes</Filter>
+      <Filter>World\Entities\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="entity.h">
-      <Filter>Entities</Filter>
+      <Filter>World\Entities</Filter>
     </ClInclude>
     <ClInclude Include="double_list.h">
       <Filter>Source</Filter>
@@ -74,31 +74,31 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="object.h">
-      <Filter>Entities\Objects</Filter>
+      <Filter>World\Entities\Objects</Filter>
     </ClInclude>
     <ClInclude Include="creature.h">
-      <Filter>Entities\Creatures</Filter>
+      <Filter>World\Entities\Creatures</Filter>
     </ClInclude>
     <ClInclude Include="room.h">
-      <Filter>Entities\Scenes</Filter>
+      <Filter>World\Entities\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="exit.h">
-      <Filter>Entities\Scenes</Filter>
+      <Filter>World\Entities\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Globals.h">
       <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="Goblin.h">
-      <Filter>Entities\Creatures\NPCs</Filter>
+      <Filter>World\Entities\Creatures\NPCs</Filter>
     </ClInclude>
     <ClInclude Include="Merchant.h">
-      <Filter>Entities\Creatures\NPCs</Filter>
+      <Filter>World\Entities\Creatures\NPCs</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
-      <Filter>Entities\Creatures\Player</Filter>
+      <Filter>World\Entities\Creatures\Player</Filter>
     </ClInclude>
     <ClInclude Include="Runner.h">
-      <Filter>Entities\Creatures\NPCs</Filter>
+      <Filter>World\Entities\Creatures\NPCs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

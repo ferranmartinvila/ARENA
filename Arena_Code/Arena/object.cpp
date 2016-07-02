@@ -29,17 +29,3 @@ void object::rest_buffs(creature* target){
 	printf("\n");
 }
 
-
-//CRAFT---------------------
-void object::fuse(object* target){
-	if (this->object_type != RUNE)printf("You can only fuse Runes.\n");
-	else if (this->location->type != PLAYER)printf("You dont have this Rune.\n");
-	else{
-		//Erase from the inventory
-		this->location->buffer.erase_data(this);
-		//Add to the target
-		target->buffer.push_back(this);
-		this->location = target;
-		printf("%s fused to %s!\n", this->name.get_string(), target->name.get_string());
-	}
-}

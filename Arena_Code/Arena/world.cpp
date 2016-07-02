@@ -63,45 +63,48 @@ void world::Initialize(){
 
 	//OBJECTS
 	//Fighter equipation
-	object* Fighter_Helm = new object("Helm", "Basic but light helm", HELM, Principal_Square, 10, 2, 0, 2, 60);
+	object* Fighter_Helm = new object("Helm", "Basic but light helm", HELM, 10, 2, 0, 2, 60);
 	data.push_back(Fighter_Helm);
-	object* Fighter_Armor = new object("Fighter Armor", "Basic but light Armor", ARMOR, Merchant, 25, 4, 0, 2, 150);
+	object* Fighter_Armor = new object("Fighter Armor", "Basic but light Armor", ARMOR, 25, 4, 0, 2, 150);
 	data.push_back(Fighter_Armor);
-	object* Fighter_Globes = new object("Fighter Globes", "Basic but light Globes", GLOBES, Merchant, 5, 1, 0, 2, 45);
+	object* Fighter_Globes = new object("Fighter Globes", "Basic but light Globes", GLOBES, 5, 1, 0, 2, 45);
 	data.push_back(Fighter_Globes);
-	object* Fighter_Pants = new object("Fighter Pants", "Basic but light Pants", PANTS, Merchant, 15, 3, 0, 2, 100);
+	object* Fighter_Pants = new object("Fighter Pants", "Basic but light Pants", PANTS, 15, 3, 0, 2, 100);
 	data.push_back(Fighter_Pants);
-	object* Fighter_Boots = new object("Fighter Boots", "Basic but light Boots", BOOTS, Merchant, 10, 2, 0, 2, 50);
+	object* Fighter_Boots = new object("Fighter Boots", "Basic but light Boots", BOOTS, 10, 2, 0, 2, 50);
 	data.push_back(Fighter_Boots);
-	object* Fighter_Weapon = new object("Fighter Weapon", "Basic but light Weapon", WEAPON, Merchant, 0, 0, 10, 0, 250);
+	object* Fighter_Weapon = new object("Fighter Weapon", "Basic but light Weapon", WEAPON, 0, 0, 10, 0, 250);
 	data.push_back(Fighter_Weapon);
 	//Assassin equipation
-	object* Assassin_Helm = new object("AHelm", "Shiny golden helm", HELM, Principal_Square, 15, 3, 0, 3, 120);
+	object* Assassin_Helm = new object("AHelm", "Shiny golden helm", HELM, 15, 3, 0, 3, 120);
 	data.push_back(Assassin_Helm);
-	object* Assassin_Armor = new object("Assassin Armor", "Shiny golden Armor", ARMOR, Principal_Square, 30, 5, 0, 3, 300);
+	object* Assassin_Armor = new object("Assassin Armor", "Shiny golden Armor", ARMOR, 30, 5, 0, 3, 300);
 	data.push_back(Assassin_Armor);
-	object* Assassin_Globes = new object("Assassin Globes", "Shiny golden Globes", GLOBES, Merchant, 10, 2, 0, 3, 90);
+	object* Assassin_Globes = new object("Assassin Globes", "Shiny golden Globes", GLOBES, 10, 2, 0, 3, 90);
 	data.push_back(Assassin_Globes);
-	object* Assassin_Pants = new object("Assassin Pants", "Shiny golden Pants", PANTS, Merchant, 20, 4, 0, 3, 200);
+	object* Assassin_Pants = new object("Assassin Pants", "Shiny golden Pants", PANTS, 20, 4, 0, 3, 200);
 	data.push_back(Assassin_Pants);
-	object* Assassin_Boots = new object("Assassin Boots", "Shiny golden Boots", BOOTS, Merchant, 15, 3, 0, 3, 100);
+	object* Assassin_Boots = new object("Assassin Boots", "Shiny golden Boots", BOOTS, 15, 3, 0, 3, 100);
 	data.push_back(Assassin_Boots);
-	object* Assassin_Weapon = new object("Assassin Weapon", "Shiny golden Weapon", WEAPON, Merchant, 0, 0, 20, 0, 500);
+	object* Assassin_Weapon = new object("Assassin Weapon", "Shiny golden Weapon", WEAPON, 0, 0, 20, 0, 500);
 	data.push_back(Assassin_Weapon);
 	//Runes
-	object* Vitality_Rune = new object("Rune of Vitality", "Adds a live buff to the object", RUNE, Magic_Merchant, 15, 0, 0, 0, 0);
+	object* Vitality_Rune = new object("Rune of Vitality", "Adds a live buff to the object", RUNE, 15, 0, 0, 0, 0);
 	data.push_back(Vitality_Rune);
-	object* Defence_Rune = new object("Rune of Defence", "Adds a defence buff to the object", RUNE, Magic_Merchant, 0, 15, 0, 0, 100);
+	object* Defence_Rune = new object("Rune of Defence", "Adds a defence buff to the object", RUNE, 0, 15, 0, 0, 100);
 	data.push_back(Defence_Rune);
-	object* Attack_Rune = new object("Rune of Attack", "Adds a attack buff to the object", RUNE, Magic_Merchant, 0, 0, 15, 0, 100);
+	object* Attack_Rune = new object("Rune of Attack", "Adds a attack buff to the object", RUNE, 0, 0, 15, 0, 100);
 	data.push_back(Attack_Rune);
-	object* Stamina_Rune = new object("Rune of Stamina", "Adds a stamina buff to the object", RUNE, Magic_Merchant, 0, 0, 0, 15, 100);
+	object* Stamina_Rune = new object("Rune of Stamina", "Adds a stamina buff to the object", RUNE, 0, 0, 0, 15, 100);
 	data.push_back(Stamina_Rune);
 	
 	
 	
 	//GAME DATA STRUCT
 	
+	//USER
+	user->buffer.push_back(Vitality_Rune);
+
 	//NPCs
 	//Merchant
 	//Fighter equipation
@@ -169,11 +172,12 @@ bool world::Apply_Instruction(vector<string> instruction){
 		//Find the entity checking the user instruction
 		for (uint k = 0; k < MAX_ENTITY; k++){
 			if (instruction.buffer[position] == data.buffer[k]->name){
+				//Entity Actions
 				if (instruction.buffer[0] == "look")user->entity_focused = data.buffer[k];
-				else if ((instruction.buffer[0] == "pick" || instruction.buffer[0] == "throw"
-					|| instruction.buffer[0] == "equip" || instruction.buffer[0] == "unequip") && data.buffer[k]->type == OBJECT)user->entity_focused = data.buffer[k];
+				//Object Actions
+				else if ((instruction.buffer[0] == "pick" || instruction.buffer[0] == "throw"|| instruction.buffer[0] == "equip" || instruction.buffer[0] == "unequip") && data.buffer[k]->type == OBJECT)user->entity_focused = data.buffer[k];
+				//Creature Actions
 				else if ((instruction.buffer[0] == "attack" || instruction.buffer[0] == "talk") && data.buffer[k]->type == CREATURE)user->entity_focused = data.buffer[k];
-				if (data.buffer[k]->type == OBJECT)printf("\n[item]%s", data.buffer[k]->name.get_string());
 				break;
 			}
 			//Reset the entity focused
@@ -203,13 +207,25 @@ bool world::Apply_Instruction(vector<string> instruction){
 		}
 		else printf("Invalid Comand.\n");
 	}
-	//Runner Talk(Enchant)
+	//Runner Talk(Fix Rune)
 	else if (user->state == FUSE_RUNES && instruction.buffer[0] != "quit"){
-	
-	
-	
+		//Choose option 
+		if (instruction.buffer[0].lenght() == 1 && instruction.get_size() == 1){
+			//Choose Rune
+			if (((runner*)user->entity_focused)->rune_choosed == nullptr){
+				((runner*)user->entity_focused)->rune_choosed = user->choose_option_for_type(instruction.buffer[0].get_string()[0], RUNE);
+				user->show_storage();
+			}
+			//Choose Item
+			else {
+				user->choose_option(instruction.buffer[0].get_string()[0]);
+				((runner*)user->entity_focused)->talk();
+			}
+		}
+		else printf("Invalid Comand.\n");
 	}
-	//Dead(RESET)
+	
+	//DEAD(RESET)---------------------
 	else if (instruction.buffer[0] == "RESET" && user->state == DEAD)user->reset();
 	
 	

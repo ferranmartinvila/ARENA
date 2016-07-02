@@ -11,11 +11,10 @@ public:
 	TYPE type;
 	string name;
 	string description;
-	entity* location = nullptr;
 	list_double<entity*> buffer;
 
 	//Constructor
-	entity(char* name, char* description, TYPE type, entity* location = nullptr) :name(name), description(description), type(type), location(location){}
+	entity(char* name, char* description, TYPE type) :name(name), description(description), type(type){}
 
 	//FUNCTIONS
 	virtual void look_it()const;

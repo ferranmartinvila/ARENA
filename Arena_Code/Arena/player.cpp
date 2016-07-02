@@ -1,6 +1,6 @@
 #include "player.h"
 #include <stdlib.h>
-
+#include "Runner.h"
 //SYSTEM-----------------------------
 void player::die(){
 	printf("%s defeat you!\n", entity_focused->name.get_string());
@@ -62,6 +62,7 @@ void player::look_it()const{
 void player::talk(){
 	if (entity_focused == nullptr)printf("Invalid Creature\n");
 	else if (entity_focused == this)printf("You can't talk to yourselve.\n");
+	else if (((creature*)entity_focused)->location != this->location)printf("This NPC is not here.\n");
 	else{
 		//Focus the NPC to you
 		((creature*)entity_focused)->entity_focused = this;
@@ -75,14 +76,26 @@ void player::talk(){
 
 void player::look()const{
 	if (entity_focused != nullptr){
-		list_double<entity*>::node* temp = location->buffer.first_element;
+		list_double<entity*>::node* temp = nullptr;
 		//Find the item in the location buffer
+		temp = location->buffer.first_element;
 		while (temp){
 			if (temp->data->name == entity_focused->name){
 				entity_focused->look_it();
 				break;
 			}
 			temp = temp->next;
+		}
+		//Find the item in the user buffer
+		if (temp == nullptr){
+			temp = this->buffer.first_element;
+			while (temp){
+				if (temp->data->name == entity_focused->name){
+					entity_focused->look_it();
+					break;
+				}
+				temp = temp->next;
+			}
 		}
 		//Look room
 		if (entity_focused == location)entity_focused->look_it();
@@ -98,7 +111,7 @@ void player::equip_object(){
 	//Not entoty focused
 	if (entity_focused == nullptr)printf("Invalid Object\n");
 	//Invalid location
-	else if (entity_focused->location != this)printf("You don't have this object\n");
+	else if (this->buffer.find_data(entity_focused) == false)printf("You don't have this object\n");
 	//Item already equiped
 	else if (entity_focused == helm || entity_focused == armor || entity_focused == globes || entity_focused == pants || entity_focused == boots || entity_focused == weapon)
 			printf("%s is still equiped.\n", entity_focused->name.get_string());
@@ -163,10 +176,14 @@ void player::choose_option(char option){
 	//In BUY MODE focus the entity_focuse buffer
 	if (state == BUY)temp = this->entity_focused->buffer.first_element;
 	//In SELL MODE focus this buffer
-	else if (state == SELL)temp = this->buffer.first_element;
+	else if (state == SELL || state == FUSE_RUNES)temp = this->buffer.first_element;
 	//Find the item position in the focused buffer
 	while (init < option && temp != nullptr){
-		init++;
+		//Only count runes
+		if (this->state == FUSE_RUNES && ((object*)temp->data)->object_type == RUNE)init++;
+		//Count all the items
+		else if(state == BUY || state == SELL)init++;
+		
 		position++;
 		temp = temp->next;
 	}
@@ -177,6 +194,21 @@ void player::choose_option(char option){
 		//In BUY MODE
 		if(state == BUY)this->buy((object*)temp->data);
 		//In SELL MODE
-		if(state == SELL)this->sell((object*)temp->data);
+		else if(state == SELL)this->sell((object*)temp->data);
+		//In FUSE_RUNES MODE
+		else if (state == FUSE_RUNES)((runner*)this->entity_focused)->item_choosed = ((object*)temp->data);
 	}
+}
+
+object* player::choose_option_for_type(char option, OBJECT_TYPE type){
+	//Player buffer pointer
+	list_double<entity*>::node* temp = this->buffer.first_element;
+	//Init index 
+	char k = 'a';
+	while (temp && k < option) {
+		if (((object*)temp->data)->object_type == type){ k++; }
+		temp = temp->next;
+	}
+	return (object*)temp->data;
+
 }
