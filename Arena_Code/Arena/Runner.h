@@ -1,6 +1,8 @@
 #ifndef _RUNNER_
 #define _RUNNER_
+
 #include "creature.h"
+
 class runner :public creature{
 public:
 	//DATA
@@ -16,31 +18,41 @@ public:
 
 	//FUNCTIONS
 	void talk(){
-		//Item & Rune choosed
-		if (item_choosed != nullptr && rune_choosed != nullptr)this->add_rune(item_choosed, rune_choosed);
 		//Presentation
-		else if (state == TALK){
+		if (state == TALK){
+			//Pre-reset
+			this->item_choosed = nullptr;
+			this->rune_choosed = nullptr;
+			//Init
 			printf("Hello im the %s of arena!\n", this->name.get_string());
 			state = FUSE_RUNES;
 			((creature*)entity_focused)->state = FUSE_RUNES;
-
-			//If player have runes
-			if (((creature*)this->entity_focused)->show_storage_for_class(RUNE, false)){
-				printf("Do you want to fuse some runes?\n");
-				printf("Your runes:\n\n");
-				((creature*)this->entity_focused)->show_storage_for_class(RUNE, true);
-			}
-			//If not
-			else printf("Sorry, runes are the only objects that can be fused with equipation.\n"
-				"Return when you have some of them.\n");
 		}
 
-	};
+		//FUSE state 
+		if (state == EXTRACT_RUNES && item_choosed == nullptr && rune_choosed == nullptr){ printf("EXTRACT MODE:\n\nChoose the item.\n"), ((creature*)entity_focused)->show_storage_for_class(UNDEFINED, true); }
+		//EXTRACT state
+		else if (state == FUSE_RUNES && item_choosed == nullptr && rune_choosed == nullptr){ printf("FUSE MODE:\n\nChoose the rune.\n"), ((creature*)entity_focused)->show_storage_for_class(RUNE, true); }
+		//Apply FUSE state
+		else if (item_choosed != nullptr && rune_choosed != nullptr && state == FUSE_RUNES){
+			bool done = false;
+			done = this->add_rune(item_choosed, rune_choosed);
+			item_choosed = nullptr;
+			if (done){ rune_choosed = nullptr,this->talk(); }
+		}
+		//Apply EXTRACT state
+		else if (item_choosed != nullptr && rune_choosed == nullptr && state == EXTRACT_RUNES){
+			bool done = false;
+			done = this->extract_rune(item_choosed);
+			item_choosed = rune_choosed = nullptr;
+			if(done)this->talk();
+		}
+	}
 	bool add_rune(object* target, object* rune){
 		//Rune cell full
-		if (target->buffer.empty() == false){ printf("%s was fused to a rune before.\n", target->name.get_string()); return false; }
+		if (target->buffer.empty() == false){printf("%s was fused to a rune before.\n", target->name.get_string()); return false;}
 		//Invalid type
-		if (target->object_type == RUNE || target->object_type == POTION){printf("Invalid Object.\n"); return false; }
+		if (target->object_type == RUNE || target->object_type == POTION){ printf("Invalid Object.\n"); return false; }
 		else{
 			//Push the rune to the item buffer
 			target->buffer.push_back(rune);
@@ -52,7 +64,29 @@ public:
 			if (rune->defence_buff){ target->defence_buff += rune->defence_buff, printf("+%u defence", rune->defence_buff); }
 			if (rune->attack_buff){ target->attack_buff += rune->attack_buff, printf("+%u attack", rune->attack_buff); }
 			if (rune->stamina_buff){ target->stamina_buff += rune->stamina_buff, printf("+%u stamina", rune->stamina_buff); }
-			printf("\n");
+			printf("\n\n");
+			this->item_choosed = this->rune_choosed = nullptr;
+			return true;
+		}
+	}
+	bool extract_rune(object* font){
+		//Empty font
+		if (font->buffer.empty()){printf("%s have no runes fused.\n", font->name.get_string());return false;}
+		else{
+			//Focus the rune
+			object* result_rune = ((object*)font->buffer.first_element->data);
+			//Push the rune into the focused creature buffer
+			this->entity_focused->buffer.push_back(result_rune);
+			//Erase the rune from the font
+			font->buffer.pop_back();
+			//Rest the rune buffs & show the result
+			printf("%s has been extracted from %s ", result_rune->name.get_string(), font->name.get_string());
+			if (result_rune->live_buff){ font->live_buff -= result_rune->live_buff, printf("-%u live", result_rune->live_buff); }
+			if (result_rune->defence_buff){ font->defence_buff -= result_rune->defence_buff, printf("-%u defence", result_rune->defence_buff); }
+			if (result_rune->attack_buff){ font->attack_buff -= result_rune->attack_buff, printf("-%u attack", result_rune->attack_buff); }
+			if (result_rune->stamina_buff){ font->stamina_buff -= result_rune->stamina_buff, printf("-%u stamina", result_rune->stamina_buff); }
+			printf("\n\n");
+			this->item_choosed = nullptr;
 			return true;
 		}
 	}

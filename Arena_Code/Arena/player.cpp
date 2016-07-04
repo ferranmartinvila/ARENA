@@ -168,47 +168,27 @@ void player::unequip_object(){
 
 
 //NPC ACTIONS------------------------
-void player::choose_option(char option){
+object* player::choose_item(char option, OBJECT_TYPE type){
 	//Temp data
 	list_double<entity*>::node* temp = nullptr;
 	char init = 'a';
-	uint position = 0;
-	//In BUY MODE focus the entity_focuse buffer
+	init--;
+	//In extern buffer action
 	if (state == BUY)temp = this->entity_focused->buffer.first_element;
-	//In SELL MODE focus this buffer
-	else if (state == SELL || state == FUSE_RUNES)temp = this->buffer.first_element;
+	//In intern buffer action
+	else if (state == SELL || state == EXTRACT_RUNES || state == FUSE_RUNES)temp = this->buffer.first_element;
+	
 	//Find the item position in the focused buffer
 	while (init < option && temp != nullptr){
-		//Only count runes
-		if (this->state == FUSE_RUNES && ((object*)temp->data)->object_type == RUNE)init++;
-		//Count all the items
-		else if(state == BUY || state == SELL)init++;
-		
-		position++;
-		temp = temp->next;
+		//Only count especific type
+		if (((object*)temp->data)->object_type == type ||type == UNDEFINED)init++;
+		if(init != option)temp = temp->next;
 	}
 	//Invalid selection
-	if (temp == nullptr)printf("Invalid Selection.\n");
+	if (temp == nullptr || (((object*)temp->data)->object_type != type && type != UNDEFINED)){
+		printf("Invalid Selection.\n");
+		return nullptr;
+	}
 	//Valid Selection
-	else {
-		//In BUY MODE
-		if(state == BUY)this->buy((object*)temp->data);
-		//In SELL MODE
-		else if(state == SELL)this->sell((object*)temp->data);
-		//In FUSE_RUNES MODE
-		else if (state == FUSE_RUNES)((runner*)this->entity_focused)->item_choosed = ((object*)temp->data);
-	}
-}
-
-object* player::choose_option_for_type(char option, OBJECT_TYPE type){
-	//Player buffer pointer
-	list_double<entity*>::node* temp = this->buffer.first_element;
-	//Init index 
-	char k = 'a';
-	while (temp && k < option) {
-		if (((object*)temp->data)->object_type == type){ k++; }
-		temp = temp->next;
-	}
-	return (object*)temp->data;
-
+	else return (object*)temp->data;
 }

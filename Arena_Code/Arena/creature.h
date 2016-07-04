@@ -38,7 +38,6 @@ public:
 	void lvl_up(uint );
 	//Lore
 	virtual void look_it()const;
-	void show_storage()const;
 	bool show_storage_for_class(OBJECT_TYPE, bool)const;
 	virtual void talk();
 	//Position
@@ -46,8 +45,8 @@ public:
 	//Inventory
 	void pick();
 	void pull();
-	void buy(object* );
-	void sell(object* );
+	bool buy(object* );
+	bool sell(object* );
 	//Fight
 	void attack();
 	void drop(creature* );

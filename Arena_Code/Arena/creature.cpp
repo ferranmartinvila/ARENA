@@ -73,25 +73,6 @@ void creature::look_it()const{
 	}
 }
 
-void creature::show_storage()const{
-	//Item index
-	char k = 'a';
-	//Number of items
-	uint elements = 0;
-	//Items states index
-	printf("STORAGE:\nOption || Item || live_buff || def_buff || attack_buff || stamina_buff || price\n\n");
-	//Prints all the buffer items
-	list_double<entity*>::node* temp = this->buffer.first_element;
-	while (temp){
-		printf("[%c] -%s [ %i | %i | %i | %i ] price:%i\n", k, temp->data->name.get_string(), ((object*)temp->data)->live_buff, ((object*)temp->data)->defence_buff, ((object*)temp->data)->attack_buff, ((object*)temp->data)->stamina_buff, ((object*)temp->data)->price);
-		k++;
-		elements++;
-		temp = temp->next;
-	}
-	//In case of empty buffer
-	if (elements == 0)printf("empty\n");
-}
-
 bool creature::show_storage_for_class(OBJECT_TYPE type, bool show)const{
 	//Creature buffer pointer
 	list_double<entity*>::node* temp = this->buffer.first_element;
@@ -100,7 +81,7 @@ bool creature::show_storage_for_class(OBJECT_TYPE type, bool show)const{
 	//Number of items
 	uint elements = 0;
 	while (temp){
-		if (((object*)temp->data)->object_type == type){
+		if (((object*)temp->data)->object_type == type ||type == UNDEFINED){
 			//Show all the type object states
 			if (show)printf("[%c] -%s [ %i | %i | %i | %i ] price:%i\n", k, temp->data->name.get_string(), ((object*)temp->data)->live_buff, ((object*)temp->data)->defence_buff, ((object*)temp->data)->attack_buff, ((object*)temp->data)->stamina_buff, ((object*)temp->data)->price);
 			k++;
@@ -109,7 +90,7 @@ bool creature::show_storage_for_class(OBJECT_TYPE type, bool show)const{
 		temp = temp->next;
 	}
 	//Empty(false) else true
-	if (elements == 0)return false;
+	if (elements == 0){ printf("\nempty\n"); return false; }
 	else return true;
 }
 
@@ -162,23 +143,30 @@ void creature::pull(){
 
 }
 
-void creature::buy(object* to_buy){
-	if (to_buy->price > this->money)printf("You don't have enough money for [%s].\n",to_buy->name.get_string());
-	else{
-		//Rest user money and push the object
-		this->money -= to_buy->price;
-		this->buffer.push_back(to_buy);
-		//Erase the item from the merchant
-		this->entity_focused->buffer.erase_data(to_buy);
-		printf("You buy [%s] -%u money\n", to_buy->name.get_string(), to_buy->price);
+bool creature::buy(object* to_buy){
+	if (to_buy != nullptr){
+		if (to_buy->price > this->money){ printf("You don't have enough money for [%s].\n", to_buy->name.get_string()); return false; }
+		else{
+			//Rest user money and push the object
+			this->money -= to_buy->price;
+			this->buffer.push_back(to_buy);
+			//Erase the item from the merchant
+			this->entity_focused->buffer.erase_data(to_buy);
+			printf("You buy [%s] -%u money\n\n", to_buy->name.get_string(), to_buy->price);
+			return true;
+		}
 	}
 }
 
-void creature::sell(object* to_sell){
-	//Adds user money and push the object to merchant
-	this->money += to_sell->price;
-	this->buffer.erase_data(to_sell);
-	printf("You sell [%s] +%u money\n", to_sell->name.get_string(), to_sell->price);
+bool creature::sell(object* to_sell){
+	if (to_sell != nullptr){
+		//Adds user money and push the object to merchant
+		this->money += to_sell->price;
+		this->buffer.erase_data(to_sell);
+		printf("You sell [%s] +%u money\n\n", to_sell->name.get_string(), to_sell->price);
+		return true;
+	}
+	return false;
 }
 
 //FIGHT----------------------------

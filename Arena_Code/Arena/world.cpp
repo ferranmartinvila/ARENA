@@ -76,7 +76,7 @@ void world::Initialize(){
 	object* Fighter_Weapon = new object("Fighter Weapon", "Basic but light Weapon", WEAPON, 0, 0, 10, 0, 250);
 	data.push_back(Fighter_Weapon);
 	//Assassin equipation
-	object* Assassin_Helm = new object("AHelm", "Shiny golden helm", HELM, 15, 3, 0, 3, 120);
+	object* Assassin_Helm = new object("Assassin Helm", "Shiny golden helm", HELM, 15, 3, 0, 3, 120);
 	data.push_back(Assassin_Helm);
 	object* Assassin_Armor = new object("Assassin Armor", "Shiny golden Armor", ARMOR, 30, 5, 0, 3, 300);
 	data.push_back(Assassin_Armor);
@@ -121,6 +121,7 @@ void world::Initialize(){
 	Merchant->buffer.push_back(Assassin_Pants);
 	Merchant->buffer.push_back(Assassin_Boots);
 	Merchant->buffer.push_back(Assassin_Weapon);
+	
 	//Magic Merchant
 	Magic_Merchant->buffer.push_back(Vitality_Rune);
 	Magic_Merchant->buffer.push_back(Defence_Rune);
@@ -133,20 +134,23 @@ void world::Initialize(){
 	Principal_Square->buffer.push_back(Principal_Square_to_Black_Market);
 	Principal_Square->buffer.push_back(Principal_Square_to_House);
 	Principal_Square->buffer.push_back(Principal_Square_to_Arena);
-	Principal_Square->buffer.push_back(Assassin_Helm);
-	Principal_Square->buffer.push_back(Fighter_Helm);
-	Principal_Square->buffer.push_back(Assassin_Armor);
 	Principal_Square->buffer.push_back(user);
+	//Test
+	Principal_Square->buffer.push_back(Fighter_Helm);
 	Principal_Square->buffer.push_back(Goblin);
-	Principal_Square->buffer.push_back(Runner);
+
 	//Market
 	Market->buffer.push_back(Market_to_Principal_Square);
 	Market->buffer.push_back(Merchant);
+	
 	//Black Market
 	Black_Market->buffer.push_back(Black_Market_to_Principal_Square);
 	Black_Market->buffer.push_back(Magic_Merchant);
+	Black_Market->buffer.push_back(Runner);
+	
 	//House
 	House->buffer.push_back(House_to_Principal_Square);
+	
 	//Arena
 	Arena->buffer.push_back(Arena_to_Principal_Square);
 }
@@ -156,9 +160,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 	//Vector position that have to be compared
 	uint position = 1;
 	//Update the user pointed entity
-	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick" || instruction.buffer[0] == "throw"
-		|| instruction.buffer[0] == "attack" || instruction.buffer[0] == "talk"
-		|| instruction.buffer[0] == "equip" || instruction.buffer[0] == "unequip") && instruction.get_size() > 1 && user->state == IDLE){
+	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick" || instruction.buffer[0] == "throw" || instruction.buffer[0] == "attack" || instruction.buffer[0] == "talk" || instruction.buffer[0] == "equip" || instruction.buffer[0] == "unequip") && instruction.get_size() > 1 && user->state == IDLE){
 		//the entity can have a composen name so the correct words are fused
 		if (instruction.buffer[1] == "to"){
 			position++;
@@ -202,28 +204,46 @@ bool world::Apply_Instruction(vector<string> instruction){
 		}
 		//Choose option 
 		else if (instruction.buffer[0].lenght() == 1 && instruction.get_size() == 1){
-			//Apply choosed option
-			user->choose_option(instruction.buffer[0].get_string()[0]);
+			bool done = false;
+			//Buy
+			if (user->state == BUY)done = user->buy(user->choose_item(instruction.buffer[0].get_string()[0], UNDEFINED));
+			//Sell
+			else if (user->state == SELL)done = user->sell(user->choose_item(instruction.buffer[0].get_string()[0], UNDEFINED));
+			//Re-print
+			if (done)((creature*)user->entity_focused)->talk();
+
 		}
 		else printf("Invalid Comand.\n");
 	}
-	//Runner Talk(Fix Rune)
-	else if (user->state == FUSE_RUNES && instruction.buffer[0] != "quit"){
+	//Runner Talk(Add/Extract Rune)
+	else if ((user->state == FUSE_RUNES || user->state == EXTRACT_RUNES) && instruction.buffer[0] != "quit"){
+		//Change fuse/extract mode
+		if (instruction.buffer[0] == "change"){
+			//FUSE to EXTRACT
+			if (user->state == FUSE_RUNES){((creature*)user->entity_focused)->state = EXTRACT_RUNES,user->state = EXTRACT_RUNES;}
+			//EXTRACT to FUSE
+			else {((creature*)user->entity_focused)->state = FUSE_RUNES,user->state = FUSE_RUNES;}
+			//Re-print the focused storage & restart mode
+			((runner*)user->entity_focused)->item_choosed = ((runner*)user->entity_focused)->rune_choosed = nullptr;
+			((creature*)user->entity_focused)->talk();
+		}
 		//Choose option 
-		if (instruction.buffer[0].lenght() == 1 && instruction.get_size() == 1){
-			//Choose Rune
-			if (((runner*)user->entity_focused)->rune_choosed == nullptr){
-				((runner*)user->entity_focused)->rune_choosed = user->choose_option_for_type(instruction.buffer[0].get_string()[0], RUNE);
-				user->show_storage();
+		else if (instruction.buffer[0].lenght() == 1 && instruction.get_size() == 1){
+			//Choose rune
+			if (((runner*)user->entity_focused)->rune_choosed == nullptr && user->state == FUSE_RUNES){
+				((runner*)user->entity_focused)->rune_choosed = user->choose_item(instruction.buffer[0].get_string()[0],RUNE);
+				if (((runner*)user->entity_focused)->rune_choosed != nullptr){ printf("Choose the item.\n"), user->show_storage_for_class(UNDEFINED, true); }
 			}
-			//Choose Item
+			//Choose item
 			else {
-				user->choose_option(instruction.buffer[0].get_string()[0]);
-				((runner*)user->entity_focused)->talk();
+				((runner*)user->entity_focused)->item_choosed = user->choose_item(instruction.buffer[0].get_string()[0], UNDEFINED);
+				if (((runner*)user->entity_focused)->item_choosed != nullptr)((creature*)user->entity_focused)->talk();
 			}
 		}
 		else printf("Invalid Comand.\n");
 	}
+
+
 	
 	//DEAD(RESET)---------------------
 	else if (instruction.buffer[0] == "RESET" && user->state == DEAD)user->reset();
@@ -257,9 +277,11 @@ bool world::Apply_Instruction(vector<string> instruction){
 		"equip + item name -> Equip the choosed item\n"
 		"unequip + item name -> Unequip the choosed item\n"
 		"attack + NPC name -> Attack the choosed NPC\n"
-		"(in talk with Merchant)change -> Swap between SELL & BUY mode"
+		"(in talk with Merchant)change -> Swap between SELL & BUY mode\n"
 		"(in talk with Merchant)buy + item name -> Buy the choosed item\n"
-		"(in talk with Merchant)sell + item name -> Sell the choosed item\n");
+		"(in talk with Merchant)sell + item name -> Sell the choosed item\n"
+		"(in talk with Runner)change -> Swap between FUSE & EXTRACT mode\n"
+		"(in talk with NPC)a...z -> Choose options\n");
 
 	
 	

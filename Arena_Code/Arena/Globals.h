@@ -1,5 +1,7 @@
 #ifndef _GLOBALS_
 #define _GLOBALS_
+
+//TYPEDEFS
 typedef unsigned int uint;
 //GLOBAL TYPES
 enum TYPE{
@@ -8,7 +10,6 @@ enum TYPE{
 	CREATURE,
 	ROOM,
 	EXIT,
-	UNDEFINED
 };
 //CREATURE TYPES
 enum CREATURE_TYPE{
@@ -27,6 +28,7 @@ enum CREATURE_STATE{
 	SELL,
 	ENCHANT,
 	FUSE_RUNES,
+	EXTRACT_RUNES,
 	ATTACK,
 	DEAD
 };
@@ -40,7 +42,9 @@ enum OBJECT_TYPE{
 	BOOTS,
 	WEAPON,
 	RUNE,
-	POTION
+	POTION,
+	UNDEFINED
+
 };
 //DIRECTIONS
 enum DIRECTION{

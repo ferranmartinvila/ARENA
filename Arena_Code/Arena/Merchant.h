@@ -16,15 +16,15 @@ public:
 
 	//FUNCTIONS
 	void talk(){
-		if(state == TALK)printf("Hey! Im the %s do you want to buy or sell some stuff?\n\n", name.get_string());
-		if (state == TALK){ 
-			state = BUY; 
+		if (state == TALK){
+			printf("Hey! Im the %s do you want to buy or sell some stuff?\n\n", name.get_string());
+			state = BUY;
 			((creature*)entity_focused)->state = BUY;
 		}
 		//Buy mode
-		if (state == BUY){ printf("BUY MODE\n"),this->show_storage(); }
+		if (state == BUY){ printf("BUY MODE\n"), this->show_storage_for_class(UNDEFINED, true); }
 		//Sell mode
-		if (state == SELL){ printf("SELL MODE\n"), ((creature*)this->entity_focused)->show_storage(); }
+		if (state == SELL){ printf("SELL MODE\n"), ((creature*)this->entity_focused)->show_storage_for_class(UNDEFINED, true); }
 	}
 };
 #endif
