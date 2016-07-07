@@ -6,10 +6,27 @@ void entity::look_it()const{
 	list_double<entity*>::node* temp = buffer.first_element;
 	uint k = 0;
 	while (temp){
-		if ((temp->data->type == CREATURE && ((creature*)temp->data)->creature_type != PLAYER )|| temp->data->type == OBJECT){
-			printf("%s\n", temp->data->name.get_string());
-			k++;
+		//Creature Look
+		if ((temp->data->type == CREATURE && ((creature*)temp->data)->creature_type != PLAYER)){
+			printf("%s ", temp->data->name.get_string());
+			switch (((creature*)temp->data)->creature_type){
+			case GOBLIN:
+				printf("[goblin]\n");
+				break;
+			case MERCHANT:
+				printf("[merchant]\n");
+				break;
+			case RUNNER:
+				printf("[runner]\n");
+				break;
+			}
 		}
+		//Object Look
+		else if ( temp->data->type == OBJECT){
+			printf("%s\n", temp->data->name.get_string());
+		}
+		//Counters
+		k++;
 		temp = temp->next;
 	}
 	if (temp == nullptr && k == 0)printf("empty\n");

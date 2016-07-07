@@ -52,7 +52,7 @@ void creature::lvl_up(uint levels){
 		money += 200 * levels;
 		break;
 
-	case CRAFTER:
+	case RUNNER:
 		live_points += 50 * levels;
 		damage += 20 * levels;
 		money += 200 * levels;

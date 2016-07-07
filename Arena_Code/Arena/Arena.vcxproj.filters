@@ -103,5 +103,8 @@
     <ClInclude Include="Data_Source.h">
       <Filter>Data Source</Filter>
     </ClInclude>
+    <ClInclude Include="Data_Tank.h">
+      <Filter>Data Source</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,7 +8,7 @@ class entity;
 class player;
 
 // 34 with Golbin + Runner
-#define MAX_ENTITY 34
+#define MAX_ENTITY 33
 class world{
 public:
 

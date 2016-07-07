@@ -2,7 +2,7 @@
 #define _GOBLIN_
 
 #include "creature.h"
-#include "Data_Source.h"
+#include "Data_Tank.h"
 
 class goblin :public creature{
 public:

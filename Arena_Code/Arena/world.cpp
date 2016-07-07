@@ -57,9 +57,6 @@ void world::Initialize(){
 	
 
 	//NPCs
-	//Goblin
-	goblin* Goblin = new goblin(Principal_Square, 1);
-	data.push_back(Goblin);
 	//Merchant
 	merchant* Merchant = new merchant(Market, 25);
 	data.push_back(Merchant);
@@ -67,7 +64,7 @@ void world::Initialize(){
 	merchant* Magic_Merchant = new merchant(Black_Market, 25);
 	data.push_back(Magic_Merchant);
 	//Runner
-	runner*Runner = new runner(Principal_Square, 25);
+	runner*Runner = new runner(Black_Market, 25);
 	data.push_back(Runner);
 	
 
@@ -152,10 +149,7 @@ void world::Initialize(){
 	Principal_Square->buffer.push_back(Principal_Square_to_House);
 	Principal_Square->buffer.push_back(Principal_Square_to_Arena);
 	Principal_Square->buffer.push_back(user);
-	//Test
-	Principal_Square->buffer.push_back(Fighter_Helm);
-	Principal_Square->buffer.push_back(Goblin);
-	Principal_Square->buffer.push_back(Goblin);
+	
 
 	//Market
 	Market->buffer.push_back(Market_to_Principal_Square);
@@ -171,6 +165,7 @@ void world::Initialize(){
 	
 	//Arena
 	Arena->buffer.push_back(Arena_to_Principal_Square);
+
 }
 
 bool world::Apply_Instruction(vector<string> instruction){
@@ -327,6 +322,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 			else if (instruction.buffer[1] == "south")user->move(SOUTH);
 			else if (instruction.buffer[1] == "east")user->move(EAST);
 			else if (instruction.buffer[1] == "west")user->move(WEST);
+			else printf("Invalid direction.\n");
 		}
 		//PICK instruction
 		else if (instruction.buffer[0] == "pick")user->pick();

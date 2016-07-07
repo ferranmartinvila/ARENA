@@ -10,6 +10,8 @@ class data_source{
 private:
 	//SOURCE DATA
 	string names[20];
+	//RANDOMIZER
+	bool names_used[20];
 public:
 	//Constructor
 	data_source(){
@@ -44,13 +46,25 @@ public:
 
 	//FUNCTIONS
 	char* get_random_name(){
-		//TODO: repair 
+		//USE CHECK
+		int check = 0;
+		for (int k = 0; k < NAMES_STUFF; k++){
+			if (names_used[k]) check++;
+		}
+		//RESET
+		if (check >(NAMES_STUFF / 2)){
+			for (int k = 0; k < NAMES_STUFF; k++){
+				names_used[k] = false;
+			}
+		}
+		//RAND NAME GENERATOR
 		srand((unsigned int)time(NULL));
-		unsigned int k = rand() % NAMES_STUFF;
-		return names[rand() % NAMES_STUFF].get_string();
+		int temp = rand() % NAMES_STUFF;
+		while (names_used[temp] == true){
+			temp = rand() % NAMES_STUFF;
+		}
+		names_used[temp] = true;
+		return names[temp].get_string();
 	};
 };
-
-//USABLE DATA SOURCE
-data_source source;
 #endif
