@@ -1,7 +1,9 @@
 #ifndef _OBJECT_
 #define _OBJECT_
+
 #include "entity.h"
 class creature;
+
 class object :public entity{
 public:
 

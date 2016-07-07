@@ -75,9 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="creature.h" />
+    <ClInclude Include="Data_Source.h" />
     <ClInclude Include="double_list.h" />
     <ClInclude Include="entity.h" />
-    <ClInclude Include="exit.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Goblin.h" />
     <ClInclude Include="Merchant.h" />

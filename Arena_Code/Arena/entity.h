@@ -1,5 +1,6 @@
 #ifndef _ENTITY_
 #define _ENTITY_
+
 #include "double_list.h"
 #include "string.h"
 #include "Globals.h"

@@ -23,7 +23,6 @@ string::string(const string& copy){
 }
 
 string::~string(){
-	delete STR;
 	STR = nullptr;
 }
 

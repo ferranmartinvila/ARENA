@@ -1,5 +1,16 @@
 #include "World.h"
+#include "string.h"
+//Creatures
+#include "player.h"
+#include "Goblin.h"
+#include "Merchant.h"
+#include "Runner.h"
+//Objects
+#include "room.h"
+#include "object.h"
+
 void world::Initialize(){
+	
 
 	//ROOMS
 	//Principal Square
@@ -18,48 +29,54 @@ void world::Initialize(){
 	room* Arena = new room("Arena", "The ground if full of blood and the public shout kill!");
 	data.push_back(Arena);
 
+
+
 	//EXITS
 	//Principal Square
-	exit* Principal_Square_to_Market = new exit("Market entrance", "From here you can listen the merchants negotiating.", Principal_Square, Market, EAST);
+	room::exit* Principal_Square_to_Market = new room::exit("Market entrance", "From here you can listen the merchants negotiating.", Principal_Square, Market, EAST);
 	data.push_back(Principal_Square_to_Market);
-	exit* Principal_Square_to_Black_Market = new exit("Black Market entrance", "There's blue lights and objects floating.", Principal_Square, Black_Market, SOUTH);
+	room::exit* Principal_Square_to_Black_Market = new room::exit("Black Market entrance", "There's blue lights and objects floating.", Principal_Square, Black_Market, SOUTH);
 	data.push_back(Principal_Square_to_Black_Market);
-	exit* Principal_Square_to_House = new exit("House entrance", "There's your little but homely house.", Principal_Square, House, WEST);
+	room::exit* Principal_Square_to_House = new room::exit("House entrance", "There's your little but homely house.", Principal_Square, House, WEST);
 	data.push_back(Principal_Square_to_House);
-	exit* Principal_Square_to_Arena = new exit("Arena entrance", "From here you can smell the blood of the fighters.", Principal_Square, Arena, NORTH);
+	room::exit* Principal_Square_to_Arena = new room::exit("Arena entrance", "From here you can smell the blood of the fighters.", Principal_Square, Arena, NORTH);
 	data.push_back(Principal_Square_to_Arena);
 	//Market
-	exit* Market_to_Principal_Square = new exit("Market exit", "There's the Principal Square", Market, Principal_Square, WEST);
+	room::exit* Market_to_Principal_Square = new room::exit("Market exit", "There's the Principal Square", Market, Principal_Square, WEST);
 	data.push_back(Market_to_Principal_Square);
 	//Black Market
-	exit* Black_Market_to_Principal_Square = new exit("Black Market exit", "There's the Principal Square", Black_Market, Principal_Square, NORTH);
+	room::exit* Black_Market_to_Principal_Square = new room::exit("Black Market exit", "There's the Principal Square", Black_Market, Principal_Square, NORTH);
 	data.push_back(Black_Market_to_Principal_Square);
 	//House
-	exit* House_to_Principal_Square = new exit("House exit", "There's the Principal Square", House, Principal_Square, EAST);
+	room::exit* House_to_Principal_Square = new room::exit("House exit", "There's the Principal Square", House, Principal_Square, EAST);
 	data.push_back(House_to_Principal_Square);
 	//Arena
-	exit* Arena_to_Principal_Square = new exit("Arena exit", "There's the Principal Square", Arena, Principal_Square, SOUTH);
+	room::exit* Arena_to_Principal_Square = new room::exit("Arena exit", "There's the Principal Square", Arena, Principal_Square, SOUTH);
 	data.push_back(Arena_to_Principal_Square);
 
 	
 
 	//NPCs
 	//Goblin
-	goblin* Goblin = new goblin("Goblin", "Little green monster", Principal_Square, 1);
+	goblin* Goblin = new goblin(Principal_Square, 1);
 	data.push_back(Goblin);
 	//Merchant
-	merchant* Merchant = new merchant("Merchant", "This merchant have all the equipment needed for fight", Market, 25);
+	merchant* Merchant = new merchant(Market, 25);
 	data.push_back(Merchant);
 	//Magic Merchant
-	merchant* Magic_Merchant = new merchant("Magic Merchant", "This merchant have all type of magic items to ugrade objects", Black_Market, 25);
+	merchant* Magic_Merchant = new merchant(Black_Market, 25);
 	data.push_back(Magic_Merchant);
 	//Runner
-	runner*Runner = new runner("Runner", "The runner is the only in arena that can fuse materials", Principal_Square, 25);
+	runner*Runner = new runner(Principal_Square, 25);
 	data.push_back(Runner);
 	
+
+
 	//PLAYER AVATAR
 	user = new player("Goul", "The shadows warrior", Principal_Square,1);
 	data.push_back(user);
+
+
 
 	//OBJECTS
 	//Fighter equipation
@@ -137,6 +154,7 @@ void world::Initialize(){
 	Principal_Square->buffer.push_back(user);
 	//Test
 	Principal_Square->buffer.push_back(Fighter_Helm);
+	Principal_Square->buffer.push_back(Goblin);
 	Principal_Square->buffer.push_back(Goblin);
 
 	//Market

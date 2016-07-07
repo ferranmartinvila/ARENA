@@ -1,13 +1,16 @@
 #ifndef _MERCHANT_
 #define _MERCHANT_
+
 #include "creature.h"
+#include "Data_Source.h"
+
 class merchant :public creature{
 public:
 
 	//NON EXTRA DATA
 
 	//Constructor
-	merchant(char* name, char* description, entity* location, uint lvl) : creature(name, description, MERCHANT, location, lvl){
+	merchant(entity* location, uint lvl) : creature(source.get_random_name(), "Merchants are especialized in buy and sell things as equipation, magic items, etc.", MERCHANT, location, lvl){
 		//Initial Stats
 		current_live_points = live_points = 500;
 		damage = 50;
@@ -17,7 +20,7 @@ public:
 	//FUNCTIONS
 	void talk(){
 		if (state == TALK){
-			printf("Hey! Im the %s do you want to buy or sell some stuff?\n\n", name.get_string());
+			printf("Hey! Im %s the merchant! do you want to buy or sell some stuff?\n\n", name.get_string());
 			state = BUY;
 			((creature*)entity_focused)->state = BUY;
 		}

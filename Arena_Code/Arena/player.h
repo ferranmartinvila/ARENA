@@ -1,7 +1,10 @@
 #ifndef _PLAYER_
 #define _PLAYER_
+
 #include "creature.h"
-#include "object.h"
+class object;
+class room;
+
 class player :public creature{
 public:
 
@@ -16,13 +19,7 @@ public:
 	uint inventory_size = 6;
 
 	//Constructor
-	player(char* name, char* description, room* location, uint lvl) :creature(name, description, PLAYER, location, lvl){ 
-		//Initial Stats
-		live_points = 150;
-		damage = 5;
-		stamina = 2;
-		lvl_up(lvl);
-	}
+	player(char* name, char* description, room* location, uint lvl);
 
 	//FUNCTIONS
 	//System

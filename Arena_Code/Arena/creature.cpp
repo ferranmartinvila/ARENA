@@ -1,5 +1,7 @@
 #include "creature.h"
 #include "object.h"
+#include "room.h"
+
 //SYSTEM-------------------------------
 void creature::update(){
 	//Attack update
@@ -97,17 +99,19 @@ bool creature::show_storage_for_class(OBJECT_TYPE type, bool show)const{
 void creature::talk(){
 	//Predeterminate talk
 	printf("Sorry I don't want to talk.\n");
+	this->state = IDLE;
+	((creature*)this->entity_focused)->state = IDLE;
 }
 
 //POSITION------------------------
 void creature::move(DIRECTION direction){
 	list_double<entity*>::node* temp = location->buffer.first_element;
 	while (temp){
-		if (((exit*)temp->data)->direction == direction && temp->data->type == EXIT){
+		if (((room::exit*)temp->data)->direction == direction && temp->data->type == EXIT){
 			//Swap the creature allocation for other list
-			this->location->buffer.pass_entity(this, ((exit*)temp->data)->next_room->buffer, location->buffer);
+			this->location->buffer.pass_entity(this, ((room::exit*)temp->data)->next_room->buffer, location->buffer);
 			//Change the location of the creature
-			location = ((exit*)temp->data)->next_room;
+			location = ((room::exit*)temp->data)->next_room;
 			location->look_it();
 			break;
 		}
@@ -156,6 +160,7 @@ bool creature::buy(object* to_buy){
 			return true;
 		}
 	}
+	else return false;
 }
 
 bool creature::sell(object* to_sell){
@@ -206,7 +211,7 @@ void creature::drop(creature* killer){
 	//Adds money & xp to the winner creature
 	printf("+%i money +%i xp\n",money, current_xp);
 	killer->money += money;
-	killer->current_xp += current_xp;
+	killer->current_xp += this->current_xp;
 }
 
 //LIVE-------------------------

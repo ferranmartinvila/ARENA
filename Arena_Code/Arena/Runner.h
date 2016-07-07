@@ -2,6 +2,8 @@
 #define _RUNNER_
 
 #include "creature.h"
+#include "object.h"
+#include "Data_Source.h"
 
 class runner :public creature{
 public:
@@ -10,7 +12,7 @@ public:
 	object* item_choosed;
 
 	//Constructor
-	runner(char* name, char* description, entity* location, uint lvl) : creature(name, description, CRAFTER, location, lvl){
+	runner(entity* location, uint lvl) : creature(source.get_random_name(), "The runner is the only in Arena that can fuse materials", CRAFTER, location, lvl){
 		current_live_points = live_points = 500;
 		damage = 50;
 		lvl_up(lvl);

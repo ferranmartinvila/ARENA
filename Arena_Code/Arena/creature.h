@@ -1,8 +1,10 @@
 #ifndef _CREATURE_
 #define _CREATURE_
+
 #include "entity.h"
-#include "exit.h"
 class object;
+
+//CREATURE CLASS
 class creature :public entity{
 public:
 

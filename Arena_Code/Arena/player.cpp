@@ -1,6 +1,19 @@
 #include "player.h"
+#include "object.h"
+#include "room.h"
+
 #include <stdlib.h>
-#include "Runner.h"
+
+//CONSTRUCTOR------------------------
+player::player(char* name, char* description, room* location, uint lvl) :creature(name, description, PLAYER, location, lvl){
+	//Initial Stats
+	live_points = 150;
+	damage = 5;
+	stamina = 2;
+	lvl_up(lvl);
+}
+
+
 //SYSTEM-----------------------------
 void player::die(){
 	printf("%s defeat you!\n", entity_focused->name.get_string());
@@ -34,7 +47,7 @@ void player::look_it()const{
 	//Name & description
 	printf("\n%s:%s\n\n", name.get_string(), description.get_string());
 	//Stats
-	printf("LEVEL[%u] -> next lvl (%u xp)\n\nSTATS:\nlive[%i]\nattack[%u]\ndefense[%u]\nstamina[%u]\nmoney[%u]\n", lvl,next_lvl_xp, live_points, damage, defense, stamina, money);
+	printf("LEVEL[%u] -> next lvl (%u xp)\n\nSTATS:\nlive[%i]\nattack[%u]\ndefense[%u]\nstamina[%u]\nmoney -> %u\n", lvl, next_lvl_xp - current_xp, live_points, damage, defense, stamina, money);
 	//Equipation
 	printf("\nEQUIPATION:\n");
 	if (helm)printf("helm [%s]\n", helm->name.get_string());

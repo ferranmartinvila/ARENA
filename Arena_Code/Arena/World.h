@@ -1,21 +1,13 @@
 #ifndef _WORLD_
 #define _WORLD_
 
-//Source
 #include "vector.h"
+#include "Globals.h"
 #include "string.h"
-#include "entity.h"
-//Objects
-#include "room.h"
-#include "exit.h"
-#include "object.h"
-//Creatures
-#include "player.h"
-#include "Goblin.h"
-#include "Merchant.h"
-#include "Runner.h"
+class entity;
+class player;
 
-// 34 with Golbin + Crafter
+// 34 with Golbin + Runner
 #define MAX_ENTITY 34
 class world{
 public:
@@ -23,7 +15,6 @@ public:
 	//DATA
 	player* user;
 	vector<entity*> data;
-
 
 	//Constructor
 	world(){

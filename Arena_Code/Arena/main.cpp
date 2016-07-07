@@ -1,6 +1,5 @@
 #include "World.h"
-#include "Globals.h"
-#include "string.h"
+#include "entity.h"
 
 #include <stdio.h>
 #include <Windows.h>
@@ -21,6 +20,7 @@ int main(){
 	world game;
 	game.Initialize();
 	
+
 	printf("                              |ARENA THE GAME|\n\n");
 	printf("-> enter help to see all the commands\n");
 	//Game loop

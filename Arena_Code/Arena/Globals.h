@@ -1,8 +1,12 @@
 #ifndef _GLOBALS_
 #define _GLOBALS_
-
 //TYPEDEFS
 typedef unsigned int uint;
+//DATA TYPES
+enum DATA_TYPE{
+
+	STRING
+};
 //GLOBAL TYPES
 enum TYPE{
 
@@ -22,6 +26,7 @@ enum CREATURE_TYPE{
 };
 //CREATURE STATE
 enum CREATURE_STATE{
+
 	IDLE,
 	TALK,
 	BUY,
@@ -48,6 +53,7 @@ enum OBJECT_TYPE{
 };
 //DIRECTIONS
 enum DIRECTION{
+
 	NORTH,
 	SOUTH,
 	EAST,
