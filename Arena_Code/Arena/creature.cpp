@@ -3,6 +3,9 @@
 #include "room.h"
 
 //SYSTEM-------------------------------
+
+creature::creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl) :entity(name, description, CREATURE), creature_type(type), location(location), state(IDLE), lvl(lvl), current_xp(0), next_lvl_xp(100){}
+
 void creature::update(){
 	//Attack update
 	if (state == ATTACK){

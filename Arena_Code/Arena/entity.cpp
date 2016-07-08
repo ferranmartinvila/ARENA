@@ -20,13 +20,15 @@ void entity::look_it()const{
 				printf("[runner]\n");
 				break;
 			}
+			k++;
 		}
 		//Object Look
 		else if ( temp->data->type == OBJECT){
 			printf("%s\n", temp->data->name.get_string());
+			k++;
 		}
 		//Counters
-		k++;
+		
 		temp = temp->next;
 	}
 	if (temp == nullptr && k == 0)printf("empty\n");

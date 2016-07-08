@@ -59,6 +59,12 @@
     <ClCompile Include="room.cpp">
       <Filter>World\Entities\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Data_Source.cpp">
+      <Filter>Data Source</Filter>
+    </ClCompile>
+    <ClCompile Include="potion.cpp">
+      <Filter>World\Entities\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="entity.h">
@@ -105,6 +111,9 @@
     </ClInclude>
     <ClInclude Include="Data_Tank.h">
       <Filter>Data Source</Filter>
+    </ClInclude>
+    <ClInclude Include="potion.h">
+      <Filter>World\Entities\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ public:
 	entity* entity_focused = nullptr;
 
 	//Constructor
-	creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl) :entity(name, description, CREATURE), creature_type(type), location(location), state(IDLE), lvl(lvl), current_xp(0), next_lvl_xp(100){}
+	creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl);
 
 	//FUNCTIONS
 	//System
@@ -49,6 +49,7 @@ public:
 	void pull();
 	bool buy(object* );
 	bool sell(object* );
+	void drink();
 	//Fight
 	void attack();
 	void drop(creature* );
