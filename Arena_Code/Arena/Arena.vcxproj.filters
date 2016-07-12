@@ -33,6 +33,15 @@
     <Filter Include="Data Source">
       <UniqueIdentifier>{cf4b3fcf-1610-4bb9-a5b2-44c0b3b5d3e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="World\Entities\Objects\Equipment">
+      <UniqueIdentifier>{ef00cd69-9fe5-4db5-8ebc-f37600209e3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\Entities\Objects\Potions">
+      <UniqueIdentifier>{d64dabf2-d029-48eb-9a18-758c2040fb15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\Entities\Objects\Runes">
+      <UniqueIdentifier>{388140b7-970e-48be-8f50-4568a28ea2b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -63,7 +72,13 @@
       <Filter>Data Source</Filter>
     </ClCompile>
     <ClCompile Include="potion.cpp">
-      <Filter>World\Entities\Objects</Filter>
+      <Filter>World\Entities\Objects\Potions</Filter>
+    </ClCompile>
+    <ClCompile Include="equipment.cpp">
+      <Filter>World\Entities\Objects\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="rune.cpp">
+      <Filter>World\Entities\Objects\Runes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,9 +106,6 @@
     <ClInclude Include="room.h">
       <Filter>World\Entities\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Code</Filter>
-    </ClInclude>
     <ClInclude Include="Goblin.h">
       <Filter>World\Entities\Creatures\NPCs</Filter>
     </ClInclude>
@@ -112,8 +124,17 @@
     <ClInclude Include="Data_Tank.h">
       <Filter>Data Source</Filter>
     </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Code</Filter>
+    </ClInclude>
     <ClInclude Include="potion.h">
-      <Filter>World\Entities\Objects</Filter>
+      <Filter>World\Entities\Objects\Potions</Filter>
+    </ClInclude>
+    <ClInclude Include="equipment.h">
+      <Filter>World\Entities\Objects\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="rune.h">
+      <Filter>World\Entities\Objects\Runes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,10 @@
 #include "entity.h"
 #include "creature.h"
 
+//CONSTRUCTOR------------------------------------
+entity::entity(char* name, char* description, TYPE type) :name(name), description(description), type(type){}
+
+//SYSTEM-----------------------------------------
 void entity::look_it()const{
 	printf("\n%s:\n%s\nCONTENT:\n", name.get_string(), description.get_string());
 	list_double<entity*>::node* temp = buffer.first_element;
@@ -23,7 +27,7 @@ void entity::look_it()const{
 			k++;
 		}
 		//Object Look
-		else if ( temp->data->type == OBJECT){
+		else if ( temp->data->type == OBJECT ||temp->data->type == POTION){
 			printf("%s\n", temp->data->name.get_string());
 			k++;
 		}

@@ -4,8 +4,9 @@
 #include "string.h"
 #include <time.h>
 #include <stdlib.h>
-#include "object.h"
+#include "equipment.h"
 #include "potion.h"
+#include "rune.h"
 #include "vector.h"
 
 #define NAMES_STUFF 20
@@ -57,7 +58,7 @@ public:
 		[10]Assassin_Boots
 		[11]Assassin_Weapon
 	*/
-	vector<object*>equip;
+	vector<equip*>equips;
 	
 	//RUNES DATA----------------------------
 	/*
@@ -66,7 +67,7 @@ public:
 		[2]Attack_Rune
 		[3]Stamina_Rune
 	*/
-	vector<object*>runes;
+	vector<rune*>runes;
 
 	//POTIONS DATA--------------------------
 	/*

@@ -1,6 +1,7 @@
 #include "creature.h"
 #include "object.h"
 #include "room.h"
+#include "potion.h"
 
 //SYSTEM-------------------------------
 
@@ -88,7 +89,10 @@ bool creature::show_storage_for_class(OBJECT_TYPE type, bool show)const{
 	while (temp){
 		if (((object*)temp->data)->object_type == type ||type == UNDEFINED){
 			//Show all the type object states
-			if (show)printf("[%c] -%s [ %i | %i | %i | %i ] price:%i\n", k, temp->data->name.get_string(), ((object*)temp->data)->live_buff, ((object*)temp->data)->defence_buff, ((object*)temp->data)->attack_buff, ((object*)temp->data)->stamina_buff, ((object*)temp->data)->price);
+			if (show){
+				printf("[%c] -",k);
+				((object*)temp->data)->pauted_look_it();
+			}
 			k++;
 			elements++;
 		}
@@ -228,5 +232,32 @@ void creature::regen(){
 	//Regen the live points
 	while (current_live_points < live_points){
 		current_live_points++;
+	}
+}
+
+void creature::drink(){
+	if (entity_focused == nullptr)printf("Invalid Name.\n");
+	else if (((object*)entity_focused)->object_type != POTION)printf("Invalid Object.\n");
+	else{
+		//Potion regen points
+		uint buff_number = ((potion*)this->entity_focused)->stat_regen;
+		if (((potion*)this->entity_focused)->potion_type == HEAL_POTION){
+			//Creature live points to max hp
+			uint regen_mark = this->live_points - this->current_live_points;
+			//Regen the just live
+			if (buff_number > regen_mark)buff_number = regen_mark;
+			//Show the result
+			if (this->creature_type == PLAYER)printf("You");
+			else printf("%s", this->name.get_string());
+			printf(" regen %i points of live -> live points [%i]\n", buff_number, current_live_points);
+		}
+		else{
+			//Regen samina (no limit) 
+			this->stamina += buff_number;
+			//Show the result
+			if (this->creature_type == PLAYER)printf("You");
+			else printf("%s", this->name.get_string());
+			printf(" regen %i points of stamina -> stamina [%u]\n", buff_number, stamina);
+		}
 	}
 }

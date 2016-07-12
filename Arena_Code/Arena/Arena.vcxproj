@@ -47,6 +47,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -67,11 +68,13 @@
     <ClCompile Include="creature.cpp" />
     <ClCompile Include="Data_Source.cpp" />
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="equipment.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="potion.cpp" />
     <ClCompile Include="room.cpp" />
+    <ClCompile Include="rune.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="world.cpp" />
   </ItemGroup>
@@ -81,6 +84,7 @@
     <ClInclude Include="Data_Tank.h" />
     <ClInclude Include="double_list.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="equipment.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Goblin.h" />
     <ClInclude Include="Merchant.h" />
@@ -88,6 +92,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="potion.h" />
     <ClInclude Include="room.h" />
+    <ClInclude Include="rune.h" />
     <ClInclude Include="Runner.h" />
     <ClInclude Include="string.h" />
     <ClInclude Include="vector.h" />

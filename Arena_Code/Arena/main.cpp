@@ -1,13 +1,16 @@
-#include "World.h"
-#include "entity.h"
-
 #include <stdio.h>
 #include <Windows.h>
 #include <conio.h>
 
+#include "World.h"
+#include "entity.h"
+
+
 #define INSTRUCTION_SIZE 35
 
 int main(){
+
+
 	//Instruction data
 	char phrase[INSTRUCTION_SIZE];
 	uint phrase_position = 0;

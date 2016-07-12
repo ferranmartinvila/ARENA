@@ -49,12 +49,12 @@ public:
 	void pull();
 	bool buy(object* );
 	bool sell(object* );
-	void drink();
 	//Fight
 	void attack();
 	void drop(creature* );
 	//Live
 	virtual void die();
 	void regen();
+	void drink();
 };
 #endif

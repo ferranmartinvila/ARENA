@@ -1,4 +1,5 @@
 #include "player.h"
+#include "equipment.h"
 #include "object.h"
 #include "room.h"
 
@@ -115,7 +116,7 @@ void player::look()const{
 		//Entity out of sight
 		else if (temp == nullptr)printf("This object is not here.\n");
 	}
-	else printf("Invalid object.\n");
+	else printf("Invalid Object.\n");
 }
 
 
@@ -142,12 +143,12 @@ void player::equip_object(){
 		else if (type_check == WEAPON){ item_focused = weapon, weapon = (object*)entity_focused;}
 		//If there was other item equiped before replace buffs & push it to the bag
 		if (item_focused != nullptr){
-			((object*)item_focused)->rest_buffs(this);
+			((equip*)item_focused)->rest_buffs(this);
 			this->buffer.push_back(item_focused);
 			printf("[%s] has been unequiped.\n", item_focused->name.get_string());
 		}
 		//Add the equip buffs & erase it from bag
-		((object*)entity_focused)->add_buffs(this);
+		((equip*)entity_focused)->add_buffs(this);
 		buffer.erase_data(entity_focused);
 		printf("[%s] has been equiped\n", entity_focused->name.get_string());
 	}
@@ -170,7 +171,7 @@ void player::unequip_object(){
 		else if (type_check == BOOTS){ item_focused = boots, boots = nullptr; }
 		else if (type_check == WEAPON){ item_focused = weapon, weapon = nullptr; }
 		//Rest teh item buffs
-		item_focused->rest_buffs(this);
+		((equip*)item_focused)->rest_buffs(this);
 		//Push the unequiped item to the bag
 		this->buffer.push_back(item_focused);
 		printf("[%s] is now in your bag.\n", item_focused->name.get_string());
@@ -192,13 +193,14 @@ object* player::choose_item(char option, OBJECT_TYPE type){
 	else if (state == SELL || state == EXTRACT_RUNES || state == FUSE_RUNES)temp = this->buffer.first_element;
 	
 	//Find the item position in the focused buffer
+	OBJECT_TYPE ob_type = ((object*)temp->data)->object_type;
 	while (init < option && temp != nullptr){
 		//Only count especific type
-		if (((object*)temp->data)->object_type == type ||type == UNDEFINED)init++;
-		if(init != option)temp = temp->next;
+		if (ob_type == type || type == UNDEFINED || (type == EQUIP && (ob_type == HELM || ob_type == ARMOR || ob_type == GLOBES || ob_type == PANTS || ob_type == BOOTS || ob_type == WEAPON)))init++;
+		if (init != option)temp = temp->next;
 	}
 	//Invalid selection
-	if (temp == nullptr || (((object*)temp->data)->object_type != type && type != UNDEFINED)){
+	if (temp == nullptr || (((object*)temp->data)->object_type != type && (type != UNDEFINED || type != EQUIP))){
 		printf("Invalid Selection.\n");
 		return nullptr;
 	}

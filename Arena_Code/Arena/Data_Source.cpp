@@ -34,42 +34,42 @@ data_source::data_source(){
 
 	//EQUIPATION-----------------------
 	//Fighter equipation
-	object* Fighter_Helm = new object("Helm", "Basic but light helm", HELM, 10, 2, 0, 2, 60);
-	equip.push_back(Fighter_Helm);
-	object* Fighter_Armor = new object("Fighter Armor", "Basic but light Armor", ARMOR, 25, 4, 0, 2, 150);
-	equip.push_back(Fighter_Armor);
-	object* Fighter_Globes = new object("Fighter Globes", "Basic but light Globes", GLOBES, 5, 1, 0, 2, 45);
-	equip.push_back(Fighter_Globes);
-	object* Fighter_Pants = new object("Fighter Pants", "Basic but light Pants", PANTS, 15, 3, 0, 2, 100);
-	equip.push_back(Fighter_Pants);
-	object* Fighter_Boots = new object("Fighter Boots", "Basic but light Boots", BOOTS, 10, 2, 0, 2, 50);
-	equip.push_back(Fighter_Boots);
-	object* Fighter_Weapon = new object("Fighter Weapon", "Basic but light Weapon", WEAPON, 0, 0, 10, 0, 250);
-	equip.push_back(Fighter_Weapon);
+	equip* Fighter_Helm = new equip("Helm", "Basic but light helm", HELM, 10, 2, 0, 2, 60);
+	equips.push_back(Fighter_Helm);
+	equip* Fighter_Armor = new equip("Fighter Armor", "Basic but light Armor", ARMOR, 25, 4, 0, 2, 150);
+	equips.push_back(Fighter_Armor);
+	equip* Fighter_Globes = new equip("Fighter Globes", "Basic but light Globes", GLOBES, 5, 1, 0, 2, 45);
+	equips.push_back(Fighter_Globes);
+	equip* Fighter_Pants = new equip("Fighter Pants", "Basic but light Pants", PANTS, 15, 3, 0, 2, 100);
+	equips.push_back(Fighter_Pants);
+	equip* Fighter_Boots = new equip("Fighter Boots", "Basic but light Boots", BOOTS, 10, 2, 0, 2, 50);
+	equips.push_back(Fighter_Boots);
+	equip* Fighter_Weapon = new equip("Fighter Weapon", "Basic but light Weapon", WEAPON, 0, 0, 10, 0, 250);
+	equips.push_back(Fighter_Weapon);
 	//Assassin equipation
-	object* Assassin_Helm = new object("Assassin Helm", "Shiny golden helm", HELM, 15, 3, 0, 3, 120);
-	equip.push_back(Assassin_Helm);
-	object* Assassin_Armor = new object("Assassin Armor", "Shiny golden Armor", ARMOR, 30, 5, 0, 3, 300);
-	equip.push_back(Assassin_Armor);
-	object* Assassin_Globes = new object("Assassin Globes", "Shiny golden Globes", GLOBES, 10, 2, 0, 3, 90);
-	equip.push_back(Assassin_Globes);
-	object* Assassin_Pants = new object("Assassin Pants", "Shiny golden Pants", PANTS, 20, 4, 0, 3, 200);
-	equip.push_back(Assassin_Pants);
-	object* Assassin_Boots = new object("Assassin Boots", "Shiny golden Boots", BOOTS, 15, 3, 0, 3, 100);
-	equip.push_back(Assassin_Boots);
-	object* Assassin_Weapon = new object("Assassin Weapon", "Shiny golden Weapon", WEAPON, 0, 0, 20, 0, 500);
-	equip.push_back(Assassin_Weapon);
+	equip* Assassin_Helm = new equip("Assassin Helm", "Shiny golden helm", HELM, 15, 3, 0, 3, 120);
+	equips.push_back(Assassin_Helm);
+	equip* Assassin_Armor = new equip("Assassin Armor", "Shiny golden Armor", ARMOR, 30, 5, 0, 3, 300);
+	equips.push_back(Assassin_Armor);
+	equip* Assassin_Globes = new equip("Assassin Globes", "Shiny golden Globes", GLOBES, 10, 2, 0, 3, 90);
+	equips.push_back(Assassin_Globes);
+	equip* Assassin_Pants = new equip("Assassin Pants", "Shiny golden Pants", PANTS, 20, 4, 0, 3, 200);
+	equips.push_back(Assassin_Pants);
+	equip* Assassin_Boots = new equip("Assassin Boots", "Shiny golden Boots", BOOTS, 15, 3, 0, 3, 100);
+	equips.push_back(Assassin_Boots);
+	equip* Assassin_Weapon = new equip("Assassin Weapon", "Shiny golden Weapon", WEAPON, 0, 0, 20, 0, 500);
+	equips.push_back(Assassin_Weapon);
 	
 
 
 	//RUNES----------------------------
-	object* Vitality_Rune = new object("Rune of Vitality", "Adds a live buff to the object", RUNE, 15, 0, 0, 0, 0);
+	rune* Vitality_Rune = new rune("Rune of Vitality", "Adds a live buff to the object", LIVE_RUNE);
 	runes.push_back(Vitality_Rune);
-	object* Defence_Rune = new object("Rune of Defence", "Adds a defence buff to the object", RUNE, 0, 15, 0, 0, 100);
+	rune* Defence_Rune = new rune("Rune of Defence", "Adds a defence buff to the object", DEFENCE_RUNE);
 	runes.push_back(Defence_Rune);
-	object* Attack_Rune = new object("Rune of Attack", "Adds a attack buff to the object", RUNE, 0, 0, 15, 0, 100);
+	rune* Attack_Rune = new rune("Rune of Attack", "Adds a attack buff to the object", ATTACK_RUNE);
 	runes.push_back(Attack_Rune);
-	object* Stamina_Rune = new object("Rune of Stamina", "Adds a stamina buff to the object", RUNE, 0, 0, 0, 15, 100);
+	rune* Stamina_Rune = new rune("Rune of Stamina", "Adds a stamina buff to the object", STAMINA_RUNE);
 	runes.push_back(Stamina_Rune);
 
 
@@ -104,7 +104,7 @@ char* data_source::get_random_name(){
 
 object* data_source::get_random_equip(){
 	srand((unsigned int)time(NULL));
-	return equip.buffer[rand() % EQUIP_STUFF];
+	return equips.buffer[rand() % EQUIP_STUFF];
 }
 
 object* data_source::get_random_rune(){

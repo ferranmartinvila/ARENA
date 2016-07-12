@@ -15,9 +15,10 @@ public:
 	list_double<entity*> buffer;
 
 	//Constructor
-	entity(char* name, char* description, TYPE type) :name(name), description(description), type(type){}
+	entity(char* name, char* description, TYPE type);
 
 	//FUNCTIONS
+	//System
 	virtual void look_it()const;
 	virtual void update(){};
 };
