@@ -14,6 +14,8 @@ void potion::look_it()const{
 void potion::pauted_look_it()const{
 	printf("%s [", name.get_string());
 	if (potion_type == HEAL_POTION)printf("HEAL");
+	else if (potion_type == DEFENCE_POTION)printf("DEFENCE");
+	else if (potion_type == ATTACK_POTION)printf("ATTACK");
 	else if (potion_type == STAMINA_POTION)printf("STAMINA");
 	printf("] -> Price: %u\n", price);
 }

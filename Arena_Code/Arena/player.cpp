@@ -73,7 +73,7 @@ void player::look_it()const{
 	}
 }
 
-void player::talk(){
+void player::talk(string instruction){
 	if (entity_focused == nullptr)printf("Invalid Creature\n");
 	else if (entity_focused == this)printf("You can't talk to yourselve.\n");
 	else if (((creature*)entity_focused)->location != this->location)printf("This NPC is not here.\n");
@@ -84,14 +84,29 @@ void player::talk(){
 		this->state = TALK;
 		((creature*)entity_focused)->state = TALK;
 		//Apply NPC talk 
-		((creature*)entity_focused)->talk();
+		((creature*)entity_focused)->talk(instruction);
 	}
 }
 
-void player::look()const{
+void player::look(string instruction){
+	bool checked = false;
+	if (entity_focused == nullptr){
+		//look room instruction
+		if (instruction == "room")entity_focused = location;
+		//look me instruction
+		else if (instruction == "me")entity_focused = this;
+		//directional look instruction
+		else{
+			if (instruction == "north"){ entity_focused = ((room*)location)->find_exit(NORTH), checked = true; }
+			else if (instruction == "east"){ entity_focused = ((room*)location)->find_exit(EAST), checked = true; }
+			else if (instruction == "west"){ entity_focused = ((room*)location)->find_exit(WEST), checked = true; }
+			else if (instruction == "south"){ entity_focused = ((room*)location)->find_exit(SOUTH), checked = true; }
+		}
+	}
+	//Apply result look instruction
 	if (entity_focused != nullptr){
 		list_double<entity*>::node* temp = nullptr;
-		//Find the item in the location buffer
+		//Find the entity in the location buffer
 		temp = location->buffer.first_element;
 		while (temp){
 			if (temp->data->name == entity_focused->name){
@@ -100,7 +115,7 @@ void player::look()const{
 			}
 			temp = temp->next;
 		}
-		//Find the item in the user buffer
+		//Find the entity in the user buffer
 		if (temp == nullptr){
 			temp = this->buffer.first_element;
 			while (temp){
@@ -114,9 +129,9 @@ void player::look()const{
 		//Look room
 		if (entity_focused == location)entity_focused->look_it();
 		//Entity out of sight
-		else if (temp == nullptr)printf("This object is not here.\n");
+		else if (temp == nullptr)printf("This entity is out of shight.\n");
 	}
-	else printf("Invalid Object.\n");
+	else if(checked == false)printf("Invalid Entity.\n");
 }
 
 
@@ -195,12 +210,13 @@ object* player::choose_item(char option, OBJECT_TYPE type){
 	//Find the item position in the focused buffer
 	OBJECT_TYPE ob_type = ((object*)temp->data)->object_type;
 	while (init < option && temp != nullptr){
+		ob_type = ((object*)temp->data)->object_type;
 		//Only count especific type
 		if (ob_type == type || type == UNDEFINED || (type == EQUIP && (ob_type == HELM || ob_type == ARMOR || ob_type == GLOBES || ob_type == PANTS || ob_type == BOOTS || ob_type == WEAPON)))init++;
 		if (init != option)temp = temp->next;
 	}
 	//Invalid selection
-	if (temp == nullptr || (((object*)temp->data)->object_type != type && (type != UNDEFINED || type != EQUIP))){
+	if (temp == nullptr || (((object*)temp->data)->object_type != type && (type != UNDEFINED && type != EQUIP))){
 		printf("Invalid Selection.\n");
 		return nullptr;
 	}

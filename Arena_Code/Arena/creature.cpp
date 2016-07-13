@@ -86,8 +86,10 @@ bool creature::show_storage_for_class(OBJECT_TYPE type, bool show)const{
 	char k = 'a';
 	//Number of items
 	uint elements = 0;
+	OBJECT_TYPE ob_type = ((object*)temp->data)->object_type;
 	while (temp){
-		if (((object*)temp->data)->object_type == type ||type == UNDEFINED){
+		ob_type = ((object*)temp->data)->object_type;
+		if (ob_type == type || type == UNDEFINED || (type == EQUIP && (ob_type == HELM || ob_type == ARMOR || ob_type == GLOBES || ob_type == PANTS || ob_type == BOOTS || ob_type == WEAPON))){
 			//Show all the type object states
 			if (show){
 				printf("[%c] -",k);
@@ -97,13 +99,14 @@ bool creature::show_storage_for_class(OBJECT_TYPE type, bool show)const{
 			elements++;
 		}
 		temp = temp->next;
+		
 	}
 	//Empty(false) else true
 	if (elements == 0){ printf("\nempty\n"); return false; }
 	else return true;
 }
 
-void creature::talk(){
+void creature::talk(string instruction){
 	//Predeterminate talk
 	printf("Sorry I don't want to talk.\n");
 	this->state = IDLE;
@@ -111,10 +114,20 @@ void creature::talk(){
 }
 
 //POSITION------------------------
-void creature::move(DIRECTION direction){
+void creature::move(string instruction){
+	//Choose the direction
+	DIRECTION direct_check = UNKKOWN;
+	if (instruction == "north")direct_check = NORTH;
+	else if (instruction == "south")direct_check = SOUTH;
+	else if (instruction == "east")direct_check = EAST;
+	else if (instruction == "west")direct_check = WEST;
+	else printf("Invalid direction.\n");
+	
+	//Find the exit
 	list_double<entity*>::node* temp = location->buffer.first_element;
+	if (direct_check == UNKKOWN)temp = nullptr;
 	while (temp){
-		if (((room::exit*)temp->data)->direction == direction && temp->data->type == EXIT){
+		if (((room::exit*)temp->data)->direction == direct_check && temp->data->type == EXIT){
 			//Swap the creature allocation for other list
 			this->location->buffer.pass_entity(this, ((room::exit*)temp->data)->next_room->buffer, location->buffer);
 			//Change the location of the creature
@@ -124,7 +137,7 @@ void creature::move(DIRECTION direction){
 		}
 		temp = temp->next;
 	}
-	if (temp == nullptr)printf("There's nothing there.");
+	if (temp == nullptr & direct_check != UNKKOWN)printf("There's nothing there.\n");
 }
 
 //INVENTORY-----------------------

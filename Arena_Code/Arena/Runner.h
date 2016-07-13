@@ -20,39 +20,77 @@ public:
 	}
 
 	//FUNCTIONS
-	void talk(){
-		//Presentation
+	//LORE---------------------------------------
+	void talk(string instruction){
+		//Initial talk
 		if (state == TALK){
 			//Pre-reset
 			this->item_choosed = nullptr;
 			this->rune_choosed = nullptr;
 			//Init
-			printf("Hello im the %s of arena!\n", this->name.get_string());
+			printf("Hello im  %s  the runner of arena!\n", this->name.get_string());
 			state = FUSE_RUNES;
 			((creature*)entity_focused)->state = FUSE_RUNES;
+			//Initial print
+			re_print();
 		}
-
-		//FUSE state 
-		if (state == EXTRACT_RUNES && item_choosed == nullptr && rune_choosed == nullptr){ printf("EXTRACT MODE:\n\nChoose the item.\n"), ((creature*)entity_focused)->show_storage_for_class(UNDEFINED, true); }
-		//EXTRACT state
-		else if (state == FUSE_RUNES && item_choosed == nullptr && rune_choosed == nullptr){ printf("FUSE MODE:\n\nChoose the rune.\n"), ((creature*)entity_focused)->show_storage_for_class(RUNE, true); }
-		//Apply FUSE state
-		else if (item_choosed != nullptr && rune_choosed != nullptr && state == FUSE_RUNES){
+		//Change fuse/extract mode
+		else if (instruction == "change"){
+			//FUSE to EXTRACT
+			if (state == FUSE_RUNES){ ((creature*)entity_focused)->state = EXTRACT_RUNES, state = EXTRACT_RUNES; }
+			//EXTRACT to FUSE
+			else { ((creature*)entity_focused)->state = FUSE_RUNES, state = FUSE_RUNES; }
+			//Re-print the focused storage & restart mode
+			item_choosed = nullptr;
+			rune_choosed = nullptr;
+			//Re-print
+			re_print();
+		}
+		//Choose option 
+		else if (instruction.lenght() == 1){
+			//Choose rune
+			if (rune_choosed == nullptr && state == FUSE_RUNES){
+				//TODO REPAIR 
+				rune_choosed = (rune*)((player*)entity_focused)->choose_item(instruction.get_string()[0], RUNE);
+				if (rune_choosed != nullptr)re_print();
+			}
+			//Choose item
+			else {
+				item_choosed = (equip*)((player*)entity_focused)->choose_item(instruction.get_string()[0], EQUIP);
+			}
+		}
+		else printf("Invalid Comand.\n");
+		//Apply FUSE mode
+		if (item_choosed != nullptr && rune_choosed != nullptr && state == FUSE_RUNES){
 			bool done = false;
 			done = this->add_rune(item_choosed, rune_choosed);
 			item_choosed = nullptr;
-			if (done){ rune_choosed = nullptr,this->talk(); }
+			if (done){ rune_choosed = nullptr,re_print();}
 		}
-		//Apply EXTRACT state
+		//Apply EXTRACT mode
 		else if (item_choosed != nullptr && rune_choosed == nullptr && state == EXTRACT_RUNES){
 			bool done = false;
 			done = this->extract_rune(item_choosed);
 			item_choosed = nullptr;
 			rune_choosed = nullptr;
-			if(done)this->talk();
+			if (done)re_print();
 		}
+		
 	}
 
+	void re_print()const{
+		//EXTRCT mode
+		if (state == EXTRACT_RUNES && item_choosed == nullptr && rune_choosed == nullptr){ printf("EXTRACT MODE:\n\nChoose the item.\n"), ((creature*)entity_focused)->show_storage_for_class(EQUIP, true); }
+		//FUSE mode
+		//1st step
+		else if (state == FUSE_RUNES && rune_choosed == nullptr){ printf("FUSE MODE:\n\nChoose the rune.\n"), ((creature*)entity_focused)->show_storage_for_class(RUNE, true); }
+		//2nd step
+		else if (state == FUSE_RUNES && item_choosed == nullptr){ printf("FUSE MODE:\n\nChoose the item.\n"), ((creature*)entity_focused)->show_storage_for_class(EQUIP, true); }
+	}
+
+
+
+	//RUNE CRAFT---------------------------------
 	bool add_rune(equip* target, rune* rune){
 		//Rune cell full
 		if (target->buffer.empty() == false){printf("%s was fused to a rune before.\n", target->name.get_string()); return false;}

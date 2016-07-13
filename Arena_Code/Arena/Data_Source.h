@@ -12,7 +12,7 @@
 #define NAMES_STUFF 20
 #define EQUIP_STUFF 12
 #define RUNES_STUFF 4
-#define POTIONS_STUFF 2
+#define POTIONS_STUFF 4
 
 class data_source{
 public:

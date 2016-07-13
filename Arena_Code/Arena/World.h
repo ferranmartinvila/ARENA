@@ -7,7 +7,7 @@
 class entity;
 class player;
 
-#define MAX_ENTITY 35
+#define MAX_ENTITY 38
 class world{
 public:
 

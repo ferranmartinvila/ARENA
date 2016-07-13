@@ -77,6 +77,10 @@ data_source::data_source(){
 	//POTIONS--------------------------
 	potion* Health_Potion = new potion("Health potion", "Regen health points", HEAL_POTION, 1);
 	potions.push_back(Health_Potion);
+	potion* Defence_Potion = new potion("Defence potion", "Regen defence points", DEFENCE_POTION, 1);
+	potions.push_back(Defence_Potion);
+	potion* Attack_Potion = new potion("Attack potion", "Regen attack points", ATTACK_POTION, 1);
+	potions.push_back(Attack_Potion);
 	potion* Stamina_Potion = new potion("Stamina potion", "Regen stamina points", STAMINA_POTION, 1);
 	potions.push_back(Stamina_Potion);
 };

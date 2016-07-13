@@ -27,8 +27,8 @@ public:
 	void reset();
 	//Lore
 	void look_it()const;
-	void look()const;
-	void talk();
+	void look(string);
+	void talk(string);
 	//Inventory
 	void equip_object();
 	void unequip_object();

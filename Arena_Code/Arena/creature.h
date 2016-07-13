@@ -41,9 +41,9 @@ public:
 	//Lore
 	virtual void look_it()const;
 	bool show_storage_for_class(OBJECT_TYPE, bool)const;
-	virtual void talk();
+	virtual void talk(string);
 	//Position
-	void move(DIRECTION );
+	void move(string);
 	//Inventory
 	void pick();
 	void pull();
