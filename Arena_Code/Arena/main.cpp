@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <conio.h>
-
 #include "World.h"
 #include "entity.h"
 
-
 #define INSTRUCTION_SIZE 35
+//External data main location
+#define MAIN_FILE
+#include "Data_Tank.h"
 
 int main(){
-
 
 	//Instruction data
 	char phrase[INSTRUCTION_SIZE];
@@ -23,7 +23,6 @@ int main(){
 	world game;
 	game.Initialize();
 	
-
 	printf("                              |ARENA THE GAME|\n\n");
 	printf("-> enter help to see all the commands\n");
 	//Game loop

@@ -20,8 +20,8 @@ public:
 	//Location
 	entity* location = nullptr;
 	//Stats
-	int live_points;
-	int current_live_points;
+	uint live_points;
+	uint current_live_points;
 	uint damage;
 	uint defense;
 	uint stamina;

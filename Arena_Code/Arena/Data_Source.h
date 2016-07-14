@@ -4,10 +4,10 @@
 #include "string.h"
 #include <time.h>
 #include <stdlib.h>
-#include "equipment.h"
-#include "potion.h"
-#include "rune.h"
 #include "vector.h"
+class equip;
+class potion;
+class rune;
 
 #define NAMES_STUFF 20
 #define EQUIP_STUFF 12
@@ -76,6 +76,8 @@ public:
 	*/
 	vector<potion*>potions;
 
+
+	bool generated;
 private:
 
 	bool names_used[20];
@@ -88,8 +90,8 @@ public:
 
 	//FUNCTIONS
 	char* get_random_name();
-	object* get_random_equip();
-	object* get_random_rune();
+	equip* get_random_equip();
+	rune* get_random_rune();
 	potion* get_random_potion();
 };
 #endif

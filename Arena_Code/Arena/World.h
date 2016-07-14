@@ -27,6 +27,4 @@ public:
 	void Initialize();
 	bool Apply_Instruction(vector<string> instruction);
 };
-//External game data pointer
-extern world* game;
 #endif

@@ -75,5 +75,10 @@ enum DIRECTION{
 	WEST,
 	UNKKOWN
 };
-
+//DIFFICULTY
+enum DIFFICULTY{
+	EASY,
+	NORMAL,
+	HARD
+};
 #endif

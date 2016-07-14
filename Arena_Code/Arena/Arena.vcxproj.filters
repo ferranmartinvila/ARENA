@@ -121,9 +121,6 @@
     <ClInclude Include="Data_Source.h">
       <Filter>Data Source</Filter>
     </ClInclude>
-    <ClInclude Include="Data_Tank.h">
-      <Filter>Data Source</Filter>
-    </ClInclude>
     <ClInclude Include="Globals.h">
       <Filter>Code</Filter>
     </ClInclude>
@@ -135,6 +132,9 @@
     </ClInclude>
     <ClInclude Include="rune.h">
       <Filter>World\Entities\Objects\Runes</Filter>
+    </ClInclude>
+    <ClInclude Include="Data_Tank.h">
+      <Filter>Data Source</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

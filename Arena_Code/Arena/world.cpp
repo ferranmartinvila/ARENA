@@ -1,6 +1,5 @@
 #include "World.h"
 #include "string.h"
-#include "Data_Tank.h"
 //Creatures
 #include "player.h"
 #include "Goblin.h"
@@ -9,9 +8,10 @@
 //Objects
 #include "room.h"
 #include "object.h"
+#include "Data_Tank.h"
 
 void world::Initialize(){
-	
+
 	//ROOMS--------------------------------------
 	//Principal Square
 	room* Principal_Square = new room("Principal Square", "This beautyfull place is the center of everything.");
@@ -75,10 +75,10 @@ void world::Initialize(){
 	//PLAYER AVATAR------------------------------
 	user = new player("Goul", "The shadows warrior", Principal_Square,1);
 	//User Buffer
-	user->buffer.push_back(source.potions.buffer[0]);
-	user->buffer.push_back(source.potions.buffer[1]);
-	user->buffer.push_back(source.equips.buffer[1]);
-	user->buffer.push_back(source.runes.buffer[1]);
+	user->buffer.push_back((entity*)source.potions.buffer[0]);
+	user->buffer.push_back((entity*)source.potions.buffer[1]);
+	user->buffer.push_back((entity*)source.equips.buffer[1]);
+	user->buffer.push_back((entity*)source.runes.buffer[1]);
 	data.push_back(user);
 
 
@@ -97,7 +97,7 @@ void world::Initialize(){
 	//Push potions
 	h = source.potions.get_size();
 	for (int k = 0; k < h; k++){
-		data.push_back(source.potions.buffer[k]);
+		data.push_back((entity*)source.potions.buffer[k]);
 	}
 	
 	//GAME DATA STRUCT---------------------------
@@ -116,7 +116,7 @@ void world::Initialize(){
 	//Potions Merchant
 	h = source.potions.get_size();
 	for (int k = 0; k < h; k++){
-		Potions_Merchant->buffer.push_back(source.potions.buffer[k]);
+		Potions_Merchant->buffer.push_back((entity*)source.potions.buffer[k]);
 	}
 	
 	//MAP--------------------
@@ -132,7 +132,7 @@ void world::Initialize(){
 	Market->buffer.push_back(Potions_Merchant);
 	//Black Market
 	Black_Market->buffer.push_back(Black_Market_to_Principal_Square);
-	//Black_Market->buffer.push_back(Runes_Merchant);
+	Black_Market->buffer.push_back(Runes_Merchant);
 	Black_Market->buffer.push_back(Runner);
 	//House
 	House->buffer.push_back(House_to_Principal_Square);
@@ -167,9 +167,9 @@ bool world::Apply_Instruction(vector<string> instruction){
 		}
 	}
 	
-	
+	 
 	//STATE ACTIONS------------------------------
-	//Merchant Talk(Buy/Sell)
+	//NPC Talk(Buy/Sell/Fuse/Extract)
 	if ((user->state == BUY || user->state == SELL  || user->state == FUSE_RUNES || user->state == EXTRACT_RUNES) && instruction.buffer[0] != "quit")((creature*)user->entity_focused)->talk(instruction.buffer[0]);
 
 

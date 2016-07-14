@@ -200,13 +200,12 @@ void player::unequip_object(){
 object* player::choose_item(char option, OBJECT_TYPE type){
 	//Temp data
 	list_double<entity*>::node* temp = nullptr;
-	char init = 'a';
-	init--;
+	char init = '`';
 	//In extern buffer action
 	if (state == BUY)temp = this->entity_focused->buffer.first_element;
 	//In intern buffer action
 	else if (state == SELL || state == EXTRACT_RUNES || state == FUSE_RUNES)temp = this->buffer.first_element;
-	
+	if (temp == nullptr){ printf("Invalid Selection.\n");return false; }
 	//Find the item position in the focused buffer
 	OBJECT_TYPE ob_type = ((object*)temp->data)->object_type;
 	while (init < option && temp != nullptr){

@@ -1,4 +1,7 @@
 #include "Data_Source.h"
+#include "equipment.h"
+#include "potion.h"
+#include "rune.h"
 
 //CONSTRUCTOR------------------------------------
 data_source::data_source(){
@@ -59,7 +62,7 @@ data_source::data_source(){
 	equips.push_back(Assassin_Boots);
 	equip* Assassin_Weapon = new equip("Assassin Weapon", "Shiny golden Weapon", WEAPON, 0, 0, 20, 0, 500);
 	equips.push_back(Assassin_Weapon);
-	
+
 
 
 	//RUNES----------------------------
@@ -83,10 +86,9 @@ data_source::data_source(){
 	potions.push_back(Attack_Potion);
 	potion* Stamina_Potion = new potion("Stamina potion", "Regen stamina points", STAMINA_POTION, 1);
 	potions.push_back(Stamina_Potion);
-};
+}
 
-
-//FUNCTIONS--------------------------------------
+//GET FONT---------------------------------------
 char* data_source::get_random_name(){
 	//RESET
 	if (names_used_result >(NAMES_STUFF / 2)){
@@ -106,12 +108,12 @@ char* data_source::get_random_name(){
 	return names[temp].get_string();
 };
 
-object* data_source::get_random_equip(){
+equip* data_source::get_random_equip(){
 	srand((unsigned int)time(NULL));
 	return equips.buffer[rand() % EQUIP_STUFF];
 }
 
-object* data_source::get_random_rune(){
+rune* data_source::get_random_rune(){
 	srand((unsigned int)time(NULL));
 	return runes.buffer[rand() % RUNES_STUFF];
 }

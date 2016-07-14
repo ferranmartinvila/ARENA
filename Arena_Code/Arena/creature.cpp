@@ -86,6 +86,7 @@ bool creature::show_storage_for_class(OBJECT_TYPE type, bool show)const{
 	char k = 'a';
 	//Number of items
 	uint elements = 0;
+	if (temp == nullptr){ printf("\nempty\n"); return false; }
 	OBJECT_TYPE ob_type = ((object*)temp->data)->object_type;
 	while (temp){
 		ob_type = ((object*)temp->data)->object_type;
@@ -137,12 +138,14 @@ void creature::move(string instruction){
 		}
 		temp = temp->next;
 	}
-	if (temp == nullptr & direct_check != UNKKOWN)printf("There's nothing there.\n");
+	if (temp == nullptr && direct_check != UNKKOWN)printf("There's nothing there.\n");
 }
 
 //INVENTORY-----------------------
 void creature::pick(){
-	if (entity_focused != nullptr){
+	if (entity_focused == nullptr)printf("Invalid Name.\n");
+	else if (entity_focused->type != OBJECT)printf("Invalid entity.\n");
+	else{
 		if (location->buffer.find_data(entity_focused)){
 			//Swap the object allocation for user 
 			this->buffer.pass_entity(entity_focused, buffer, location->buffer);
@@ -150,12 +153,12 @@ void creature::pick(){
 		}
 		else printf("This object isn't here\n");
 	}
-	else printf("Invalid Object\n");
-
 }
 
 void creature::pull(){
-	if (entity_focused != nullptr){
+	if (entity_focused == nullptr)printf("Invalid Name.\n");
+	else if (entity_focused->type != OBJECT)printf("Invalid entity.\n");
+	else{
 		if (this->buffer.find_data(entity_focused) == true){
 			//Swap the object allocation for user 
 			this->buffer.pass_entity(entity_focused, location->buffer, buffer);
@@ -163,8 +166,6 @@ void creature::pull(){
 		}
 		else printf("This object isn't in your inventory\n");
 	}
-	else printf("Invalid Object\n");
-
 }
 
 bool creature::buy(object* to_buy){
@@ -252,25 +253,35 @@ void creature::drink(){
 	if (entity_focused == nullptr)printf("Invalid Name.\n");
 	else if (((object*)entity_focused)->object_type != POTION)printf("Invalid Object.\n");
 	else{
+		//Stat pointer
+		uint* stat_target = nullptr;
+		switch (((potion*)this->entity_focused)->potion_type){
+		case HEAL_POTION:
+			stat_target = &current_live_points;
+			break;
+		case DEFENCE_POTION:
+			stat_target = &defense;
+			break;
+		case ATTACK_POTION:
+			stat_target = &damage;
+			break;
+		case STAMINA_POTION:
+			stat_target = &stamina;
+			break;
+		}
 		//Potion regen points
-		uint buff_number = ((potion*)this->entity_focused)->stat_regen;
-		if (((potion*)this->entity_focused)->potion_type == HEAL_POTION){
-			//Creature live points to max hp
-			uint regen_mark = this->live_points - this->current_live_points;
-			//Regen the just live
-			if (buff_number > regen_mark)buff_number = regen_mark;
-			//Show the result
-			if (this->creature_type == PLAYER)printf("You");
-			else printf("%s", this->name.get_string());
-			printf(" regen %i points of live -> live points [%i]\n", buff_number, current_live_points);
+		uint buff_number = ((potion*)entity_focused)->stat_regen;
+		if (((potion*)this->entity_focused)->potion_type == HEAL_POTION)
+		{
+			while (buff_number + current_live_points > live_points){
+				buff_number--;
+			}
 		}
-		else{
-			//Regen samina (no limit) 
-			this->stamina += buff_number;
-			//Show the result
-			if (this->creature_type == PLAYER)printf("You");
-			else printf("%s", this->name.get_string());
-			printf(" regen %i points of stamina -> stamina [%u]\n", buff_number, stamina);
-		}
+		//Apply the potion
+		*stat_target += buff_number;
+		//Show the result
+		if (this->creature_type == PLAYER)printf("You");
+		else printf("%s", this->name.get_string());
+		printf(" drink %s & regen %u stat points![current stat points %u]\n", ((potion*)this->entity_focused)->name.get_string(), buff_number, buff_number);
 	}
 }

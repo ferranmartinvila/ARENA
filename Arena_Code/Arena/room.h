@@ -2,6 +2,7 @@
 #define _ROOM_
 
 #include "entity.h"
+class creature;
 
 class room :public entity{
 public:
@@ -27,6 +28,10 @@ public:
 	room(char* name, char* description);
 
 	//FUNCTIONS
+	//System
+	creature generate_rand_enemy(creature*);
+	void generate_round(creature*);
+	//Lore
 	entity* find_exit(DIRECTION);
 };
 #endif
