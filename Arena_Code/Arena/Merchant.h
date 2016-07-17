@@ -2,7 +2,6 @@
 #define _MERCHANT_
 
 #include "creature.h"
-#include "Data_Tank.h"
 
 class merchant :public creature{
 public:

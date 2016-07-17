@@ -133,8 +133,5 @@
     <ClInclude Include="rune.h">
       <Filter>World\Entities\Objects\Runes</Filter>
     </ClInclude>
-    <ClInclude Include="Data_Tank.h">
-      <Filter>Data Source</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

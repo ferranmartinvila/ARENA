@@ -2,6 +2,7 @@
 #define _CREATURE_
 
 #include "entity.h"
+#include "Data_source.h"
 class object;
 
 //CREATURE CLASS

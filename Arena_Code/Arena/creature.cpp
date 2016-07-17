@@ -9,9 +9,7 @@ creature::creature(char* name, char* description, CREATURE_TYPE type, entity* lo
 
 void creature::update(){
 	//Attack update
-	if (state == ATTACK){
-		attack();
-	}
+	if (state == ATTACK)attack();
 	//Health update
 	else if (current_live_points < live_points)regen();
 }
@@ -133,12 +131,14 @@ void creature::move(string instruction){
 			this->location->buffer.pass_entity(this, ((room::exit*)temp->data)->next_room->buffer, location->buffer);
 			//Change the location of the creature
 			location = ((room::exit*)temp->data)->next_room;
-			location->look_it();
+			//Arena entrance case
+			location->name != "Arena" ? location->look_it() : ((room*)location)->arena_init(this); 
 			break;
 		}
 		temp = temp->next;
 	}
 	if (temp == nullptr && direct_check != UNKKOWN)printf("There's nothing there.\n");
+	
 }
 
 //INVENTORY-----------------------
@@ -197,25 +197,28 @@ bool creature::sell(object* to_sell){
 
 //FIGHT----------------------------
 void creature::attack(){
-	if (entity_focused != nullptr){
-		if (entity_focused != this){
-			state = ATTACK;
-			//Focus the other creature to this & update state
-			((creature*)entity_focused)->entity_focused = this;
-			((creature*)entity_focused)->state = ATTACK;
-			//Apply damage
-			((creature*)entity_focused)->current_live_points -= damage;
-			printf("%s damage %i to %s\n", name.get_string(), damage, entity_focused->name.get_string());
-			if (((creature*)entity_focused)->current_live_points <= 0){
-				printf("%s defeat %s!", name.get_string(), entity_focused->name.get_string());
-				((creature*)entity_focused)->drop(this);
-				((creature*)entity_focused)->die();
-				state = IDLE;
-			}
+	//Pointer of creature attacked
+	creature* target = (creature*)this->entity_focused;
+	//Wrong options
+	if (target == nullptr){ printf("Invalid Creature"); }
+	else if (target == this){ printf("You can't hit yourself.\n"); }
+	else if (target->location != this){this->state = IDLE,target->state = IDLE, printf("The enemy isn't here.\n"); }
+	//Attack
+	else{
+		state = ATTACK;
+		//Focus the other creature to this
+		if (this->creature_type == PLAYER){ target->entity_focused = this, target->state = ATTACK; }
+		//Apply damage
+		((creature*)entity_focused)->current_live_points -= damage;
+		printf("%s damage %i to %s\n", name.get_string(), damage, entity_focused->name.get_string());
+		//Target defeat
+		if (((creature*)entity_focused)->current_live_points <= 0){
+			printf("%s defeat %s!", name.get_string(), entity_focused->name.get_string());
+			((creature*)entity_focused)->drop(this);
+			((creature*)entity_focused)->die();
+			state = IDLE;
 		}
-		else printf("You can't hit yourselve.\n");
 	}
-	else printf("Invalid Creature");
 }
 
 void creature::drop(creature* killer){

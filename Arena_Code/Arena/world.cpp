@@ -8,7 +8,7 @@
 //Objects
 #include "room.h"
 #include "object.h"
-#include "Data_Tank.h"
+#include "Data_source.h"
 
 void world::Initialize(){
 
@@ -30,7 +30,7 @@ void world::Initialize(){
 	data.push_back(Arena);
 
 
-
+	
 	//EXITS--------------------------------------
 	//Principal Square
 	room::exit* Principal_Square_to_Market = new room::exit("Market entrance", "From here you can listen the merchants negotiating.", Principal_Square, Market, EAST);
@@ -73,13 +73,13 @@ void world::Initialize(){
 
 
 	//PLAYER AVATAR------------------------------
-	user = new player("Goul", "The shadows warrior", Principal_Square,1);
+	player* User = new player("Goul", "The shadows warrior", Principal_Square,1);
 	//User Buffer
-	user->buffer.push_back((entity*)source.potions.buffer[0]);
-	user->buffer.push_back((entity*)source.potions.buffer[1]);
-	user->buffer.push_back((entity*)source.equips.buffer[1]);
-	user->buffer.push_back((entity*)source.runes.buffer[1]);
-	data.push_back(user);
+	User->buffer.push_back((entity*)source.potions.buffer[0]);
+	User->buffer.push_back((entity*)source.potions.buffer[1]);
+	User->buffer.push_back((entity*)source.equips.buffer[1]);
+	User->buffer.push_back((entity*)source.runes.buffer[1]);
+	data.push_back(User);
 
 
 	
@@ -100,8 +100,15 @@ void world::Initialize(){
 		data.push_back((entity*)source.potions.buffer[k]);
 	}
 	
+
+
 	//GAME DATA STRUCT---------------------------
-	
+	//Data Pointers----------
+	arena = Arena;
+	user = User;
+
+
+
 	//NPCs-------------------
 	//Equipment Merchant
 	h = source.equips.get_size();
@@ -119,6 +126,8 @@ void world::Initialize(){
 		Potions_Merchant->buffer.push_back((entity*)source.potions.buffer[k]);
 	}
 	
+
+
 	//MAP--------------------
 	//Principal Square
 	Principal_Square->buffer.push_back(Principal_Square_to_Market);
@@ -171,20 +180,33 @@ bool world::Apply_Instruction(vector<string> instruction){
 	//STATE ACTIONS------------------------------
 	//NPC Talk(Buy/Sell/Fuse/Extract)
 	if ((user->state == BUY || user->state == SELL  || user->state == FUSE_RUNES || user->state == EXTRACT_RUNES) && instruction.buffer[0] != "quit")((creature*)user->entity_focused)->talk(instruction.buffer[0]);
+	
+	
+	//ARENA FIGHT--------------------------------
+	else if (user->state == IN_ARENA){
+		if (instruction.get_size() == 1 && instruction.buffer[0].lenght() == 1)((room*)user->location)->generate_round(user, instruction.buffer[0].get_string()[0]);
+		else if (instruction.buffer[0] == "attack")user->attack();
+		else if (instruction.buffer[0] == "drink")user->drink();
+	}
 
-
-	//DEAD(RESET)-----------------------------------
+	//DEAD(RESET)--------------------------------
 	else if (instruction.buffer[0] == "RESET" && user->state == DEAD)user->reset();
 	
 
-	//QUITS-----------------------------------------
-	else if (instruction.buffer[0] == "quit" && user->state != DEAD){
+	//QUITS--------------------------------------
+	if (instruction.buffer[0] == "quit" && user->state != DEAD){
 		//Quit from the game
 		if (user->state == IDLE){
 			//Show results
 			printf("\nSee you soon %s!\n", user->name.get_string());
 			//Break the loop
 			return false;
+		}
+		else if (user->state == IN_ARENA){
+			//Reset user state
+			user->state = IDLE;
+			//Show results
+			printf("\nYou leave the arena fight!\n");
 		}
 		//Quit from the action
 		else {
@@ -196,7 +218,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 	}
 		
 
-	//HELP------------------------------------------
+	//HELP---------------------------------------
 	else if (instruction.buffer[0] == "help")printf(
 		"help -> Show all the instructions\n"
 		"quit(in idle) -> Quit from the game\n"
@@ -218,7 +240,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 		"(in talk with NPC)a...z -> Choose option\n");
 	
 	
-	//INTRUCTIONS-----------------------------------
+	//IDLE ACTIONS-------------------------------
 	else if (user->state == IDLE){
 		//LOOK instruction
 		if (instruction.buffer[0] == "look" && instruction.get_size() > 1)user->look(instruction.buffer[1]);

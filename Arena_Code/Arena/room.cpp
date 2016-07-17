@@ -2,10 +2,12 @@
 #include "creature.h"
 #include <time.h>
 #include <stdlib.h>
-#include "Data_Tank.h"
+#include "Data_source.h"
 
 //Monsters
 #include "Goblin.h"
+
+
 
 //ROOM CONSTRUCTOR-------------------------------
 room::room(char* name, char* description) :entity(name, description, ROOM){}
@@ -16,12 +18,40 @@ room::exit::exit(char* name, char* description, room*from_room, room*next_room, 
 
 
 //SYSTEM-----------------------------------------
-creature room::generate_rand_enemy(creature* player){
+void room::arena_init(creature* player){
+	player->state = IN_ARENA;
+	system("cls");
+	printf("\n\n_________________________________ARENA_ENTRANCE________________________________\n");
+	printf("Choose the difficulty:\n\n[a] - Easy\n[b] - Medium\n[c] - Hard\n");
+}
+
+void room::generate_round(creature* player, char dificult){
+	//Enemy ord total lvl
+	uint global_lvl = player->lvl;
+	//Choose difficult
+	if (dificult == 'b'){ global_lvl *= 2, printf("MEDIUM MODE:\n"); }
+	else if (dificult == 'c'){ global_lvl *= 3, printf("HARD MODE:\n"); }
+	else if (dificult != 'a'){ global_lvl = 0, printf("Invalid selection.\n"); }
+	//Enemies pointer
+	creature* enemy = nullptr;
+	//Generate the ord 
+	while (global_lvl > 0){
+		enemy = generate_rand_enemy(player->lvl);
+		global_lvl -= enemy->lvl;
+		enemy->state = ATTACK;
+		enemy->entity_focused = player;
+		enemy->location = this;
+		player->location->buffer.push_back(enemy);
+		printf("%s [Goblin] added.\n", enemy->name.get_string());
+	}
+}
+
+creature* room::generate_rand_enemy(uint max_lvl ){
 	srand((uint)time(NULL));
 	//Random monster type
-	uint monster_type = rand() % 1;
-	//Rnadom lvl lower than lvl + 2
-	uint monster_level = rand() % player->lvl + 2;
+	uint monster_type = 1;
+	//Random lvl 
+	uint monster_level = (rand() % max_lvl)+1;
 	//Monster pointer
 	creature* rand_enemy = nullptr;
 	switch (monster_type){
@@ -29,12 +59,10 @@ creature room::generate_rand_enemy(creature* player){
 			rand_enemy = new goblin((entity*)this, monster_level);
 		break;
 	}
-	return *rand_enemy;
+	return rand_enemy;
 }
 
-void room::generate_round(creature* player){
-	//TODO ROUND GENERATOR
-}
+
 
 
 //LORE-------------------------------------------

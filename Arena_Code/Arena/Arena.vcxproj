@@ -81,7 +81,6 @@
   <ItemGroup>
     <ClInclude Include="creature.h" />
     <ClInclude Include="Data_Source.h" />
-    <ClInclude Include="Data_Tank.h" />
     <ClInclude Include="double_list.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="equipment.h" />

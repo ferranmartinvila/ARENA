@@ -7,7 +7,7 @@
 #define INSTRUCTION_SIZE 35
 //External data main location
 #define MAIN_FILE
-#include "Data_Tank.h"
+#include "Data_source.h"
 
 int main(){
 
@@ -21,7 +21,6 @@ int main(){
 	uint update_rate = 1000;
 	//World data
 	world game;
-	game.Initialize();
 	
 	printf("                              |ARENA THE GAME|\n\n");
 	printf("-> enter help to see all the commands\n");
@@ -32,8 +31,15 @@ int main(){
 		current_time = GetTickCount();
 		//Game update
 		if (current_time > last_time + update_rate){
+			//World data update
 			for (uint k = 0; k < MAX_ENTITY; k++){
 				game.data.buffer[k]->update();
+			}
+			//Arena data update
+			list_double<entity*>::node* temp = game.arena->buffer.first_element;
+			while (temp){
+				temp->data->update();
+				temp = temp->next;
 			}
 			last_time = current_time;
 		}

@@ -94,4 +94,9 @@ public:
 	rune* get_random_rune();
 	potion* get_random_potion();
 };
+#ifdef MAIN_FILE
+data_source source;
+#else
+extern data_source source;
+#endif
 #endif

@@ -29,8 +29,10 @@ public:
 
 	//FUNCTIONS
 	//System
-	creature generate_rand_enemy(creature*);
-	void generate_round(creature*);
+	void arena_init(creature*);
+	void generate_round(creature*, char);
+	creature* generate_rand_enemy(uint);
+	
 	//Lore
 	entity* find_exit(DIRECTION);
 };

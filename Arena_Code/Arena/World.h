@@ -6,18 +6,24 @@
 #include "string.h"
 class entity;
 class player;
+class room;
 
 #define MAX_ENTITY 38
 class world{
 public:
 
-	//DATA
+	//User data
 	player* user;
+
+	//Arena data
+	entity* arena;
+
+	//Static world data
 	vector<entity*> data;
 
 	//Constructor
 	world(){
-
+		Initialize();
 	}
 	//Destructor
 	~world(){

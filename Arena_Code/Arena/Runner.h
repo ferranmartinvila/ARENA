@@ -4,7 +4,7 @@
 #include "creature.h"
 #include "equipment.h"
 #include "rune.h"
-#include "Data_Tank.h"
+
 class runner :public creature{
 public:
 	//DATA
