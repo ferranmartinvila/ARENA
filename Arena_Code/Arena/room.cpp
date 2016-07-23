@@ -1,5 +1,6 @@
 #include "room.h"
 #include "creature.h"
+#include "object.h"
 #include <time.h>
 #include <stdlib.h>
 #include "Data_source.h"
@@ -23,6 +24,13 @@ void room::arena_init(creature* player){
 	system("cls");
 	printf("\n\n_________________________________ARENA_ENTRANCE________________________________\n");
 	printf("Choose the difficulty:\n\n[a] - Easy\n[b] - Medium\n[c] - Hard\n");
+}
+
+void room::check_arena_end(creature* survivor){
+//TODO 
+
+
+
 }
 
 void room::generate_round(creature* player, char dificult){
@@ -66,6 +74,50 @@ creature* room::generate_rand_enemy(uint max_lvl ){
 
 
 //LORE-------------------------------------------
+void room::arena_look(string instruction)const{
+	//Look room
+	if (instruction == "room"){
+		//Print the enemies
+		list_double<entity*>::node* temp = this->buffer.first_element;
+		while (temp){
+			if (temp->data->type == CREATURE && ((creature*)temp->data)->creature_type != PLAYER){
+				printf("%s ", temp->data->name);
+				switch (((creature*)temp->data)->creature_type){
+				case GOBLIN:
+					printf("[goblin]");
+					break;
+				}
+				printf("lvl %u live[%u]\n", ((creature*)temp->data)->lvl,((creature*)temp->data)->current_live_points);
+			}
+			temp = temp->next;
+		}
+	}
+	//Look avatar
+	else if (instruction == "me"){
+		//Find player in arena buffer
+		list_double<entity*>::node* temp = this->buffer.first_element;
+		creature* player = nullptr;
+		while (temp){
+			if (((creature*)temp->data)->creature_type == PLAYER)player = (creature*)temp->data;
+			temp = temp->next;
+		}
+		//Shwo basic player stats
+		printf("--------------\n%s:\nLEVEL[%u]\nSTATS:\nlive[%i]\nattack[%u]\ndefense[%u]\nstamina[%u]\n", player->name.get_string(),player->lvl, player->current_live_points, player->damage, player->defense, player->stamina);
+		//Show player usable buffer items
+		temp = player->buffer.first_element;
+		printf("Useful items:\n");
+		uint k = 0;
+		while (temp){
+			if (((object*)temp->data)->object_type == POTION){ k++, printf("%s\n", temp->data->name.get_string()); }
+			temp = temp->next;
+		}
+		if (k==0)printf("No usable items find.\n");
+		printf("--------------\n");
+	}
+	//Invalid look
+	else printf("Invalid look comand.\n");
+}
+
 entity* room::find_exit(DIRECTION direction){
 	list_double<entity*>::node* temp = this->buffer.first_element;
 	while (temp){

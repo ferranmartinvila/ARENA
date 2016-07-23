@@ -17,6 +17,19 @@ public:
 	node* first_element = nullptr;
 
 
+	//OPERATORS
+	type operator [](int k){
+		if (k == 0)return first_element->data;
+		else{
+			node* temp = first_element;
+			while (k){
+				temp = temp->next;
+				k--;
+			}
+			return temp->data;
+		}
+	}
+
 
 	//FUNCTIONS
 	//empty function

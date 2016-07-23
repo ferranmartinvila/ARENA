@@ -31,16 +31,20 @@ int main(){
 		current_time = GetTickCount();
 		//Game update
 		if (current_time > last_time + update_rate){
+			
 			//World data update
 			for (uint k = 0; k < MAX_ENTITY; k++){
 				game.data.buffer[k]->update();
 			}
+			
 			//Arena data update
-			list_double<entity*>::node* temp = game.arena->buffer.first_element;
-			while (temp){
-				temp->data->update();
-				temp = temp->next;
+			uint arena_data = game.arena->buffer.get_size();
+			for (uint h = 0; h < arena_data; h++){
+				if(game.arena->buffer[h]->name != "Goul")game.arena->buffer[h]->update();
+				arena_data = game.arena->buffer.get_size();
 			}
+			
+			//Time update
 			last_time = current_time;
 		}
 		//User imput

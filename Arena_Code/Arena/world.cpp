@@ -26,7 +26,7 @@ void world::Initialize(){
 	room* House = new room("House", "The perfect place to save objects.");
 	data.push_back(House);
 	//Arena
-	room* Arena = new room("Arena", "The ground if full of blood and the public shout kill!");
+	room* Arena = new room("Arena", "The ground is full of blood and the public shout kill!");
 	data.push_back(Arena);
 
 
@@ -80,7 +80,6 @@ void world::Initialize(){
 	User->buffer.push_back((entity*)source.equips.buffer[1]);
 	User->buffer.push_back((entity*)source.runes.buffer[1]);
 	data.push_back(User);
-
 
 	
 	//OBJECTS------------------------------------
@@ -156,9 +155,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 	uint position = 1;
 	//Update the user pointed entity
 	if (user->state == IDLE)user->entity_focused = nullptr;
-	if ((instruction.buffer[0] == "look" || instruction.buffer[0] == "pick" || instruction.buffer[0] == "throw" ||
-		instruction.buffer[0] == "attack" || instruction.buffer[0] == "talk" || instruction.buffer[0] == "equip" ||
-		instruction.buffer[0] == "unequip" || instruction.buffer[0] == "drink") && instruction.get_size() > 1 && user->state == IDLE){
+	if ((user->state == IDLE || user->state == ATTACK || user->state == IN_ARENA) && instruction.get_size() > 1){
 		
 		//Diferent phrase compose
 		if (instruction.buffer[1] == "to"){
@@ -169,32 +166,23 @@ bool world::Apply_Instruction(vector<string> instruction){
 		{
 			if (instruction.get_size() > 2) instruction.buffer[position] += instruction.buffer[position + 1];
 		}
-		
-		//Find the entity 
-		for (uint k = 0; k < MAX_ENTITY; k++){
-			if (instruction.buffer[position] == data.buffer[k]->name)user->entity_focused = data.buffer[k];
+		if (user->location == arena){
+			//Find data in temp arena data
+			for (uint k = 0; k < arena->buffer.get_size(); k++){
+				if (instruction.buffer[position] == arena->buffer[k]->name)user->entity_focused = arena->buffer[k];
+			}
 		}
+		else {
+			//Find the entity in world data
+			for (uint k = 0; k < MAX_ENTITY; k++){
+				if (instruction.buffer[position] == data.buffer[k]->name)user->entity_focused = data.buffer[k];
+			}
+		}
+		
 	}
 	
-	 
-	//STATE ACTIONS------------------------------
-	//NPC Talk(Buy/Sell/Fuse/Extract)
-	if ((user->state == BUY || user->state == SELL  || user->state == FUSE_RUNES || user->state == EXTRACT_RUNES) && instruction.buffer[0] != "quit")((creature*)user->entity_focused)->talk(instruction.buffer[0]);
-	
-	
-	//ARENA FIGHT--------------------------------
-	else if (user->state == IN_ARENA){
-		if (instruction.get_size() == 1 && instruction.buffer[0].lenght() == 1)((room*)user->location)->generate_round(user, instruction.buffer[0].get_string()[0]);
-		else if (instruction.buffer[0] == "attack")user->attack();
-		else if (instruction.buffer[0] == "drink")user->drink();
-	}
-
-	//DEAD(RESET)--------------------------------
-	else if (instruction.buffer[0] == "RESET" && user->state == DEAD)user->reset();
-	
-
 	//QUITS--------------------------------------
-	if (instruction.buffer[0] == "quit" && user->state != DEAD){
+	if (instruction.buffer[0] == "quit"){
 		//Quit from the game
 		if (user->state == IDLE){
 			//Show results
@@ -202,21 +190,35 @@ bool world::Apply_Instruction(vector<string> instruction){
 			//Break the loop
 			return false;
 		}
-		else if (user->state == IN_ARENA){
-			//Reset user state
-			user->state = IDLE;
-			//Show results
-			printf("\nYou leave the arena fight!\n");
-		}
 		//Quit from the action
-		else {
+		else if (user->state != IN_ARENA){
 			//Resets the states
 			user->state = ((creature*)user->entity_focused)->state = IDLE;
 			//Show results
 			printf("\nSee you soon %s!\n", user->entity_focused->name.get_string());
 		}
+		//Invalid Quit
+		else printf("You can't quit now.\n");
 	}
-		
+	 
+
+	//STATE ACTIONS------------------------------
+	//NPC Talk(Buy/Sell/Fuse/Extract)
+	else if (user->state == BUY || user->state == SELL  || user->state == FUSE_RUNES || user->state == EXTRACT_RUNES)((creature*)user->entity_focused)->talk(instruction.buffer[0]);
+	
+	//ARENA FIGHT--------------------------------
+	else if (user->state == IN_ARENA){
+		if (instruction.get_size() == 1 && instruction.buffer[0].lenght() == 1)((room*)user->location)->generate_round(user, instruction.buffer[0].get_string()[0]);
+		else if (instruction.buffer[0] == "attack")user->attack();
+		else if (instruction.buffer[0] == "drink")user->drink();
+		else if (instruction.buffer[0] == "look")((room*)user->location)->arena_look(instruction.buffer[1]);
+		else printf("Invalid comand.\n");
+	}
+
+
+	//DEAD(RESET)--------------------------------
+	else if (instruction.buffer[0] == "RESET" && user->state == DEAD)user->reset();
+	
 
 	//HELP---------------------------------------
 	else if (instruction.buffer[0] == "help")printf(
@@ -259,7 +261,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 		//TALK instruction
 		else if (instruction.buffer[0] == "talk" && instruction.buffer[1] == "to")user->talk("test");
 		//ATTACK instruction
-		else if (instruction.buffer[0] == "attack")user->attack();
+		else if (instruction.buffer[0] == "attack")user->state = ATTACK;
 		//invalid instruction
 		else printf("Invalid comand.\n");
 	}

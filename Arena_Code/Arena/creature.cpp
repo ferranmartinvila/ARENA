@@ -11,7 +11,7 @@ void creature::update(){
 	//Attack update
 	if (state == ATTACK)attack();
 	//Health update
-	else if (current_live_points < live_points)regen();
+	else if (current_live_points < live_points && state != IN_ARENA)regen();
 }
 
 void creature::check_lvl(){
@@ -202,47 +202,47 @@ void creature::attack(){
 	//Wrong options
 	if (target == nullptr){ printf("Invalid Creature"); }
 	else if (target == this){ printf("You can't hit yourself.\n"); }
-	else if (target->location != this){this->state = IDLE,target->state = IDLE, printf("The enemy isn't here.\n"); }
+	else if (target->location != this->location){this->state = IDLE,target->state = IDLE, printf("The enemy isn't here.\n"); }
 	//Attack
 	else{
 		state = ATTACK;
-		//Focus the other creature to this
-		if (this->creature_type == PLAYER){ target->entity_focused = this, target->state = ATTACK; }
-		//Apply damage
-		((creature*)entity_focused)->current_live_points -= damage;
-		printf("%s damage %i to %s\n", name.get_string(), damage, entity_focused->name.get_string());
-		//Target defeat
-		if (((creature*)entity_focused)->current_live_points <= 0){
-			printf("%s defeat %s!", name.get_string(), entity_focused->name.get_string());
-			((creature*)entity_focused)->drop(this);
-			((creature*)entity_focused)->die();
-			state = IDLE;
+		//Focus the other creature to player
+		if (this->creature_type == PLAYER){ 
+			target->entity_focused = this, target->state = ATTACK;
 		}
+		//Apply damage
+		target->current_live_points -= damage;
+		printf("----------->\n");
+		printf("%s damage %i to %s\n", name.get_string(), damage, target->name.get_string());
+		//Target defeat
+		if (target->current_live_points > target->live_points){
+			printf("\n%s defeat %s! ", name.get_string(), target->name.get_string());
+			//Enemy case
+			if (target->creature_type != PLAYER){
+				target->drop(this);
+				target->die();
+			}
+			//Player case
+			else target->state = DEAD;
+			//Fight end state
+			if (location->name == "Arena"){ state = IN_ARENA, ((room*)location)->check_arena_end(this); }
+			else state = IDLE;
+		}
+		printf("-----------\n");
 	}
 }
 
 void creature::drop(creature* killer){
-	if (this->buffer.empty() == false){
-		list_double<entity*>::node* temp = buffer.first_element;
-		list_double<entity*>::node* temp_next = temp->next;
-		//Removes all the killed entity buffer data
-		while (temp){
-			this->buffer.pass_entity(temp->data, location->buffer, buffer);
-			if (temp_next != nullptr)temp_next = temp_next->next;
-			temp = temp_next;
-		}
-	}
 	//Adds money & xp to the winner creature
-	printf("+%i money +%i xp\n",money, current_xp);
 	killer->money += money;
 	killer->current_xp += this->current_xp;
+	printf("+%i money +%i xp\n", money, current_xp);
 }
 
 //LIVE-------------------------
 void creature::die(){
 	//Erase the creature from the location
 	location->buffer.erase_data(this);
-	state = DEAD;
 }
 
 void creature::regen(){

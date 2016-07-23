@@ -30,10 +30,12 @@ public:
 	//FUNCTIONS
 	//System
 	void arena_init(creature*);
+	void check_arena_end(creature*);
 	void generate_round(creature*, char);
 	creature* generate_rand_enemy(uint);
 	
 	//Lore
+	void arena_look(string)const;
 	entity* find_exit(DIRECTION);
 };
 #endif
