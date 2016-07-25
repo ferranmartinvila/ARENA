@@ -50,7 +50,7 @@ void player::look_it()const{
 	//Stats
 	printf("LEVEL[%u] -> next lvl (%u xp)\n\nSTATS:\nlive[%i]\nattack[%u]\ndefense[%u]\nstamina[%u]\nmoney -> %u\n", lvl, next_lvl_xp - current_xp, live_points, damage, defense, stamina, money);
 	//Equipation
-	printf("\nEQUIPATION:\n");
+	slim_printf(RED,"\nEQUIPATION:\n");
 	if (helm)printf("helm [%s]\n", helm->name.get_string());
 	else printf("helm none\n");
 	if (armor)printf("armor [%s]\n", armor->name.get_string());

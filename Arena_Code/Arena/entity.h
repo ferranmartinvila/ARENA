@@ -4,6 +4,7 @@
 #include "double_list.h"
 #include "string.h"
 #include "Globals.h"
+#include "Slim_printf.h"
 
 class entity{
 public:

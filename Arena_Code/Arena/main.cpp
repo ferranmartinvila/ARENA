@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <conio.h>
+
+#define INSTRUCTION_SIZE 35
+#define MAIN_FILE
+#define _SLIM_PRINTF_DEF_FILE_
+#include "Data_source.h"
+#include "Slim_printf.h"
 #include "World.h"
 #include "entity.h"
 
-#define INSTRUCTION_SIZE 35
-//External data main location
-#define MAIN_FILE
-#include "Data_source.h"
 
 int main(){
 

@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Code">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="World">
       <UniqueIdentifier>{fe2279b8-fe91-42cb-a4c3-6992d461110d}</UniqueIdentifier>
     </Filter>
@@ -30,9 +26,6 @@
     <Filter Include="Source Tanks">
       <UniqueIdentifier>{3f8ae41b-4639-4aa9-9258-27fb6bbce91d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data Source">
-      <UniqueIdentifier>{cf4b3fcf-1610-4bb9-a5b2-44c0b3b5d3e5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="World\Entities\Objects\Equipment">
       <UniqueIdentifier>{ef00cd69-9fe5-4db5-8ebc-f37600209e3f}</UniqueIdentifier>
     </Filter>
@@ -42,10 +35,14 @@
     <Filter Include="World\Entities\Objects\Runes">
       <UniqueIdentifier>{388140b7-970e-48be-8f50-4568a28ea2b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global_Code">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Code</Filter>
+      <Filter>Global_Code</Filter>
     </ClCompile>
     <ClCompile Include="string.cpp">
       <Filter>Source Tanks</Filter>
@@ -68,9 +65,6 @@
     <ClCompile Include="room.cpp">
       <Filter>World\Entities\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Data_Source.cpp">
-      <Filter>Data Source</Filter>
-    </ClCompile>
     <ClCompile Include="potion.cpp">
       <Filter>World\Entities\Objects\Potions</Filter>
     </ClCompile>
@@ -79,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="rune.cpp">
       <Filter>World\Entities\Objects\Runes</Filter>
+    </ClCompile>
+    <ClCompile Include="Data_Source.cpp">
+      <Filter>Source Tanks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,11 +115,8 @@
     <ClInclude Include="Runner.h">
       <Filter>World\Entities\Creatures\NPCs</Filter>
     </ClInclude>
-    <ClInclude Include="Data_Source.h">
-      <Filter>Data Source</Filter>
-    </ClInclude>
     <ClInclude Include="Globals.h">
-      <Filter>Code</Filter>
+      <Filter>Global_Code</Filter>
     </ClInclude>
     <ClInclude Include="potion.h">
       <Filter>World\Entities\Objects\Potions</Filter>
@@ -132,6 +126,12 @@
     </ClInclude>
     <ClInclude Include="rune.h">
       <Filter>World\Entities\Objects\Runes</Filter>
+    </ClInclude>
+    <ClInclude Include="Data_Source.h">
+      <Filter>Source Tanks</Filter>
+    </ClInclude>
+    <ClInclude Include="Slim_printf.h">
+      <Filter>Global_Code</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
