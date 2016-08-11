@@ -16,6 +16,12 @@ player::player(char* name, char* description, room* location, uint lvl) :creatur
 
 
 //SYSTEM-----------------------------
+void player::update(){
+	//TODO
+
+
+}
+
 void player::die(){
 	printf("%s defeat you!\n", entity_focused->name.get_string());
 	printf("Enter RESET to respawn in the last checkpoint.\n");

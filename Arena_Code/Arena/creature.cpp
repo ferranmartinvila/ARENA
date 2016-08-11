@@ -199,10 +199,17 @@ bool creature::sell(object* to_sell){
 void creature::attack(){
 	//Pointer of creature attacked
 	creature* target = (creature*)this->entity_focused;
-	//Wrong options
+	//Wrong general options
 	if (target == nullptr){ printf("Invalid Creature"); }
 	else if (target == this){ printf("You can't hit yourself.\n"); }
 	else if (target->location != this->location){this->state = IDLE,target->state = IDLE, printf("The enemy isn't here.\n"); }
+	//Wrong focus options
+	else if (target->state == DEAD){
+		if (this->creature_type == PLAYER)printf("%s is dead.\n", target->name.get_string());
+		if (this->location->name == "Arena")this->state = IN_ARENA;
+		else this->state = IDLE;
+		this->entity_focused = nullptr;
+	}
 	//Attack
 	else{
 		state = ATTACK;
@@ -215,7 +222,7 @@ void creature::attack(){
 		printf("----------->\n");
 		printf("%s damage %i to %s\n", name.get_string(), damage, target->name.get_string());
 		//Target defeat
-		if (target->current_live_points > target->live_points){
+		if (target->current_live_points <= 0){
 			printf("\n%s defeat %s! ", name.get_string(), target->name.get_string());
 			//Enemy case
 			if (target->creature_type != PLAYER){
@@ -242,7 +249,7 @@ void creature::drop(creature* killer){
 //LIVE-------------------------
 void creature::die(){
 	//Erase the creature from the location
-	location->buffer.erase_data(this);
+	this->location->buffer.erase_data(this);
 }
 
 void creature::regen(){
@@ -257,19 +264,20 @@ void creature::drink(){
 	else if (((object*)entity_focused)->object_type != POTION)printf("Invalid Object.\n");
 	else{
 		//Stat pointer
-		uint* stat_target = nullptr;
+		uint* uint_stat_target = nullptr;
+		int* int_stat_target = nullptr;
 		switch (((potion*)this->entity_focused)->potion_type){
 		case HEAL_POTION:
-			stat_target = &current_live_points;
+			int_stat_target = &current_live_points;
 			break;
 		case DEFENCE_POTION:
-			stat_target = &defense;
+			uint_stat_target = &defense;
 			break;
 		case ATTACK_POTION:
-			stat_target = &damage;
+			uint_stat_target = &damage;
 			break;
 		case STAMINA_POTION:
-			stat_target = &stamina;
+			uint_stat_target = &stamina;
 			break;
 		}
 		//Potion regen points
@@ -279,9 +287,10 @@ void creature::drink(){
 			while (buff_number + current_live_points > live_points){
 				buff_number--;
 			}
+			*int_stat_target += buff_number;
 		}
 		//Apply the potion
-		*stat_target += buff_number;
+		else *uint_stat_target += buff_number;
 		//Show the result
 		if (this->creature_type == PLAYER)printf("You");
 		else printf("%s", this->name.get_string());

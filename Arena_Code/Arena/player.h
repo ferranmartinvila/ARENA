@@ -23,6 +23,7 @@ public:
 
 	//FUNCTIONS
 	//System
+	void update();
 	void die();
 	void reset();
 	//Lore

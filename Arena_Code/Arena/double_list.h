@@ -23,10 +23,11 @@ public:
 		else{
 			node* temp = first_element;
 			while (k){
-				temp = temp->next;
+				if (temp != nullptr)temp = temp->next;
 				k--;
 			}
-			return temp->data;
+			if (temp != nullptr)return temp->data;
+			else return nullptr;
 		}
 	}
 

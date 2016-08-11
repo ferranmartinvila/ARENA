@@ -27,15 +27,25 @@ void room::arena_init(creature* player){
 }
 
 void room::check_arena_end(creature* survivor){
-//TODO 
-
-
-
+	//Check if there's only only one survivor
+	int k;
+	for (k = 0; k < this->buffer.get_size(); k++){
+		if (this->buffer[k] != survivor && this->buffer[k]->type == CREATURE)break;
+	}
+	k++;
+	//Check survivor type
+	//Player win
+	if (this->buffer[k] == nullptr && survivor->creature_type == PLAYER){
+		survivor->state = IDLE;
+		slim_printf(BLUE, "\n\nCongratulation you win! Now you are free!\n\n"); 
+	}
+	//Arena win
+	else slim_printf(RED, "\n\nThe arena beat you\n\n");
 }
 
 void room::generate_round(creature* player, char dificult){
 	//Enemy ord total lvl
-	uint global_lvl = player->lvl;
+	uint global_lvl = player->lvl*10;
 	//Choose difficult
 	if (dificult == 'b'){ global_lvl *= 2, printf("MEDIUM MODE:\n"); }
 	else if (dificult == 'c'){ global_lvl *= 3, printf("HARD MODE:\n"); }
