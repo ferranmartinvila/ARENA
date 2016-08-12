@@ -11,7 +11,7 @@ void creature::update(){
 	//Attack update
 	if (state == ATTACK)attack();
 	//Health update
-	else if (current_live_points < live_points && state != IN_ARENA)regen();
+	else if ((uint)current_live_points < live_points && state != IN_ARENA)regen();
 }
 
 void creature::check_lvl(){
@@ -254,7 +254,7 @@ void creature::die(){
 
 void creature::regen(){
 	//Regen the live points
-	while (current_live_points < live_points){
+	while ((uint)current_live_points < live_points){
 		current_live_points++;
 	}
 }

@@ -18,33 +18,34 @@ player::player(char* name, char* description, room* location, uint lvl) :creatur
 //SYSTEM-----------------------------
 void player::update(){
 	//TODO
-
-
-}
-
-void player::die(){
-	printf("%s defeat you!\n", entity_focused->name.get_string());
-	printf("Enter RESET to respawn in the last checkpoint.\n");
-	//TODO: Finish this
-	//Erase player from the location
-	location->buffer.erase_data(this);
-	state = DEAD;
+	//Attack update
+	if (state == ATTACK)attack();
+	//Health update
+	else if (current_live_points < live_points && state != IN_ARENA)regen();
+	//Dead update
+	else if (state == DEAD)slim_printf(WHITE, "\n\nYou are dead enter RESET to respawn.\n\n");
 }
 
 void player::reset(){
 	//Erase player buffer
 	this->buffer.erase_all();
-	printf("Bag items deleted.\n");
+	slim_printf(CYAN, "Bag items deleted.\n");
+	
 	//Erase money & current xp
 	this->money = 0;
 	this->current_xp = 0;
-	printf("Money and current xp reset to zero.\n");
+	slim_printf(CYAN, "\nMoney and current xp reset to zero.\n");
+	
 	//Revive player
 	this->state = IDLE;
-	((creature*)this->entity_focused)->state = IDLE;
 	this->regen();
-	printf("States reset.\n");
-	this->location->buffer.push_back(this);
+	slim_printf(CYAN, "\nStates reset.\n");
+	
+	//Reset player location
+	this->location->buffer.erase_data(this);
+	this->location = this->hub;
+	this->hub->buffer.push_back(this);
+	slim_printf(CYAN, "\nYou curren location is %s.\n\n", this->location->name.get_string());
 }
 
 
@@ -52,29 +53,31 @@ void player::reset(){
 void player::look_it()const{
 	system("cls");
 	//Name & description
-	printf("\n%s:%s\n\n", name.get_string(), description.get_string());
+	slim_printf(WHITE, "%s: %s\n\n", name.get_string(), description.get_string());
 	//Stats
-	printf("LEVEL[%u] -> next lvl (%u xp)\n\nSTATS:\nlive[%i]\nattack[%u]\ndefense[%u]\nstamina[%u]\nmoney -> %u\n", lvl, next_lvl_xp - current_xp, live_points, damage, defense, stamina, money);
+	slim_printf(LIGHT_MAGENTA, "LEVEL[%u] -> next lvl (%u xp)\n\n", lvl, next_lvl_xp - current_xp);
+	slim_printf(WHITE, "STATS:\n");
+	slim_printf(LIGHT_GREEN, "live[%i]\nattack[%u]\ndefense[%u]\nstamina[%u]\n\nmoney -> %u\n", live_points, damage, defense, stamina, money);
 	//Equipation
-	slim_printf(RED,"\nEQUIPATION:\n");
-	if (helm)printf("helm [%s]\n", helm->name.get_string());
+	slim_printf(WHITE, "\nEQUIPATION:\n");
+	if (helm)slim_printf(LIGHT_CYAN, "helm [%s]\n", helm->name.get_string());
 	else printf("helm none\n");
-	if (armor)printf("armor [%s]\n", armor->name.get_string());
+	if (armor)slim_printf(LIGHT_CYAN, "armor [%s]\n", armor->name.get_string());
 	else printf("armor none\n");
-	if (globes)printf("globes [%s]\n", globes->name.get_string());
+	if (globes)slim_printf(LIGHT_CYAN, "globes [%s]\n", globes->name.get_string());
 	else printf("globes none\n");
-	if (pants)printf("pants [%s]\n", pants->name.get_string());
+	if (pants)slim_printf(LIGHT_CYAN, "pants [%s]\n", pants->name.get_string());
 	else printf("pants none\n");
-	if (boots)printf("boots [%s]\n", boots->name.get_string());
+	if (boots)slim_printf(LIGHT_CYAN, "boots [%s]\n", boots->name.get_string());
 	else printf("boots none\n");
-	if (weapon)printf("weapon [%s]\n", weapon->name.get_string());
+	if (weapon)slim_printf(LIGHT_CYAN, "weapon [%s]\n", weapon->name.get_string());
 	else printf("weapon none\n");
 	//Storage
-	printf("\nSTORAGE:\n");
+	slim_printf(WHITE, "\nSTORAGE:\n");
 	list_double<entity*>::node* temp = buffer.first_element;
 	if (temp == nullptr)printf("empty\n");
 	while (temp){
-		printf("%s\n", temp->data->name.get_string());
+		slim_printf(LIGHT_CYAN,"%s\n", temp->data->name.get_string());
 		temp = temp->next;
 	}
 }

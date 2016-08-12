@@ -234,11 +234,18 @@ public:
 		}
 		return true;
 	}
-
+	//erase all the data of a list
 	void erase_all(){
-		node* temp = first_element;
-		while (temp){
-			this->pop_back();
+		node* temp = last_element();
+		//Check if the list was cleared before
+		if (temp != nullptr){
+			//Erase all the list data
+			node* pre_temp = temp->prev;
+			while (temp){
+				this->erase_node(temp);
+				temp = pre_temp;
+				if (pre_temp != nullptr) pre_temp = pre_temp->prev;
+			}
 		}
 	}
 	//pass entity(entity to erase , list destination , list from)

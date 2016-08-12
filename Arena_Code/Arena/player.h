@@ -17,6 +17,8 @@ public:
 	object* weapon = nullptr;
 	//Inventory size
 	uint inventory_size = 6;
+	//Spawn location
+	room* hub;
 
 	//Constructor
 	player(char* name, char* description, room* location, uint lvl);
@@ -24,7 +26,6 @@ public:
 	//FUNCTIONS
 	//System
 	void update();
-	void die();
 	void reset();
 	//Lore
 	void look_it()const;

@@ -74,7 +74,8 @@ void world::Initialize(){
 
 	//PLAYER AVATAR------------------------------
 	player* User = new player("Goul", "The shadows warrior", Principal_Square,1);
-	//User Buffer
+	//User Build
+	User->hub = Principal_Square;
 	User->buffer.push_back((entity*)source.potions.buffer[0]);
 	User->buffer.push_back((entity*)source.potions.buffer[1]);
 	User->buffer.push_back((entity*)source.equips.buffer[1]);
@@ -243,7 +244,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 	
 	
 	//IDLE ACTIONS-------------------------------
-	else if (user->state == IDLE){
+	else if (user->state == IDLE && instruction.get_size() > 1){
 		//LOOK instruction
 		if (instruction.buffer[0] == "look" && instruction.get_size() > 1)user->look(instruction.buffer[1]);
 		//GO instruction

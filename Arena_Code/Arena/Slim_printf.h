@@ -33,7 +33,7 @@ char *convert(unsigned int num, int base)
 void slim_printf(COLOR color, char* format, ...)
 {
 	//Char array base
-	char *phrase;
+	char *phrase = format;
 	//Char focused integrer value
 	int i;
 	//Char focused pointer
@@ -47,12 +47,15 @@ void slim_printf(COLOR color, char* format, ...)
 	va_list arg;
 	va_start(arg, format);
 
-	for (phrase = format; *phrase != '\0'; phrase++)
+	//Char array position
+	int position = 0;
+	//Char array lenght
+	int lenght = strlen(phrase);
+
+	while (position < lenght)
 	{
-		//Char array position
-		int position = 0;
-		//Char array lenght
-		int lenght = strlen(format);
+		
+		
 		//Search the %[] operators
 		while (*phrase != '%' && position < lenght)
 		{
@@ -61,9 +64,9 @@ void slim_printf(COLOR color, char* format, ...)
 			position++;
 		}
 
-		phrase++;
-
 		//Transform the %[] operators
+		phrase++;
+		position++;
 		switch (*phrase)
 		{
 		case 'c': i = va_arg(arg, int);          //char case representation
@@ -79,6 +82,8 @@ void slim_printf(COLOR color, char* format, ...)
 			fputs(convert(i, 10), stdout);
 			break;
 		}
+		position++;
+		phrase++;
 	}
 
 	//Clean up arguments
