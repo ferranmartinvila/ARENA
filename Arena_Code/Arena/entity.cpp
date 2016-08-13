@@ -38,4 +38,5 @@ void entity::look_it()const{
 		temp = temp->next;
 	}
 	if (temp == nullptr && k == 0)printf("empty\n");
+	printf("\n");
 }

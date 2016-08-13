@@ -11,7 +11,7 @@ void rune::pauted_look_it()const{
 	if (rune_type == LIVE_RUNE)slim_printf(WHITE, "LIVE");
 	else if (rune_type == DEFENCE_RUNE)slim_printf(WHITE, "DEFENCE");
 	else if (rune_type == ATTACK_RUNE)slim_printf(WHITE, "ATTACK");
-	else if (rune_type == STAMINA_RUNE)slim_printf(WHITE, "STAMINA");
+	else if (rune_type == AGILITY_RUNE)slim_printf(WHITE, "AGILITY");
 	slim_printf(LIGHT_CYAN, "]");
 	printf(" -> ");
 	//Price

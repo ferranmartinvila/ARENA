@@ -133,5 +133,11 @@
     <ClInclude Include="Slim_printf.h">
       <Filter>Global_Code</Filter>
     </ClInclude>
+    <ClInclude Include="Orc.h">
+      <Filter>World\Entities\Creatures\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Archer.h">
+      <Filter>World\Entities\Creatures\NPCs</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

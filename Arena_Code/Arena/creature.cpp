@@ -37,7 +37,7 @@ void creature::lvl_up(uint levels){
 		live_points += 15 * levels;
 		damage += 2 * levels;
 		defense += 2 * levels;
-		stamina += 1 * levels;
+		agility += 1 * levels;
 		break;
 	
 	case GOBLIN:
@@ -68,7 +68,7 @@ void creature::look_it()const{
 	printf(" %s\n\n", description.get_string());
 	//Stats
 	slim_printf(WHITE, "STATS:\n");
-	slim_printf(LIGHT_GREEN, "live[%i]\nattack[%i]\ndefense[%i]\nstamina[%i]\n\n", live_points, damage, defense, stamina);
+	slim_printf(LIGHT_GREEN, "live[%i]\nattack[%i]\ndefense[%i]\nagility[%i]\n\n", live_points, damage, defense, agility);
 	//Storage
 	slim_printf(WHITE, "STORAGE:\n");
 	list_double<entity*>::node* temp = buffer.first_element;
@@ -224,11 +224,17 @@ void creature::attack(){
 		target->current_live_points -= damage;
 		printf("----------->\n");
 		//User case
-		if (this->creature_type == PLAYER)slim_printf(LIGHT_RED, "%s damage %i to you\n", this->name.get_string(), damage);
+		if (this->creature_type == PLAYER)slim_printf(LIGHT_GREEN, "You damage %i to %s\n", damage, target->name.get_string());
 		//Enmey case
-		else slim_printf(LIGHT_GREEN, "You damage %i to %s\n", damage, target->name.get_string());
+		else slim_printf(LIGHT_RED, "%s damage %i to you\n", name.get_string(), damage);
 		//Target defeat
 		if (target->current_live_points <= 0){
+
+			//Show result
+			//Player case
+			if (this->creature_type == PLAYER)slim_printf(LIGHT_GREEN, "\nYou defeat %s!  ", target->name.get_string());
+			//Enemy case
+			else slim_printf(LIGHT_RED, " \n%s defeat you! ", name.get_string());
 
 			//Enemy case
 			if (target->creature_type != PLAYER){
@@ -237,12 +243,6 @@ void creature::attack(){
 			}
 			//Player case
 			else target->state = DEAD;
-
-			//Show result
-			//Player case
-			if(this->creature_type != PLAYER)slim_printf(LIGHT_RED, "\n%s defeat you! ", name.get_string());
-			//Enemy case
-			else slim_printf(LIGHT_RED, "\nYou defeat %s! ", target->name.get_string());
 
 			//Fight end state
 			if (location->name == "Arena"){ state = IN_ARENA, ((room*)location)->check_arena_end(this); }
@@ -256,7 +256,7 @@ void creature::drop(creature* killer){
 	//Adds money & xp to the winner creature
 	killer->money += money;
 	killer->current_xp += this->current_xp;
-	slim_printf(LIGHT_GREEN, "+%i money +%i xp\n", money, current_xp);
+	slim_printf(LIGHT_GREEN, "+%i money +%i xp\n\n", money, current_xp);
 }
 
 //LIVE-------------------------
@@ -289,8 +289,8 @@ void creature::drink(){
 		case ATTACK_POTION:
 			uint_stat_target = &damage;
 			break;
-		case STAMINA_POTION:
-			uint_stat_target = &stamina;
+		case AGILITY_POTION:
+			uint_stat_target = &agility;
 			break;
 		}
 		//Potion regen points

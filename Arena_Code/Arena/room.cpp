@@ -73,7 +73,7 @@ void room::arena_look(string instruction)const{
 			temp = temp->next;
 		}
 		//Shwo basic player stats
-		printf("--------------\n%s:\nLEVEL[%u]\nSTATS:\nlive[%i]\nattack[%u]\ndefense[%u]\nstamina[%u]\n", player->name.get_string(), player->lvl, player->current_live_points, player->damage, player->defense, player->stamina);
+		printf("--------------\n%s:\nLEVEL[%u]\nSTATS:\nlive[%i]\nattack[%u]\ndefense[%u]\nagility[%u]\n", player->name.get_string(), player->lvl, player->current_live_points, player->damage, player->defense, player->agility);
 		//Show player usable buffer items
 		temp = player->buffer.first_element;
 		printf("Useful items:\n");
@@ -99,32 +99,34 @@ void room::arena_init(creature* player){
 void room::check_arena_end(creature* survivor){
 	//Check if there's only only one survivor
 	int k;
-	for (k = 0; k < this->buffer.get_size(); k++){
+	int size = this->buffer.get_size();
+	for (k = 0; k < size; k++){
 		if (this->buffer[k] != survivor && this->buffer[k]->type == CREATURE)break;
+		else if (k == size)k++;
 	}
-	k++;
 	//Check survivor type
 	//Player win
 	if (this->buffer[k] == nullptr && survivor->creature_type == PLAYER){
 		survivor->state = IDLE;
 		this->arena_clean();
-		slim_printf(LIGHT_BLUE, "\n\nCongratulation you win! Now you are free!\n\n");
+		slim_printf(LIGHT_CYAN, "\n\nCongratulation you win! Now you are free!\n\n");
 	}
 	//Arena win
-	else {
+	else if(survivor->creature_type != PLAYER){
 		this->arena_clean();
 		fflush(stdin);
-		slim_printf(RED, "\n\nThe arena beat you!\n\n");
+		slim_printf(LIGHT_RED, "\n\nThe arena beat you!\n\n");
 	}
 }
 
 void room::generate_round(creature* player, char dificult){
 	//Enemy ord total lvl
-	uint global_lvl = player->lvl * 10;
+	uint global_lvl = player->lvl;
 	//Choose difficult
-	if (dificult == 'b'){ global_lvl *= 2, printf("MEDIUM MODE:\n"); }
-	else if (dificult == 'c'){ global_lvl *= 3, printf("HARD MODE:\n"); }
+	if (dificult == 'b'){ global_lvl *= 2, slim_printf(WHITE, "MEDIUM MODE:\n\n"); }
+	else if (dificult == 'c'){ global_lvl *= 3, slim_printf(WHITE, "HARD MODE:\n\n"); }
 	else if (dificult != 'a'){ global_lvl = 0, printf("Invalid selection.\n"); }
+	else slim_printf(WHITE, "EASY MODE:\n\n");
 	//Enemies pointer
 	creature* enemy = nullptr;
 	//Generate the ord 
@@ -135,7 +137,7 @@ void room::generate_round(creature* player, char dificult){
 		enemy->entity_focused = player;
 		enemy->location = this;
 		player->location->buffer.push_back(enemy);
-		printf("%s [Goblin] added.\n", enemy->name.get_string());
+		slim_printf(LIGHT_MAGENTA, "%s [Goblin] added.\n", enemy->name.get_string());
 	}
 }
 
@@ -146,7 +148,7 @@ void room::arena_clean(){
 	//Erase all the data of the room buffer except the user
 	while (temp){
 		if (temp->data->type == CREATURE && ((creature*)temp->data)->creature_type != PLAYER)this->buffer.erase_node(temp);
-		else if (temp->data->type != CREATURE)this->buffer.erase_node(temp);
+		else if (temp->data->type != EXIT && temp->data->type != CREATURE )this->buffer.erase_node(temp);
 		temp = temp_prev;
 		if (temp_prev != nullptr)temp_prev = temp_prev->prev;
 	}

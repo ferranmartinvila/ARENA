@@ -72,8 +72,8 @@ data_source::data_source(){
 	runes.push_back(Defence_Rune);
 	rune* Attack_Rune = new rune("Rune of Attack", "Adds a attack buff to the object", ATTACK_RUNE);
 	runes.push_back(Attack_Rune);
-	rune* Stamina_Rune = new rune("Rune of Stamina", "Adds a stamina buff to the object", STAMINA_RUNE);
-	runes.push_back(Stamina_Rune);
+	rune* Agility_Rune = new rune("Rune of Agility", "Adds a agility buff to the object", AGILITY_RUNE);
+	runes.push_back(Agility_Rune);
 
 
 
@@ -84,8 +84,8 @@ data_source::data_source(){
 	potions.push_back(Defence_Potion);
 	potion* Attack_Potion = new potion("Attack potion", "Regen attack points", ATTACK_POTION, 1);
 	potions.push_back(Attack_Potion);
-	potion* Stamina_Potion = new potion("Stamina potion", "Regen stamina points", STAMINA_POTION, 1);
-	potions.push_back(Stamina_Potion);
+	potion* Agility_Potion = new potion("Agility potion", "Regen stamina points", AGILITY_POTION, 1);
+	potions.push_back(Agility_Potion);
 }
 
 //GET FONT---------------------------------------

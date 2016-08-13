@@ -187,7 +187,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 		//Quit from the game
 		if (user->state == IDLE){
 			//Show results
-			printf("\nSee you soon %s!\n", user->name.get_string());
+			printf("\nSee you soon %s!\n\n", user->name.get_string());
 			//Break the loop
 			return false;
 		}
@@ -196,10 +196,10 @@ bool world::Apply_Instruction(vector<string> instruction){
 			//Resets the states
 			user->state = ((creature*)user->entity_focused)->state = IDLE;
 			//Show results
-			printf("\nSee you soon %s!\n", user->entity_focused->name.get_string());
+			printf("\nSee you soon %s!\n\n", user->entity_focused->name.get_string());
 		}
 		//Invalid Quit
-		else printf("You can't quit now.\n");
+		else printf("You can't quit now.\n\n");
 	}
 	 
 
@@ -213,7 +213,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 		else if (instruction.buffer[0] == "attack")user->attack();
 		else if (instruction.buffer[0] == "drink")user->drink();
 		else if (instruction.buffer[0] == "look")((room*)user->location)->arena_look(instruction.buffer[1]);
-		else printf("Invalid comand.\n");
+		else slim_printf(WHITE, "Invalid comand.\n");
 	}
 
 
@@ -241,7 +241,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 		slim_printf(WHITE, "sell + item name"); printf("(in talk with Merchant)->Sell the choosed item\n");
 		slim_printf(WHITE, "change"); printf("(in talk with Runner) -> Swap between FUSE & EXTRACT mode\n");
 		slim_printf(WHITE, "a...z"); printf("(in talk with NPC) -> Choose option\n");
-		slim_printf(WHITE, "RESET"); printf("(in dead state) -> Reset the user bag, money & current xp\n");
+		slim_printf(WHITE, "RESET"); printf("(in dead state) -> Reset the user bag, money & current xp\n\n");
 	}
 	
 	//IDLE ACTIONS-------------------------------
@@ -261,12 +261,12 @@ bool world::Apply_Instruction(vector<string> instruction){
 		//DRINK instruction
 		else if (instruction.buffer[0] == "drink")user->drink();
 		//TALK instruction
-		else if (instruction.buffer[0] == "talk" && instruction.buffer[1] == "to")user->talk("test");
+		else if (instruction.buffer[0] == "talk" && instruction.buffer[1] == "to")user->talk("default");
 		//ATTACK instruction
 		else if (instruction.buffer[0] == "attack")user->state = ATTACK;
 		//invalid instruction
-		else printf("Invalid comand.\n");
+		else slim_printf(WHITE, "Invalid comand.\n");
 	}
-	else printf("Invalid comand.\n");
+	else slim_printf(WHITE, "Invalid comand.\n");
 	return true;
 }

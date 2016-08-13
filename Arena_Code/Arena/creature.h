@@ -25,7 +25,7 @@ public:
 	int current_live_points;
 	uint damage;
 	uint defense;
-	uint stamina;
+	uint agility;
 	//Inventory
 	uint money;
 	//Action focus

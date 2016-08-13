@@ -11,7 +11,7 @@ public:
 		//Initial Stats
 		current_live_points = live_points = 20;
 		damage = 3;
-		stamina = 1;
+		agility = 1;
 		lvl_up(lvl);
 	}
 };

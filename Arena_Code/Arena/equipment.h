@@ -10,7 +10,7 @@ public:
 	uint live_buff;
 	uint defence_buff;
 	uint attack_buff;
-	uint stamina_buff;
+	uint agility_buff;
 
 	//Constructor
 	equip(char*, char*, OBJECT_TYPE, uint, uint, uint, uint ,uint);

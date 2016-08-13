@@ -18,7 +18,7 @@ void potion::pauted_look_it()const{
 	if (potion_type == HEAL_POTION)slim_printf(WHITE, "HEAL");
 	else if (potion_type == DEFENCE_POTION)slim_printf(WHITE, "DEFENCE");
 	else if (potion_type == ATTACK_POTION)slim_printf(WHITE, "ATTACK");
-	else if (potion_type == STAMINA_POTION)slim_printf(WHITE, "STAMINA");
+	else if (potion_type == AGILITY_POTION)slim_printf(WHITE, "AGILITY");
 	slim_printf(LIGHT_CYAN, "]");
 	printf(" -> ");
 	//Price

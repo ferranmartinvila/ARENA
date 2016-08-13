@@ -10,7 +10,7 @@ player::player(char* name, char* description, room* location, uint lvl) :creatur
 	//Initial Stats
 	live_points = 150;
 	damage = 5;
-	stamina = 2;
+	agility = 2;
 	lvl_up(lvl);
 }
 
@@ -57,7 +57,7 @@ void player::look_it()const{
 	//Stats
 	slim_printf(LIGHT_MAGENTA, "LEVEL[%u] -> next lvl (%u xp)\n\n", lvl, next_lvl_xp - current_xp);
 	slim_printf(WHITE, "STATS:\n");
-	slim_printf(LIGHT_GREEN, "live[%i]\nattack[%u]\ndefense[%u]\nstamina[%u]\n\nmoney -> %u\n", live_points, damage, defense, stamina, money);
+	slim_printf(LIGHT_GREEN, "live[%i]\nattack[%u]\ndefense[%u]\nagility[%u]\n\nmoney -> %u\n", live_points, damage, defense, agility, money);
 	//Equipation
 	slim_printf(WHITE, "\nEQUIPATION:\n");
 	if (helm)slim_printf(LIGHT_CYAN, "helm [%s]\n", helm->name.get_string());

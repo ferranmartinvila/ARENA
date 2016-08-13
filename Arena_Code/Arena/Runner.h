@@ -79,7 +79,7 @@ public:
 
 	void re_print()const{
 		//EXTRCT mode
-		if (state == EXTRACT_RUNES && item_choosed == nullptr && rune_choosed == nullptr){ slim_printf(WHITE, "EXTRACT MODE:\n\n"), printf("Choose the item.\n"), ((creature*)entity_focused)->show_storage_for_class(EQUIP, true), printf("\n"); }
+		if (state == EXTRACT_RUNES && item_choosed == nullptr && rune_choosed == nullptr){ slim_printf(WHITE, "EXTRACT MODE:\n\n"), printf("Choose the item.\n\n"), ((creature*)entity_focused)->show_storage_for_class(EQUIP, true), printf("\n"); }
 		//FUSE mode
 		//1st step
 		else if (state == FUSE_RUNES && rune_choosed == nullptr){ slim_printf(WHITE, "FUSE MODE:\n\n"), printf("Choose the rune.\n\n"), ((creature*)entity_focused)->show_storage_for_class(RUNE, true), printf("\n"); }
@@ -103,7 +103,7 @@ public:
 			if (rune->rune_type == LIVE_RUNE){ target->live_buff += rune->enchant_points, slim_printf(LIGHT_GREEN, "+%u live\n\n", rune->enchant_points); }
 			else if (rune->rune_type == DEFENCE_RUNE){ target->defence_buff += rune->enchant_points, slim_printf(LIGHT_GREEN, "+%u defence\n\n", rune->enchant_points); }
 			else if (rune->rune_type == ATTACK_RUNE){ target->attack_buff += rune->enchant_points, slim_printf(LIGHT_GREEN, "+%u attack\n\n", rune->enchant_points); }
-			else if (rune->rune_type == STAMINA_RUNE){ target->stamina_buff += rune->enchant_points, slim_printf(LIGHT_GREEN, "+%u stamina\n\n", rune->enchant_points); }
+			else if (rune->rune_type == AGILITY_RUNE){ target->agility_buff += rune->enchant_points, slim_printf(LIGHT_GREEN, "+%u agility\n\n", rune->enchant_points); }
 			//Targets reset
 			this->item_choosed = nullptr;
 			this->rune_choosed = nullptr;
@@ -126,7 +126,7 @@ public:
 			if (result_rune->rune_type == LIVE_RUNE){ font->live_buff -= result_rune->enchant_points, slim_printf(LIGHT_RED, "-%u live", result_rune->enchant_points); }
 			else if (result_rune->rune_type == DEFENCE_RUNE){ font->defence_buff -= result_rune->enchant_points, slim_printf(LIGHT_RED, "-%u defence", result_rune->enchant_points); }
 			else if (result_rune->rune_type == ATTACK_RUNE){ font->attack_buff -= result_rune->enchant_points, slim_printf(LIGHT_RED, "-%u attack", result_rune->enchant_points); }
-			else if (result_rune->rune_type == STAMINA_RUNE){ font->stamina_buff -= result_rune->enchant_points, slim_printf(LIGHT_RED, "-%u stamina", result_rune->enchant_points); }
+			else if (result_rune->rune_type == AGILITY_RUNE){ font->agility_buff -= result_rune->enchant_points, slim_printf(LIGHT_RED, "-%u agility", result_rune->enchant_points); }
 			printf("\n\n");
 			this->item_choosed = nullptr;
 			return true;
