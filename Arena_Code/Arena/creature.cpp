@@ -18,7 +18,7 @@ void creature::check_lvl(){
 	if (current_xp >= next_lvl_xp){
 		lvl++;
 		current_xp -= next_lvl_xp;
-		printf("[%s] lvl up!\n");
+		slim_printf(LIGHT_MAGENTA, "[%s] lvl up!\n");
 		lvl_up(1);
 	}
 }
@@ -64,15 +64,17 @@ void creature::lvl_up(uint levels){
 //LORE--------------------------------
 void creature::look_it()const{
 	//Name & description
-	printf("\n%s:\n%s\n", name.get_string(), description.get_string());
+	slim_printf(WHITE, "\n%s:", name.get_string());
+	printf(" %s\n\n", description.get_string());
 	//Stats
-	printf("STATS:\nlive[%i]\nattack[%i]\ndefense[%i]\nstamina[%i]\n", live_points, damage, defense, stamina);
+	slim_printf(WHITE, "STATS:\n");
+	slim_printf(LIGHT_GREEN, "live[%i]\nattack[%i]\ndefense[%i]\nstamina[%i]\n\n", live_points, damage, defense, stamina);
 	//Storage
-	printf("STORAGE:\n");
+	slim_printf(WHITE, "STORAGE:\n");
 	list_double<entity*>::node* temp = buffer.first_element;
 	if (temp == nullptr)printf("empty\n");
 	while (temp){
-		printf("%s\n", temp->data->name.get_string());
+		slim_printf(LIGHT_CYAN, "%s\n", temp->data->name.get_string());
 		temp = temp->next;
 	}
 }
@@ -91,7 +93,7 @@ bool creature::show_storage_for_class(OBJECT_TYPE type, bool show)const{
 		if (ob_type == type || type == UNDEFINED || (type == EQUIP && (ob_type == HELM || ob_type == ARMOR || ob_type == GLOBES || ob_type == PANTS || ob_type == BOOTS || ob_type == WEAPON))){
 			//Show all the type object states
 			if (show){
-				printf("[%c] -",k);
+				slim_printf(WHITE, "[ %c ] - ",k);
 				((object*)temp->data)->pauted_look_it();
 			}
 			k++;
@@ -120,7 +122,7 @@ void creature::move(string instruction){
 	else if (instruction == "south")direct_check = SOUTH;
 	else if (instruction == "east")direct_check = EAST;
 	else if (instruction == "west")direct_check = WEST;
-	else printf("Invalid direction.\n");
+	else slim_printf(WHITE, "Invalid direction.\n");
 	
 	//Find the exit
 	list_double<entity*>::node* temp = location->buffer.first_element;
@@ -143,26 +145,26 @@ void creature::move(string instruction){
 
 //INVENTORY-----------------------
 void creature::pick(){
-	if (entity_focused == nullptr)printf("Invalid Name.\n");
-	else if (entity_focused->type != OBJECT)printf("Invalid entity.\n");
+	if (entity_focused == nullptr)slim_printf(WHITE, "Invalid Name.\n");
+	else if (entity_focused->type != OBJECT)slim_printf(WHITE, "Invalid entity.\n");
 	else{
 		if (location->buffer.find_data(entity_focused)){
 			//Swap the object allocation for user 
 			this->buffer.pass_entity(entity_focused, buffer, location->buffer);
-			printf("%s is now in your inventory.\n", entity_focused->name.get_string());
+			slim_printf(LIGHT_GREEN, "%s is now in your inventory.\n", entity_focused->name.get_string());
 		}
 		else printf("This object isn't here\n");
 	}
 }
 
 void creature::pull(){
-	if (entity_focused == nullptr)printf("Invalid Name.\n");
-	else if (entity_focused->type != OBJECT)printf("Invalid entity.\n");
+	if (entity_focused == nullptr)slim_printf(WHITE, "Invalid Name.\n");
+	else if (entity_focused->type != OBJECT)slim_printf(WHITE, "Invalid entity.\n");
 	else{
 		if (this->buffer.find_data(entity_focused) == true){
 			//Swap the object allocation for user 
 			this->buffer.pass_entity(entity_focused, location->buffer, buffer);
-			printf("You throw the %s.\n", entity_focused->name.get_string());
+			slim_printf(LIGHT_GREEN, "You throw the %s.\n", entity_focused->name.get_string());
 		}
 		else printf("This object isn't in your inventory\n");
 	}
@@ -177,7 +179,8 @@ bool creature::buy(object* to_buy){
 			this->buffer.push_back(to_buy);
 			//Erase the item from the merchant
 			this->entity_focused->buffer.erase_data(to_buy);
-			printf("You buy [%s] -%u money\n\n", to_buy->name.get_string(), to_buy->price);
+			slim_printf(LIGHT_GREEN, "You buy [%s]", to_buy->name.get_string());
+			slim_printf(LIGHT_RED, " -%u money\n\n", to_buy->price);
 			return true;
 		}
 	}
@@ -189,7 +192,7 @@ bool creature::sell(object* to_sell){
 		//Adds user money and push the object to merchant
 		this->money += to_sell->price;
 		this->buffer.erase_data(to_sell);
-		printf("You sell [%s] +%u money\n\n", to_sell->name.get_string(), to_sell->price);
+		slim_printf(LIGHT_GREEN, "You sell [%s] +%u money\n\n", to_sell->name.get_string(), to_sell->price);
 		return true;
 	}
 	return false;
@@ -200,7 +203,7 @@ void creature::attack(){
 	//Pointer of creature attacked
 	creature* target = (creature*)this->entity_focused;
 	//Wrong general options
-	if (target == nullptr){ printf("Invalid Creature"); }
+	if (target == nullptr){ slim_printf(WHITE, "Invalid Creature"); }
 	else if (target == this){ printf("You can't hit yourself.\n"); }
 	else if (target->location != this->location){this->state = IDLE,target->state = IDLE, printf("The enemy isn't here.\n"); }
 	//Wrong focus options
@@ -220,10 +223,13 @@ void creature::attack(){
 		//Apply damage
 		target->current_live_points -= damage;
 		printf("----------->\n");
-		printf("%s damage %i to %s\n", name.get_string(), damage, target->name.get_string());
+		//User case
+		if (this->creature_type == PLAYER)slim_printf(LIGHT_RED, "%s damage %i to you\n", this->name.get_string(), damage);
+		//Enmey case
+		else slim_printf(LIGHT_GREEN, "You damage %i to %s\n", damage, target->name.get_string());
 		//Target defeat
 		if (target->current_live_points <= 0){
-			printf("\n%s defeat %s! ", name.get_string(), target->name.get_string());
+
 			//Enemy case
 			if (target->creature_type != PLAYER){
 				target->drop(this);
@@ -231,6 +237,13 @@ void creature::attack(){
 			}
 			//Player case
 			else target->state = DEAD;
+
+			//Show result
+			//Player case
+			if(this->creature_type != PLAYER)slim_printf(LIGHT_RED, "\n%s defeat you! ", name.get_string());
+			//Enemy case
+			else slim_printf(LIGHT_RED, "\nYou defeat %s! ", target->name.get_string());
+
 			//Fight end state
 			if (location->name == "Arena"){ state = IN_ARENA, ((room*)location)->check_arena_end(this); }
 			else state = IDLE;
@@ -243,7 +256,7 @@ void creature::drop(creature* killer){
 	//Adds money & xp to the winner creature
 	killer->money += money;
 	killer->current_xp += this->current_xp;
-	printf("+%i money +%i xp\n", money, current_xp);
+	slim_printf(LIGHT_GREEN, "+%i money +%i xp\n", money, current_xp);
 }
 
 //LIVE-------------------------
@@ -260,8 +273,8 @@ void creature::regen(){
 }
 
 void creature::drink(){
-	if (entity_focused == nullptr)printf("Invalid Name.\n");
-	else if (((object*)entity_focused)->object_type != POTION)printf("Invalid Object.\n");
+	if (entity_focused == nullptr)slim_printf(WHITE, "Invalid Name.\n");
+	else if (((object*)entity_focused)->object_type != POTION)slim_printf(WHITE, "Invalid Object.\n");
 	else{
 		//Stat pointer
 		uint* uint_stat_target = nullptr;
@@ -292,8 +305,8 @@ void creature::drink(){
 		//Apply the potion
 		else *uint_stat_target += buff_number;
 		//Show the result
-		if (this->creature_type == PLAYER)printf("You");
-		else printf("%s", this->name.get_string());
-		printf(" drink %s & regen %u stat points![current stat points %u]\n", ((potion*)this->entity_focused)->name.get_string(), buff_number, buff_number);
+		if (this->creature_type == PLAYER)slim_printf(LIGHT_GREEN, "You");
+		else slim_printf(LIGHT_GREEN, "%s", this->name.get_string());
+		slim_printf(LIGHT_GREEN, " drink %s & regen %u stat points![current stat points %u]\n", ((potion*)this->entity_focused)->name.get_string(), buff_number, buff_number);
 	}
 }

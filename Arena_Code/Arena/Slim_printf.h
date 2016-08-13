@@ -36,9 +36,10 @@ void slim_printf(COLOR color, char* format, ...)
 	char *phrase = format;
 	//Char focused integrer value
 	int i;
-	//Char focused pointer
-	char *s;
-
+	//Char* focused pointer
+	char* s;
+	//Char focused temp valule
+	char a;
 	//Change to the choosed color
 	HANDLE out_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(out_handle, color);
@@ -69,8 +70,8 @@ void slim_printf(COLOR color, char* format, ...)
 		position++;
 		switch (*phrase)
 		{
-		case 'c': i = va_arg(arg, int);          //char case representation
-			fputs(convert(i, 10), stdout);
+		case 'c': a = va_arg(arg, char );          //char case representation
+			_fputchar(a);
 			break;
 		case 's': s = va_arg(arg, char *);       //string case representation
 			fputs(s, stdout);

@@ -20,10 +20,10 @@ public:
 	void talk(string instruction){
 		//Initial talk
 		if (state == TALK){
-			printf("Hey! Im %s the merchant! do you want to buy or sell some stuff?\n\n", name.get_string());
+			slim_printf(WHITE, "Hey! Im %s the merchant! do you want to buy or sell some stuff?\n\n", name.get_string());
 			state = BUY;
 			((creature*)entity_focused)->state = BUY;
-			printf("BUY MODE\n"), this->show_storage_for_class(UNDEFINED, true);
+			slim_printf(WHITE, "BUY MODE\n\n"), this->show_storage_for_class(UNDEFINED, true), printf("\n");
 		}
 		//Change the mode
 		else if (instruction == "change"){
@@ -44,13 +44,13 @@ public:
 			//Re-print
 			if(done)re_print();
 		}
-		else printf("Invalid Comand.\n");
+		else slim_printf(WHITE, "Invalid Comand.\n");
 	}
 
 	void re_print()const{
-		if (state == BUY){ printf("BUY MODE\n"), this->show_storage_for_class(UNDEFINED, true); }
+		if (state == BUY){ slim_printf(WHITE, "BUY MODE\n\n"), this->show_storage_for_class(UNDEFINED, true), printf("\n"); }
 		//Sell mode
-		else if (state == SELL){ printf("SELL MODE\n"), ((creature*)this->entity_focused)->show_storage_for_class(UNDEFINED, true); }
+		else if (state == SELL){ slim_printf(WHITE, "SELL MODE\n\n"), ((creature*)this->entity_focused)->show_storage_for_class(UNDEFINED, true), printf("\n"); }
 	}
 };
 #endif

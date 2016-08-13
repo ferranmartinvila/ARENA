@@ -92,8 +92,8 @@ void room::arena_look(string instruction)const{
 void room::arena_init(creature* player){
 	player->state = IN_ARENA;
 	system("cls");
-	printf("\n\n_________________________________ARENA_ENTRANCE________________________________\n");
-	printf("Choose the difficulty:\n\n[a] - Easy\n[b] - Medium\n[c] - Hard\n");
+	slim_printf(LIGHT_GREEN, "\n\n_________________________________ARENA_ENTRANCE________________________________\n\n");
+	slim_printf(WHITE, "Choose the difficulty:\n\n[a] - Easy\n[b] - Medium\n[c] - Hard\n");
 }
 
 void room::check_arena_end(creature* survivor){
@@ -108,7 +108,7 @@ void room::check_arena_end(creature* survivor){
 	if (this->buffer[k] == nullptr && survivor->creature_type == PLAYER){
 		survivor->state = IDLE;
 		this->arena_clean();
-		slim_printf(BLUE, "\n\nCongratulation you win! Now you are free!\n\n");
+		slim_printf(LIGHT_BLUE, "\n\nCongratulation you win! Now you are free!\n\n");
 	}
 	//Arena win
 	else {

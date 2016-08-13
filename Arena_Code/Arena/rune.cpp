@@ -5,10 +5,15 @@ rune::rune(char* name, char* description, RUNE_TYPE rune_type) :object(name, des
 
 //LORE------------------------------------------
 void rune::pauted_look_it()const{
-	printf("%s [", name.get_string());
-	if (rune_type == LIVE_RUNE)printf("LIVE");
-	else if (rune_type == DEFENCE_RUNE)printf("DEFENCE");
-	else if (rune_type == ATTACK_RUNE)printf("ATTACK");
-	else if (rune_type == STAMINA_RUNE)printf("STAMINA");
-	printf("] -> Price: %u\n", price);
+	//Name
+	slim_printf(LIGHT_CYAN, "%s [", name.get_string());
+	//Rune type
+	if (rune_type == LIVE_RUNE)slim_printf(WHITE, "LIVE");
+	else if (rune_type == DEFENCE_RUNE)slim_printf(WHITE, "DEFENCE");
+	else if (rune_type == ATTACK_RUNE)slim_printf(WHITE, "ATTACK");
+	else if (rune_type == STAMINA_RUNE)slim_printf(WHITE, "STAMINA");
+	slim_printf(LIGHT_CYAN, "]");
+	printf(" -> ");
+	//Price
+	slim_printf(LIGHT_GREEN, "Price: %u\n", price);
 }

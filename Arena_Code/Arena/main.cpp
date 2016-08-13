@@ -24,8 +24,8 @@ int main(){
 	//World data
 	world game;
 	
-	printf("                              |ARENA THE GAME|\n\n");
-	printf("-> enter help to see all the commands\n");
+	slim_printf(LIGHT_GREEN, "                              |ARENA THE GAME|\n\n");
+	slim_printf(WHITE, "-> Enter 'help' to see all the commands\n\n");
 	//Game loop
 	bool loop = true;
 	while (loop){

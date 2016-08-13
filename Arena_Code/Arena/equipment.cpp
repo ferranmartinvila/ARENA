@@ -6,7 +6,11 @@ equip::equip(char* name, char* description, OBJECT_TYPE object_type, uint price 
 
 //LORE-----------------------
 void equip::pauted_look_it()const{
-	printf("%s [live  %u ||atk %u || def %u || stm %u ] -> Price: %u\n", name.get_string(), live_buff, attack_buff, defence_buff, stamina_buff, price);
+	slim_printf(LIGHT_CYAN, "%s [", name.get_string());
+	slim_printf(LIGHT_MAGENTA, "live  %u || atk %u || def %u || stm %u", live_buff, attack_buff, defence_buff, stamina_buff);
+	slim_printf(LIGHT_CYAN,"]");
+	printf(" -> ");
+	slim_printf(LIGHT_GREEN, "Price: %u\n", price);
 }
 
 //BUFFS----------------------

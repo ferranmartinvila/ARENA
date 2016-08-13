@@ -27,7 +27,7 @@ public:
 			this->item_choosed = nullptr;
 			this->rune_choosed = nullptr;
 			//Init
-			printf("Hello im  %s  the runner of arena!\n", this->name.get_string());
+			slim_printf(WHITE, "Hello im  %s  the runner of arena!\n\n", this->name.get_string());
 			state = FUSE_RUNES;
 			((creature*)entity_focused)->state = FUSE_RUNES;
 			//Initial print
@@ -79,12 +79,12 @@ public:
 
 	void re_print()const{
 		//EXTRCT mode
-		if (state == EXTRACT_RUNES && item_choosed == nullptr && rune_choosed == nullptr){ printf("EXTRACT MODE:\n\nChoose the item.\n"), ((creature*)entity_focused)->show_storage_for_class(EQUIP, true); }
+		if (state == EXTRACT_RUNES && item_choosed == nullptr && rune_choosed == nullptr){ slim_printf(WHITE, "EXTRACT MODE:\n\n"), printf("Choose the item.\n"), ((creature*)entity_focused)->show_storage_for_class(EQUIP, true), printf("\n"); }
 		//FUSE mode
 		//1st step
-		else if (state == FUSE_RUNES && rune_choosed == nullptr){ printf("FUSE MODE:\n\nChoose the rune.\n"), ((creature*)entity_focused)->show_storage_for_class(RUNE, true); }
+		else if (state == FUSE_RUNES && rune_choosed == nullptr){ slim_printf(WHITE, "FUSE MODE:\n\n"), printf("Choose the rune.\n\n"), ((creature*)entity_focused)->show_storage_for_class(RUNE, true), printf("\n"); }
 		//2nd step
-		else if (state == FUSE_RUNES && item_choosed == nullptr){ printf("FUSE MODE:\n\nChoose the item.\n"), ((creature*)entity_focused)->show_storage_for_class(EQUIP, true); }
+		else if (state == FUSE_RUNES && item_choosed == nullptr){ slim_printf(WHITE, "FUSE MODE:\n\n"), printf("Choose the item.\n\n"), ((creature*)entity_focused)->show_storage_for_class(EQUIP, true), printf("\n"); }
 	}
 
 
@@ -99,12 +99,11 @@ public:
 			//Delete the rune from the creature buffer
 			this->entity_focused->buffer.erase_data(rune);
 			//Apply rune buffs to object & show the result
-			printf("%s has been added to %s ", rune->name.get_string(), target->name.get_string());
-			if (rune->rune_type == LIVE_RUNE){ target->live_buff += rune->enchant_points, printf("+%u live", rune->enchant_points); }
-			else if (rune->rune_type == DEFENCE_RUNE){ target->defence_buff += rune->enchant_points, printf("+%u defence", rune->enchant_points); }
-			else if (rune->rune_type == ATTACK_RUNE){ target->attack_buff += rune->enchant_points, printf("+%u attack", rune->enchant_points); }
-			else if (rune->rune_type == STAMINA_RUNE){ target->stamina_buff += rune->enchant_points, printf("+%u stamina", rune->enchant_points); }
-			printf("\n\n");
+			slim_printf(LIGHT_GREEN, "%s has been added to %s ", rune->name.get_string(), target->name.get_string());
+			if (rune->rune_type == LIVE_RUNE){ target->live_buff += rune->enchant_points, slim_printf(LIGHT_GREEN, "+%u live\n\n", rune->enchant_points); }
+			else if (rune->rune_type == DEFENCE_RUNE){ target->defence_buff += rune->enchant_points, slim_printf(LIGHT_GREEN, "+%u defence\n\n", rune->enchant_points); }
+			else if (rune->rune_type == ATTACK_RUNE){ target->attack_buff += rune->enchant_points, slim_printf(LIGHT_GREEN, "+%u attack\n\n", rune->enchant_points); }
+			else if (rune->rune_type == STAMINA_RUNE){ target->stamina_buff += rune->enchant_points, slim_printf(LIGHT_GREEN, "+%u stamina\n\n", rune->enchant_points); }
 			//Targets reset
 			this->item_choosed = nullptr;
 			this->rune_choosed = nullptr;
@@ -123,11 +122,11 @@ public:
 			//Erase the rune from the font
 			font->buffer.pop_back();
 			//Rest the rune buffs & show the result
-			printf("%s has been extracted from %s ", result_rune->name.get_string(), font->name.get_string());
-			if (result_rune->rune_type == LIVE_RUNE){ font->live_buff -= result_rune->enchant_points, printf("-%u live", result_rune->enchant_points); }
-			else if (result_rune->rune_type == DEFENCE_RUNE){ font->defence_buff -= result_rune->enchant_points, printf("-%u defence", result_rune->enchant_points); }
-			else if (result_rune->rune_type == ATTACK_RUNE){ font->attack_buff -= result_rune->enchant_points, printf("-%u attack", result_rune->enchant_points); }
-			else if (result_rune->rune_type == STAMINA_RUNE){ font->stamina_buff -= result_rune->enchant_points, printf("-%u stamina", result_rune->enchant_points); }
+			slim_printf(LIGHT_GREEN, "%s has been extracted from %s ", result_rune->name.get_string(), font->name.get_string());
+			if (result_rune->rune_type == LIVE_RUNE){ font->live_buff -= result_rune->enchant_points, slim_printf(LIGHT_RED, "-%u live", result_rune->enchant_points); }
+			else if (result_rune->rune_type == DEFENCE_RUNE){ font->defence_buff -= result_rune->enchant_points, slim_printf(LIGHT_RED, "-%u defence", result_rune->enchant_points); }
+			else if (result_rune->rune_type == ATTACK_RUNE){ font->attack_buff -= result_rune->enchant_points, slim_printf(LIGHT_RED, "-%u attack", result_rune->enchant_points); }
+			else if (result_rune->rune_type == STAMINA_RUNE){ font->stamina_buff -= result_rune->enchant_points, slim_printf(LIGHT_RED, "-%u stamina", result_rune->enchant_points); }
 			printf("\n\n");
 			this->item_choosed = nullptr;
 			return true;

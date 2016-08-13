@@ -8,12 +8,15 @@ object::object(char* name, char* description, OBJECT_TYPE object_type , uint pri
 //LORE-----------------------
 void object::look_it()const{
 	//Name & description
-	printf("\n%s:%s\n", name.get_string(), description.get_string());
-	printf("price [%i]\n", price);
+	slim_printf(WHITE, "\n%s: ", name.get_string());
+	printf("%s\n", description.get_string());
+	slim_printf(WHITE, "price [%i]\n", price);
 }
 
 void object::pauted_look_it()const{
-	printf("%s: %s -> Price: %u\n", name.get_string(), description.get_string(), price);
+	slim_printf(LIGHT_CYAN, "%s: %s", name.get_string(), description.get_string());
+	printf("->");
+	slim_printf(LIGHT_GREEN, "Price: %u\n", price);
 }
 
 

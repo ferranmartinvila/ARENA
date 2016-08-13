@@ -219,29 +219,30 @@ bool world::Apply_Instruction(vector<string> instruction){
 
 	//DEAD(RESET)--------------------------------
 	else if (instruction.buffer[0] == "RESET" && user->state == DEAD)user->reset();
-	
+
 
 	//HELP---------------------------------------
-	else if (instruction.buffer[0] == "help")printf(
-		"help -> Show all the instructions\n"
-		"quit(in idle) -> Quit from the game\n"
-		"quit(in action) -> Quit from the action\n"
-		"go + direction -> Move around the rooms\n"
-		"look + me -> Look avatar\n"
-		"look + room -> Look current location\n"
-		"look + entity name -> Look the entity\n"
-		"pick + item name -> Pick the choosed item\n"
-		"throw + item name -> Throw the choosed item\n"
-		"equip + item name -> Equip the choosed item\n"
-		"unequip + item name -> Unequip the choosed item\n"
-		"drink + potion name -> Drink the selected potion\n"
-		"attack + NPC name -> Attack the focused NPC\n"
-		"(in talk with Merchant)change -> Swap between SELL & BUY mode\n"
-		"(in talk with Merchant)buy + item name -> Buy the choosed item\n"
-		"(in talk with Merchant)sell + item name -> Sell the choosed item\n"
-		"(in talk with Runner)change -> Swap between FUSE & EXTRACT mode\n"
-		"(in talk with NPC)a...z -> Choose option\n");
-	
+	else if (instruction.buffer[0] == "help"){
+		slim_printf(WHITE, "help"); printf(" -> Show all the instructions\n");
+		slim_printf(WHITE, "quit"); printf("(in idle) -> Quit from the game\n");
+		slim_printf(WHITE, "quit"); printf("(in action) -> Quit from the action\n");
+		slim_printf(WHITE, "go + direction"); printf(" -> Move around the rooms\n");
+		slim_printf(WHITE, "look + me"); printf(" -> Look avatar\n");
+		slim_printf(WHITE, "look + room"); printf(" -> Look current location\n");
+		slim_printf(WHITE, "look + entity name"); printf(" -> Look the entity\n");
+		slim_printf(WHITE, "pick + item name"); printf(" -> Pick the choosed item\n");
+		slim_printf(WHITE, "throw + item name"); printf(" -> Throw the choosed item\n");
+		slim_printf(WHITE, "equip + item name"); printf(" -> Equip the choosed item\n");
+		slim_printf(WHITE, "unequip + item name"); printf(" -> Unequip the choosed item\n");
+		slim_printf(WHITE, "drink + potion name"); printf(" -> Drink the selected potion\n");
+		slim_printf(WHITE, "attack + NPC name"); printf(" -> Attack the focused NPC\n");
+		slim_printf(WHITE, "change"); printf("(in talk with Merchant) -> Swap between SELL & BUY mode\n");
+		slim_printf(WHITE, "buy + item name"); printf("(in talk with Merchant) -> Buy the choosed item\n");
+		slim_printf(WHITE, "sell + item name"); printf("(in talk with Merchant)->Sell the choosed item\n");
+		slim_printf(WHITE, "change"); printf("(in talk with Runner) -> Swap between FUSE & EXTRACT mode\n");
+		slim_printf(WHITE, "a...z"); printf("(in talk with NPC) -> Choose option\n");
+		slim_printf(WHITE, "RESET"); printf("(in dead state) -> Reset the user bag, money & current xp\n");
+	}
 	
 	//IDLE ACTIONS-------------------------------
 	else if (user->state == IDLE && instruction.get_size() > 1){
