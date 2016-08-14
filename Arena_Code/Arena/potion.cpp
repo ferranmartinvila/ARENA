@@ -8,7 +8,9 @@ potion::potion(char* name, char* description, POTION_TYPE potion_type, uint lvl)
 
 //LORE-------------------------------------------
 void potion::look_it()const{
-	printf("%s: %s -> regen[%u] ", name.get_string(), description.get_string(),stat_regen);
+	slim_printf(WHITE, "%s: %s", name.get_string(), description.get_string());
+	printf(" -> ");
+	slim_printf(LIGHT_MAGENTA, "regen[%u]\n\n",stat_regen);
 }
 
 void potion::pauted_look_it()const{

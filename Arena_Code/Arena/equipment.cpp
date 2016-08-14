@@ -5,6 +5,12 @@
 equip::equip(char* name, char* description, OBJECT_TYPE object_type, uint live_buff = 0, uint defence_buff = 0, uint attack_buff = 0, uint agility_buff = 0, uint price = 0) :object(name, description, object_type, price), live_buff(live_buff), defence_buff(defence_buff), attack_buff(attack_buff), agility_buff(agility_buff){}
 
 //LORE-----------------------
+void equip::look_it()const{
+	slim_printf(WHITE, "%s: %s\n\nBUFFS:\n", name.get_string(), description.get_string());
+	slim_printf(LIGHT_GREEN, "live [%u]\nattack[%u]\ndefence[%u]\nagility[%u]\n", live_buff, attack_buff, defence_buff, agility_buff);
+	slim_printf(LIGHT_MAGENTA, "Price -> [%u]\n\n",price);
+}
+
 void equip::pauted_look_it()const{
 	slim_printf(LIGHT_CYAN, "%s [", name.get_string());
 	slim_printf(LIGHT_MAGENTA, "live  %u || atk %u || def %u || agi %u", live_buff, attack_buff, defence_buff, agility_buff);

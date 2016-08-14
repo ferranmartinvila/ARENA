@@ -16,8 +16,9 @@ public:
 	equip(char*, char*, OBJECT_TYPE, uint, uint, uint, uint ,uint);
 
 	//FUNCTIONS
+	void look_it()const;
+	void pauted_look_it()const;
 	void add_buffs(creature*);
 	void rest_buffs(creature*);
-	void pauted_look_it()const;
 };
 #endif

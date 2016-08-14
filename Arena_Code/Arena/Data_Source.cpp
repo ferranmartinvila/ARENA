@@ -32,7 +32,27 @@ data_source::data_source(){
 	names[i++] = ("Sau");
 	names[i++] = ("Gena");
 	//20
-
+	names[i++] = ("Noah");
+	names[i++] = ("Liam");
+	names[i++] = ("Zoe");
+	names[i++] = ("Mila");
+	names[i++] = ("Aria");
+	//25
+	names[i++] = ("Leah");
+	names[i++] = ("Caleb");
+	names[i++] = ("Ian");
+	names[i++] = ("Levi");
+	names[i++] = ("Henk");
+	//30
+	names[i++] = ("Leo");
+	names[i++] = ("Owen");
+	names[i++] = ("Ezra");
+	names[i++] = ("Ruby");
+	names[i++] = ("Ayen");
+	//35
+	
+		
+		
 
 
 	//EQUIPATION-----------------------

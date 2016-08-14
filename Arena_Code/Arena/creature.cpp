@@ -40,14 +40,34 @@ void creature::lvl_up(uint levels){
 		agility += 1 * levels;
 		break;
 	
+	//Fight NPCs
 	case GOBLIN:
 		live_points += 5 * levels;
 		damage += 2 * levels;
 		defense += 1 * levels;
+		agility += 1;
 		money += 10 * levels;
 		current_xp = levels * 20;
 		break;
-	
+
+	case ARCHER:
+		live_points += 2 * levels;
+		damage += 2 * levels;
+		defense += 1 * levels;
+		agility += 2;
+		money += 8 * levels;
+		current_xp = levels * 15;
+		break;
+
+	case ORC:
+		live_points += 12 * levels;
+		damage += 3 * levels;
+		defense += 2 * levels;
+		money += 25 * levels;
+		current_xp = levels * 30;
+		break;
+
+	//Trade NPCs
 	case MERCHANT:
 		live_points += 50 * levels;
 		damage += 20 * levels;

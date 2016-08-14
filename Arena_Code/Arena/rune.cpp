@@ -4,6 +4,12 @@
 rune::rune(char* name, char* description, RUNE_TYPE rune_type) :object(name, description, RUNE, 150), rune_type(rune_type){}
 
 //LORE------------------------------------------
+void rune::look_it()const{
+	slim_printf(WHITE, "%s: %s", name.get_string(), description.get_string());
+	printf(" -> ");
+	slim_printf(LIGHT_MAGENTA, "adds[%u]\n\n", this->enchant_points);
+}
+
 void rune::pauted_look_it()const{
 	//Name
 	slim_printf(LIGHT_CYAN, "%s [", name.get_string());

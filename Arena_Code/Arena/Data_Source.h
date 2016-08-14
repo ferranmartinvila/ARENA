@@ -9,7 +9,7 @@ class equip;
 class potion;
 class rune;
 
-#define NAMES_STUFF 20
+#define NAMES_STUFF 35
 #define EQUIP_STUFF 12
 #define RUNES_STUFF 4
 #define POTIONS_STUFF 4
@@ -38,8 +38,25 @@ public:
 		[17]Ozell
 		[18]Sau
 		[19]Gena
+		[20]Noah
+		[21]Liam
+		[22]Zoe
+		[23]Mila
+		[24]Aria
+		[25]Leah
+		[26]Caleb
+		[27]Ian
+		[28]Levi
+		[29]Henk
+		[30]Leo
+		[31]Owen
+		[32]Ezra
+		[33]Ruby
+		[34]Ayen
+
+
 	*/
-	string names[20];
+	string names[NAMES_STUFF];
 	
 	//EQUIP DATA----------------------------
 	/*
@@ -80,7 +97,7 @@ public:
 	bool generated;
 private:
 
-	bool names_used[20];
+	bool names_used[NAMES_STUFF];
 	int names_used_result = 0;
 
 public:

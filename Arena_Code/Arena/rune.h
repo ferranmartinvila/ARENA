@@ -11,6 +11,9 @@ public:
 
 	//Constructor
 	rune(char* name, char* description, RUNE_TYPE rune_type);
+
+	//FUNCTIONS
+	void look_it()const;
 	void pauted_look_it()const;
 
 };
