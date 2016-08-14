@@ -4,9 +4,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include "Data_source.h"
-
-//Monsters
-#include "Goblin.h"
+#include "Monsters.h"
 
 //ROOM CONSTRUCTOR-------------------------------
 room::room(char* name, char* description) :entity(name, description, ROOM){}

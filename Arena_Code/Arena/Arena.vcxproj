@@ -79,17 +79,15 @@
     <ClCompile Include="world.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Archer.h" />
     <ClInclude Include="creature.h" />
     <ClInclude Include="Data_Source.h" />
     <ClInclude Include="double_list.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="equipment.h" />
     <ClInclude Include="Globals.h" />
-    <ClInclude Include="Goblin.h" />
     <ClInclude Include="Merchant.h" />
+    <ClInclude Include="Monsters.h" />
     <ClInclude Include="object.h" />
-    <ClInclude Include="Orc.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="potion.h" />
     <ClInclude Include="room.h" />

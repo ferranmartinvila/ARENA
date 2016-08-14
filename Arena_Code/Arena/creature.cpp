@@ -35,36 +35,96 @@ void creature::lvl_up(uint levels){
 	
 	case PLAYER:
 		live_points += 15 * levels;
-		damage += 2 * levels;
 		defense += 2 * levels;
+		damage += 2 * levels;
 		agility += 1 * levels;
 		break;
 	
 	//Fight NPCs
 	case GOBLIN:
 		live_points += 5 * levels;
-		damage += 2 * levels;
 		defense += 1 * levels;
-		agility += 1;
+		damage += 2 * levels;
+		agility += 1 * levels;
 		money += 10 * levels;
 		current_xp = levels * 20;
 		break;
 
 	case ARCHER:
 		live_points += 2 * levels;
-		damage += 2 * levels;
 		defense += 1 * levels;
-		agility += 2;
+		damage += 2 * levels;
+		agility += 2 * levels;
 		money += 8 * levels;
 		current_xp = levels * 15;
 		break;
 
 	case ORC:
 		live_points += 12 * levels;
-		damage += 3 * levels;
 		defense += 2 * levels;
+		damage += 3 * levels;
 		money += 25 * levels;
 		current_xp = levels * 30;
+		break;
+
+	case ELF:
+		live_points += 7 * levels;
+		defense += 1 * levels;
+		damage += 2 * levels;
+		agility += 1 * levels;
+		money += 15 * levels;
+		current_xp = levels * 20;
+		break;
+
+	case DEMON:
+		live_points += 10 * levels;
+		defense += 2 * levels;
+		damage += 2 * levels;
+		money += 20 * levels;
+		current_xp = levels * 25;
+		break;
+
+	case GOLEM:
+		live_points += 15 * levels;
+		defense += 3 * levels;
+		damage += 2 * levels;
+		money += 45 * levels;
+		current_xp = levels * 50;
+		break;
+
+	case HARPY:
+		live_points += 5 * levels;
+		defense += 1 * levels;
+		damage += 2 * levels;
+		agility += 3 * levels;
+		money += 15 * levels;
+		current_xp = levels * 20;
+		break;
+
+	case MINOTAUR:
+		live_points += 12 * levels;
+		defense += 2 * levels;
+		damage += 1 * levels;
+		agility += 1 * levels;
+		money += 30 * levels;
+		current_xp = levels * 35;
+		break;
+
+	case CYCLOP:
+		live_points += 20 * levels;
+		defense += 3 * levels;
+		damage += 5 * levels;
+		money += 60 * levels;
+		current_xp = levels * 45;
+		break;
+
+	case GORGON:
+		live_points += 10 * levels;
+		defense += 2 * levels;
+		damage += 2 * levels;
+		agility += 1 * levels;
+		money += 30 * levels;
+		current_xp = levels * 20;
 		break;
 
 	//Trade NPCs

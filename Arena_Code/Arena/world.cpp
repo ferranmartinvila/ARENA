@@ -2,7 +2,7 @@
 #include "string.h"
 //Creatures
 #include "player.h"
-#include "Goblin.h"
+#include "Monsters.h"
 #include "Merchant.h"
 #include "Runner.h"
 //Objects
