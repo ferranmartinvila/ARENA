@@ -218,7 +218,6 @@ bool world::Apply_Instruction(vector<string> instruction){
 		if (instruction.get_size() == 1 && instruction.buffer[0].lenght() == 1)((room*)user->location)->generate_round(user, instruction.buffer[0].get_string()[0]);
 		else if (instruction.buffer[0] == "attack")user->attack();
 		else if (instruction.buffer[0] == "drink")user->drink();
-		else if (instruction.buffer[0] == "look")((room*)user->location)->arena_look(instruction.buffer[1]);
 		else slim_printf(WHITE, "Invalid comand.\n");
 	}
 

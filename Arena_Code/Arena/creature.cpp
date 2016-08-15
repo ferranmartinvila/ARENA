@@ -2,9 +2,10 @@
 #include "object.h"
 #include "room.h"
 #include "potion.h"
+#include <time.h>
+#include <stdlib.h>
 
-//SYSTEM-------------------------------
-
+//SYSTEM-----------------------------------------
 creature::creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl) :entity(name, description, CREATURE), creature_type(type), location(location), state(IDLE), lvl(lvl), current_xp(0), next_lvl_xp(100){}
 
 void creature::update(){
@@ -34,9 +35,9 @@ void creature::lvl_up(uint levels){
 	switch (check){
 	
 	case PLAYER:
-		live_points += 15 * levels;
-		defense += 2 * levels;
-		damage += 2 * levels;
+		live_points += 20 * levels;
+		defense += 3 * levels;
+		damage += 4 * levels;
 		agility += 1 * levels;
 		break;
 	
@@ -61,7 +62,7 @@ void creature::lvl_up(uint levels){
 
 	case ORC:
 		live_points += 12 * levels;
-		defense += 2 * levels;
+		defense += 1 * levels;
 		damage += 3 * levels;
 		money += 25 * levels;
 		current_xp = levels * 30;
@@ -112,7 +113,7 @@ void creature::lvl_up(uint levels){
 
 	case CYCLOP:
 		live_points += 20 * levels;
-		defense += 3 * levels;
+		defense += 2 * levels;
 		damage += 5 * levels;
 		money += 60 * levels;
 		current_xp = levels * 45;
@@ -141,7 +142,7 @@ void creature::lvl_up(uint levels){
 	}
 }
 
-//LORE--------------------------------
+//LORE-------------------------------------------
 void creature::look_it()const{
 	//Name & description
 	slim_printf(WHITE, "\n%s:", name.get_string());
@@ -180,7 +181,6 @@ bool creature::show_storage_for_class(OBJECT_TYPE type, bool show)const{
 			elements++;
 		}
 		temp = temp->next;
-		
 	}
 	//Empty(false) else true
 	if (elements == 0){ printf("\nempty\n"); return false; }
@@ -194,7 +194,7 @@ void creature::talk(string instruction){
 	((creature*)this->entity_focused)->state = IDLE;
 }
 
-//POSITION------------------------
+//POSITION---------------------------------------
 void creature::move(string instruction){
 	//Choose the direction
 	DIRECTION direct_check = UNKKOWN;
@@ -223,8 +223,9 @@ void creature::move(string instruction){
 	
 }
 
-//INVENTORY-----------------------
+//INVENTORY--------------------------------------
 void creature::pick(){
+	//Invalid situations
 	if (entity_focused == nullptr)slim_printf(WHITE, "Invalid Name.\n");
 	else if (entity_focused->type != OBJECT)slim_printf(WHITE, "Invalid entity.\n");
 	else{
@@ -238,6 +239,7 @@ void creature::pick(){
 }
 
 void creature::pull(){
+	//Invalid situations
 	if (entity_focused == nullptr)slim_printf(WHITE, "Invalid Name.\n");
 	else if (entity_focused->type != OBJECT)slim_printf(WHITE, "Invalid entity.\n");
 	else{
@@ -252,6 +254,7 @@ void creature::pull(){
 
 bool creature::buy(object* to_buy){
 	if (to_buy != nullptr){
+		//Invalid situations
 		if (to_buy->price > this->money){ printf("You don't have enough money for [%s].\n", to_buy->name.get_string()); return false; }
 		else{
 			//Rest user money and push the object
@@ -278,7 +281,7 @@ bool creature::sell(object* to_sell){
 	return false;
 }
 
-//FIGHT----------------------------
+//FIGHT------------------------------------------
 void creature::attack(){
 	//Pointer of creature attacked
 	creature* target = (creature*)this->entity_focused;
@@ -295,38 +298,57 @@ void creature::attack(){
 	}
 	//Attack
 	else{
-		state = ATTACK;
+		uint final_damage = (this->damage - target->defense);
+		this->state = ATTACK;
 		//Focus the other creature to player
 		if (this->creature_type == PLAYER){ 
 			target->entity_focused = this, target->state = ATTACK;
 		}
-		//Apply damage
-		target->current_live_points -= damage;
+		//Generate attack
 		printf("----------->\n");
-		//User case
-		if (this->creature_type == PLAYER)slim_printf(LIGHT_GREEN, "You damage %i to %s\n", damage, target->name.get_string());
-		//Enmey case
-		else slim_printf(LIGHT_RED, "%s damage %i to you\n", name.get_string(), damage);
-		//Target defeat
-		if (target->current_live_points <= 0){
+		//Generate rand agility checker
+		srand((uint)time(NULL));
+		uint rand_agility = rand() % 100;
+		uint last_rand_agility = rand_agility;
+		while (last_rand_agility == rand_agility){
+			rand_agility = rand() % 100;
+		}
+		//Hit case---------------------
+		if (rand_agility > target->agility){
+			target->current_live_points -= final_damage;
+			//User case
+			if (this->creature_type == PLAYER)slim_printf(LIGHT_GREEN, "You damage %i to %s\n", final_damage, target->name.get_string());
+			//Enmey case
+			else slim_printf(LIGHT_RED, "%s damage %i to you\n", name.get_string(), final_damage);
+			//Target defeat
+			if (target->current_live_points <= 0){
 
-			//Show result
-			//Player case
-			if (this->creature_type == PLAYER)slim_printf(LIGHT_GREEN, "\nYou defeat %s!  ", target->name.get_string());
-			//Enemy case
-			else slim_printf(LIGHT_RED, " \n%s defeat you! ", name.get_string());
+				//Show result
+				//Player case
+				if (this->creature_type == PLAYER)slim_printf(LIGHT_GREEN, "\nYou defeat %s!  ", target->name.get_string());
+				//Enemy case
+				else slim_printf(LIGHT_RED, " \n%s defeat you! ", name.get_string());
 
-			//Enemy case
-			if (target->creature_type != PLAYER){
-				target->drop(this);
-				target->die();
+				//Enemy case
+				if (target->creature_type != PLAYER){
+					target->drop(this);
+					target->die();
+				}
+				//Player case
+				else target->state = DEAD;
+
+				//Fight end state
+				if (location->name == "Arena"){ state = IN_ARENA, ((room*)location)->check_arena_end(this); }
+				else state = IDLE;
 			}
-			//Player case
-			else target->state = DEAD;
-
-			//Fight end state
-			if (location->name == "Arena"){ state = IN_ARENA, ((room*)location)->check_arena_end(this); }
-			else state = IDLE;
+		}
+		//Dodge case-------------------------
+		else {
+			//Show result
+			//Enemy dodge case
+			if (this->creature_type == PLAYER)slim_printf(LIGHT_RED, "\n%s dodge your attack.", target->name.get_string());
+			//Player dodge case
+			else slim_printf(LIGHT_GREEN, "\nYou dodge %s attack.", name.get_string());
 		}
 		printf("-----------\n");
 	}
@@ -339,7 +361,7 @@ void creature::drop(creature* killer){
 	slim_printf(LIGHT_GREEN, "+%i money +%i xp\n\n", money, current_xp);
 }
 
-//LIVE-------------------------
+//LIVE-------------------------------------------
 void creature::die(){
 	//Erase the creature from the location
 	this->location->buffer.erase_data(this);

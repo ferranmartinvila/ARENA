@@ -9,8 +9,9 @@
 player::player(char* name, char* description, room* location, uint lvl) :creature(name, description, PLAYER, location, lvl){
 	//Initial Stats
 	live_points = 150;
+	defense = 0;
 	damage = 5;
-	agility = 2;
+	agility = 30;
 	lvl_up(lvl);
 }
 

@@ -29,13 +29,12 @@ public:
 
 	//FUNCTIONS
 	//System
-	creature* generate_rand_enemy(uint);
+	creature* generate_rand_enemy(uint*, uint*, uint);
 	
 	//Lore
 	entity* find_exit(DIRECTION);
 
 	//ARENA FUNCTIONS
-	void arena_look(string)const;
 	void arena_init(creature*);
 	void check_arena_end(creature*);
 	void generate_round(creature*, char);

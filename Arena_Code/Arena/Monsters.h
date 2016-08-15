@@ -25,7 +25,7 @@ public:
 	orc(entity* location, uint lvl) : creature(source.get_random_name(), "A strong and green monster", ORC, location, lvl){
 		//Initial Stats
 		current_live_points = live_points = 50;
-		defense = 4;
+		defense = 3;
 		damage = 5;
 		agility = 0;
 		lvl_up(lvl);
@@ -81,7 +81,7 @@ public:
 	golem(entity* location, uint lvl) : creature(source.get_random_name(), "Strong fighter created from mud", GOLEM, location, lvl){
 		//Initial Stats
 		current_live_points = live_points = 65;
-		defense = 5;
+		defense = 2;
 		damage = 3;
 		agility = 0;
 		lvl_up(lvl);
@@ -123,7 +123,7 @@ public:
 	cyclop(entity* location, uint lvl) : creature(source.get_random_name(), "Strong giant with only one eye", CYCLOP, location, lvl){
 		//Initial Stats
 		current_live_points = live_points = 80;
-		defense = 5;
+		defense = 3;
 		damage = 10;
 		agility = 0;
 		lvl_up(lvl);

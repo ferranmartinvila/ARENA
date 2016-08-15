@@ -15,17 +15,66 @@ room::exit::exit(char* name, char* description, room*from_room, room*next_room, 
 
 
 //SYSTEM-----------------------------------------
-creature* room::generate_rand_enemy(uint max_lvl){
+creature* room::generate_rand_enemy(uint* last_type, uint* last_lvl, uint max_lvl){
 	srand((uint)time(NULL));
 	//Random monster type
-	uint monster_type = 1;
+	uint rand_monster_type = (rand() % 9) + 1;
 	//Random lvl 
-	uint monster_level = (rand() % max_lvl) + 1;
+	uint rand_monster_level = (rand() % max_lvl) + 1;
 	//Monster pointer
 	creature* rand_enemy = nullptr;
-	switch (monster_type){
+	//Randomize the lvl & mosnter type
+	while (rand_monster_type == *last_type){
+		rand_monster_type = (rand() % 9) + 1;
+	}
+	if (max_lvl > 1){
+		while (rand_monster_level == *last_lvl){
+			rand_monster_level = (rand() % 9) + 1;
+		}
+	}
+	*last_type = rand_monster_type;
+	*last_lvl = rand_monster_level;
+	//Generate a monster with the rand pre-generated random data
+	switch (rand_monster_type){
+		//GOBLIN-----------------
 	case 1:
-		rand_enemy = new goblin((entity*)this, monster_level);
+		rand_enemy = new goblin((entity*)this, rand_monster_level);
+		break;
+		//ARCHER-----------------
+	case 2:
+		rand_enemy = new archer((entity*)this, rand_monster_level);
+		break;
+		//ORC--------------------
+	case 3:
+		rand_enemy = new orc((entity*)this, rand_monster_level);
+		break;
+		//ELF--------------------
+	case 4:
+		rand_enemy = new elf((entity*)this, rand_monster_level);
+		break;
+		//DEMON------------------
+	case 5:
+		rand_enemy = new demon((entity*)this, rand_monster_level);
+		break;
+		//GOLEM------------------
+	case 6:
+		rand_enemy = new golem((entity*)this, rand_monster_level);
+		break;
+		//HARPY------------------
+	case 7:
+		rand_enemy = new harpy((entity*)this, rand_monster_level);
+		break;
+		//MINOTAUR---------------
+	case 8:
+		rand_enemy = new minotaur((entity*)this, rand_monster_level);
+		break;
+		//CYCLOP-----------------
+	case 9:
+		rand_enemy = new cyclop((entity*)this, rand_monster_level);
+		break;
+		//GORGON-----------------
+	case 10:
+		rand_enemy = new gorgon((entity*)this, rand_monster_level);
 		break;
 	}
 	return rand_enemy;
@@ -43,50 +92,6 @@ entity* room::find_exit(DIRECTION direction){
 }
 
 //ARENA FUNCTIONS--------------------------------
-void room::arena_look(string instruction)const{
-	//Look room
-	if (instruction == "room"){
-		//Print the enemies
-		list_double<entity*>::node* temp = this->buffer.first_element;
-		while (temp){
-			if (temp->data->type == CREATURE && ((creature*)temp->data)->creature_type != PLAYER){
-				printf("%s ", temp->data->name);
-				switch (((creature*)temp->data)->creature_type){
-				case GOBLIN:
-					printf("[goblin]");
-					break;
-				}
-				printf("lvl %u live[%u]\n", ((creature*)temp->data)->lvl, ((creature*)temp->data)->current_live_points);
-			}
-			temp = temp->next;
-		}
-	}
-	//Look avatar
-	else if (instruction == "me"){
-		//Find player in arena buffer
-		list_double<entity*>::node* temp = this->buffer.first_element;
-		creature* player = nullptr;
-		while (temp){
-			if (((creature*)temp->data)->creature_type == PLAYER)player = (creature*)temp->data;
-			temp = temp->next;
-		}
-		//Shwo basic player stats
-		printf("--------------\n%s:\nLEVEL[%u]\nSTATS:\nlive[%i]\nattack[%u]\ndefense[%u]\nagility[%u]\n", player->name.get_string(), player->lvl, player->current_live_points, player->damage, player->defense, player->agility);
-		//Show player usable buffer items
-		temp = player->buffer.first_element;
-		printf("Useful items:\n");
-		uint k = 0;
-		while (temp){
-			if (((object*)temp->data)->object_type == POTION){ k++, printf("%s\n", temp->data->name.get_string()); }
-			temp = temp->next;
-		}
-		if (k == 0)printf("No usable items find.\n");
-		printf("--------------\n");
-	}
-	//Invalid look
-	else printf("Invalid look comand.\n");
-}
-
 void room::arena_init(creature* player){
 	player->state = IN_ARENA;
 	system("cls");
@@ -127,15 +132,61 @@ void room::generate_round(creature* player, char dificult){
 	else slim_printf(WHITE, "EASY MODE:\n\n");
 	//Enemies pointer
 	creature* enemy = nullptr;
+	//Randomize data
+	srand((uint)time(NULL));
+	uint rand_type = (rand() % 9) + 1;
+	uint rand_lvl = rand() % player->lvl;
 	//Generate the ord 
 	while (global_lvl > 0){
-		enemy = generate_rand_enemy(player->lvl);
+		enemy = generate_rand_enemy(&rand_type, &rand_lvl, player->lvl);
 		global_lvl -= enemy->lvl;
 		enemy->state = ATTACK;
 		enemy->entity_focused = player;
 		enemy->location = this;
 		player->location->buffer.push_back(enemy);
-		slim_printf(LIGHT_MAGENTA, "%s [Goblin] added.\n", enemy->name.get_string());
+		//Show enemy added
+		switch (enemy->creature_type){
+			//GOBLIN-----------------
+		case GOBLIN:
+			slim_printf(LIGHT_MAGENTA, "%s [GOBLIN] lvl %u added\n", enemy->name.get_string(), enemy->lvl);
+			break;
+			//ARCHER-----------------
+		case ARCHER:
+			slim_printf(LIGHT_MAGENTA, "%s [ARCHER] lvl %u added\n", enemy->name.get_string(), enemy->lvl);
+			break;
+			//ORC--------------------
+		case ORC:
+			slim_printf(LIGHT_MAGENTA, "%s [ORC] lvl %u added\n", enemy->name.get_string(), enemy->lvl);
+			break;
+			//ELF--------------------
+		case ELF:
+			slim_printf(LIGHT_MAGENTA, "%s [ELF] lvl %u added\n", enemy->name.get_string(), enemy->lvl);
+			break;
+			//DEMON------------------
+		case DEMON:
+			slim_printf(LIGHT_MAGENTA, "%s [DEMON] lvl %u added\n", enemy->name.get_string(), enemy->lvl);
+			break;
+			//GOLEM------------------
+		case GOLEM:
+			slim_printf(LIGHT_MAGENTA, "%s [GOLEM] lvl %u added\n", enemy->name.get_string(), enemy->lvl);
+			break;
+			//HARPY------------------
+		case HARPY:
+			slim_printf(LIGHT_MAGENTA, "%s [HARPY] lvl %u added\n", enemy->name.get_string(), enemy->lvl);
+			break;
+			//MINOTAUR---------------
+		case MINOTAUR:
+			slim_printf(LIGHT_MAGENTA, "%s [MINOTAUR] lvl %u added\n", enemy->name.get_string(), enemy->lvl);
+			break;
+			//CYCLOP-----------------
+		case CYCLOP:
+			slim_printf(LIGHT_MAGENTA, "%s [CYCLOP] lvl %u added\n", enemy->name.get_string(), enemy->lvl);
+			break;
+			//GORGON-----------------
+		case GORGON:
+			slim_printf(LIGHT_MAGENTA, "%s [GORGON] lvl %u added\n", enemy->name.get_string(), enemy->lvl);
+			break;
+		}
 	}
 }
 
