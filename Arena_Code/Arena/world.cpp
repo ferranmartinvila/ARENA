@@ -163,10 +163,11 @@ bool world::Apply_Instruction(vector<string> instruction){
 			position++;
 			if (instruction.get_size() > 3)instruction.buffer[position] += instruction.buffer[position + 1];
 		}
-		else if (instruction.get_size() > 3){
+		else if (instruction.get_size() > 4){
 			if (instruction.buffer[2] == "of"){
 				instruction.buffer[position] += instruction.buffer[position + 1];
 				instruction.buffer[position] += instruction.buffer[position + 2];
+				instruction.buffer[position] += instruction.buffer[position + 3];
 			}
 		}
 		else

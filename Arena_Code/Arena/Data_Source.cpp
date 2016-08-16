@@ -86,14 +86,33 @@ data_source::data_source(){
 
 
 	//RUNES----------------------------
-	rune* Vitality_Rune = new rune("Rune of Vitality", "Adds a live buff to the object", LIVE_RUNE);
-	runes.push_back(Vitality_Rune);
-	rune* Defence_Rune = new rune("Rune of Defence", "Adds a defence buff to the object", DEFENCE_RUNE);
-	runes.push_back(Defence_Rune);
-	rune* Attack_Rune = new rune("Rune of Attack", "Adds a attack buff to the object", ATTACK_RUNE);
-	runes.push_back(Attack_Rune);
-	rune* Agility_Rune = new rune("Rune of Agility", "Adds a agility buff to the object", AGILITY_RUNE);
-	runes.push_back(Agility_Rune);
+	//Grade I
+	rune* Vitality_Rune_I = new rune("Rune of Vitality I", "Adds a small live buff to the object", LIVE_RUNE, 25, 150);
+	runes.push_back(Vitality_Rune_I);
+	rune* Defence_Rune_I = new rune("Rune of Defence I", "Adds a small defence buff to the object", DEFENCE_RUNE, 12, 150);
+	runes.push_back(Defence_Rune_I);
+	rune* Attack_Rune_I = new rune("Rune of Attack I", "Adds a small attack buff to the object", ATTACK_RUNE , 8, 150);
+	runes.push_back(Attack_Rune_I);
+	rune* Agility_Rune_I = new rune("Rune of Agility I", "Adds a small agility buff to the object", AGILITY_RUNE, 5, 150);
+	runes.push_back(Agility_Rune_I);
+	//Grade II
+	rune* Vitality_Rune_II = new rune("Rune of Vitality II", "Adds a medium live buff to the object", LIVE_RUNE, 50, 300);
+	runes.push_back(Vitality_Rune_II);
+	rune* Defence_Rune_II = new rune("Rune of Defence II", "Adds a medium defence buff to the object", DEFENCE_RUNE, 24, 300);
+	runes.push_back(Defence_Rune_II);
+	rune* Attack_Rune_II = new rune("Rune of Attack II", "Adds a medium attack buff to the object", ATTACK_RUNE, 16, 300);
+	runes.push_back(Attack_Rune_II);
+	rune* Agility_Rune_II = new rune("Rune of Agility II", "Adds a medium agility buff to the object", AGILITY_RUNE, 10, 300);
+	runes.push_back(Agility_Rune_II);
+	//Grade III
+	rune* Vitality_Rune_III = new rune("Rune of Vitality III", "Adds a huge live buff to the object", LIVE_RUNE, 100, 600);
+	runes.push_back(Vitality_Rune_III);
+	rune* Defence_Rune_III = new rune("Rune of Defence III", "Adds a huge defence buff to the object", DEFENCE_RUNE, 48, 600);
+	runes.push_back(Defence_Rune_III);
+	rune* Attack_Rune_III = new rune("Rune of Attack III", "Adds a huge attack buff to the object", ATTACK_RUNE, 32, 600);
+	runes.push_back(Attack_Rune_III);
+	rune* Agility_Rune_III = new rune("Rune of Agility III", "Adds a huge agility buff to the object", AGILITY_RUNE, 20, 600);
+	runes.push_back(Agility_Rune_III);
 
 
 
