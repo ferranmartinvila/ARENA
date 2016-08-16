@@ -10,7 +10,7 @@ public:
 	uint stat_regen;
 
 	//Constructor
-	potion(char*, char*, POTION_TYPE, uint );
+	potion(char* name, char* description, POTION_TYPE potion_type, uint stat_regen, uint price);
 	
 	//FUNCTIONS
 	void look_it()const;

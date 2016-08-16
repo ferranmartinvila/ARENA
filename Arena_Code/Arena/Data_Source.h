@@ -12,7 +12,7 @@ class rune;
 #define NAMES_STUFF 35
 #define EQUIP_STUFF 12
 #define RUNES_STUFF 12
-#define POTIONS_STUFF 4
+#define POTIONS_STUFF 12
 
 class data_source{
 public:
@@ -96,8 +96,18 @@ public:
 
 	//POTIONS DATA--------------------------
 	/*
-		[0]Health_Potion
-		[1]Stamina_Potion
+		[0]Health_Potion I
+		[1]Defence_Potion I
+		[2]Attack_Potion I
+		[3]Agility_Potion I
+		[4]Health_Potion II
+		[5]Defence_Potion II
+		[6]Attack_Potion II
+		[7]Agility_Potion II
+		[8]Health_Potion III
+		[9]Defence_Potion III
+		[10]Attack_Potion III
+		[11]Agility_Potion III
 	*/
 	vector<potion*>potions;
 

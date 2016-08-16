@@ -117,14 +117,33 @@ data_source::data_source(){
 
 
 	//POTIONS--------------------------
-	potion* Health_Potion = new potion("Health potion", "Regen health points", HEAL_POTION, 1);
-	potions.push_back(Health_Potion);
-	potion* Defence_Potion = new potion("Defence potion", "Regen defence points", DEFENCE_POTION, 1);
-	potions.push_back(Defence_Potion);
-	potion* Attack_Potion = new potion("Attack potion", "Regen attack points", ATTACK_POTION, 1);
-	potions.push_back(Attack_Potion);
-	potion* Agility_Potion = new potion("Agility potion", "Regen stamina points", AGILITY_POTION, 1);
-	potions.push_back(Agility_Potion);
+	//Grade I
+	potion* Health_Potion_I = new potion("Health potion I", "Adds a little live buff to you", HEAL_POTION, 30, 35);
+	potions.push_back(Health_Potion_I);
+	potion* Defence_Potion_I = new potion("Defence potion I", "Adds a little defence buff to you", DEFENCE_POTION, 5,35);
+	potions.push_back(Defence_Potion_I);
+	potion* Attack_Potion_I = new potion("Attack potion I", "Adds a little attack buff to you", ATTACK_POTION, 3,35);
+	potions.push_back(Attack_Potion_I);
+	potion* Agility_Potion_I = new potion("Agility potion I", "Adds a little agility buff to you", AGILITY_POTION, 2,35);
+	potions.push_back(Agility_Potion_I);
+	//Grade II
+	potion* Health_Potion_II = new potion("Health potion II", "Adds a medium live buff to you", HEAL_POTION, 60, 70);
+	potions.push_back(Health_Potion_II);
+	potion* Defence_Potion_II = new potion("Defence potion II", "Adds a medium defence buff to you", DEFENCE_POTION, 10, 70);
+	potions.push_back(Defence_Potion_II);
+	potion* Attack_Potion_II = new potion("Attack potion II", "Adds a medium attack buff to you", ATTACK_POTION, 6, 70);
+	potions.push_back(Attack_Potion_II);
+	potion* Agility_Potion_II = new potion("Agility potion II", "Adds a medium agility buff to you", AGILITY_POTION, 4, 70);
+	potions.push_back(Agility_Potion_II);
+	//Grade III
+	potion* Health_Potion_III = new potion("Health potion III", "Adds a huge live buff to you", HEAL_POTION, 120, 140);
+	potions.push_back(Health_Potion_III);
+	potion* Defence_Potion_III = new potion("Defence potion III", "Adds a huge defence buff to you", DEFENCE_POTION, 20, 170);
+	potions.push_back(Defence_Potion_III);
+	potion* Attack_Potion_III = new potion("Attack potion III", "Adds a huge attack buff to you", ATTACK_POTION, 12, 170);
+	potions.push_back(Attack_Potion_III);
+	potion* Agility_Potion_III = new potion("Agility potion III", "Adds a huge agility buff to you", AGILITY_POTION, 8, 170);
+	potions.push_back(Agility_Potion_III);
 }
 
 //GET FONT---------------------------------------

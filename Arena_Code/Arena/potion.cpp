@@ -1,10 +1,7 @@
 #include "potion.h"
 
 //SYSTEM-----------------------------------------
-potion::potion(char* name, char* description, POTION_TYPE potion_type, uint lvl) :object(name, description, POTION, lvl*100), potion_type(potion_type){
-	if (potion_type == HEAL_POTION)stat_regen = 5;
-	else stat_regen = 2;
-}
+potion::potion(char* name, char* description, POTION_TYPE potion_type, uint stat_regen, uint price) :object(name, description, POTION, price), potion_type(potion_type),stat_regen(stat_regen){}
 
 //LORE-------------------------------------------
 void potion::look_it()const{
