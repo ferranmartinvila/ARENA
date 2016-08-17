@@ -1,5 +1,6 @@
 #include "entity.h"
 #include "creature.h"
+#include "room.h"
 
 //CONSTRUCTOR------------------------------------
 entity::entity(char* name, char* description, TYPE type) :name(name), description(description), type(type){}
@@ -9,7 +10,12 @@ void entity::look_it()const{
 	slim_printf(WHITE, "\n%s:\n", name.get_string());
 	printf("%s\n\n", description.get_string());
 	slim_printf(WHITE,"CONTENT:\n", description.get_string());
-	list_double<entity*>::node* temp = buffer.first_element;
+	list_double<entity*>::node* temp = nullptr;
+	//Exit look it case
+	if (this->type == EXIT){
+		temp = ((room::exit*)this)->next_room->buffer.first_element;
+	}
+	else temp = buffer.first_element;
 	uint k = 0;
 	while (temp){
 		//Creature Look

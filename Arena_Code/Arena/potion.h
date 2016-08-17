@@ -7,10 +7,10 @@ class potion : public object{
 public:
 
 	POTION_TYPE potion_type;
-	uint stat_regen;
+	uint stat_buff;
 
 	//Constructor
-	potion(char* name, char* description, POTION_TYPE potion_type, uint stat_regen, uint price);
+	potion(char* name, char* description, POTION_TYPE potion_type, uint stat_buff, uint price);
 	
 	//FUNCTIONS
 	void look_it()const;

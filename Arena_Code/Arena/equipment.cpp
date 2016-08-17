@@ -23,7 +23,7 @@ void equip::pauted_look_it()const{
 void equip::add_buffs(creature* target){
 	//Adds all the object buffs to the creature and output the result
 	if (live_buff > 0){ target->live_points += live_buff, printf("+%u live", live_buff); }
-	if (defence_buff > 0){ target->defense += defence_buff, printf("+%u defence", defence_buff); }
+	if (defence_buff > 0){ target->defence += defence_buff, printf("+%u defence", defence_buff); }
 	if (attack_buff > 0){ target->damage += attack_buff, printf("+%u attack", attack_buff); }
 	if (agility_buff > 0){ target->agility += agility_buff, printf("+%u agility", agility_buff); }
 	printf("\n");
@@ -32,7 +32,7 @@ void equip::add_buffs(creature* target){
 void equip::rest_buffs(creature* target){
 	//Rest all the object buffs to the creature and output the result
 	if (live_buff > 0){ target->live_points -= live_buff, printf("-%u live", live_buff); }
-	if (defence_buff > 0){ target->defense -= defence_buff, printf("-%u defence", defence_buff); }
+	if (defence_buff > 0){ target->defence -= defence_buff, printf("-%u defence", defence_buff); }
 	if (attack_buff > 0){ target->damage -= attack_buff, printf("-%u attack", attack_buff); }
 	if (agility_buff > 0){ target->agility -= agility_buff, printf("-%u agility", agility_buff); }
 	printf("\n");

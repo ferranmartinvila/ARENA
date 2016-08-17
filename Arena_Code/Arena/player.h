@@ -8,6 +8,11 @@ class room;
 class player :public creature{
 public:
 
+	//Player buff states
+	uint const_live_buff = 0;
+	uint const_defense_buff = 0;
+	uint const_attack_buff = 0;
+	uint const_agility_buff = 0;
 	//Equipation
 	object* helm = nullptr;
 	object* armor = nullptr;
@@ -34,6 +39,8 @@ public:
 	//Inventory
 	void equip_object();
 	void unequip_object();
+	//Live
+	void drink();
 	//NPC ACTIONS
 	object* choose_item(char , OBJECT_TYPE);
 };

@@ -36,7 +36,7 @@ void creature::lvl_up(uint levels){
 	
 	case PLAYER:
 		live_points += 20 * levels;
-		defense += 3 * levels;
+		defence += 3 * levels;
 		damage += 4 * levels;
 		agility += 1 * levels;
 		break;
@@ -44,7 +44,7 @@ void creature::lvl_up(uint levels){
 	//Fight NPCs
 	case GOBLIN:
 		live_points += 5 * levels;
-		defense += 1 * levels;
+		defence += 1 * levels;
 		damage += 2 * levels;
 		agility += 1 * levels;
 		money += 10 * levels;
@@ -53,7 +53,7 @@ void creature::lvl_up(uint levels){
 
 	case ARCHER:
 		live_points += 2 * levels;
-		defense += 1 * levels;
+		defence += 1 * levels;
 		damage += 2 * levels;
 		agility += 2 * levels;
 		money += 8 * levels;
@@ -62,7 +62,7 @@ void creature::lvl_up(uint levels){
 
 	case ORC:
 		live_points += 12 * levels;
-		defense += 1 * levels;
+		defence += 1 * levels;
 		damage += 3 * levels;
 		money += 25 * levels;
 		current_xp = levels * 30;
@@ -70,7 +70,7 @@ void creature::lvl_up(uint levels){
 
 	case ELF:
 		live_points += 7 * levels;
-		defense += 1 * levels;
+		defence += 1 * levels;
 		damage += 2 * levels;
 		agility += 1 * levels;
 		money += 15 * levels;
@@ -79,7 +79,7 @@ void creature::lvl_up(uint levels){
 
 	case DEMON:
 		live_points += 10 * levels;
-		defense += 2 * levels;
+		defence += 2 * levels;
 		damage += 2 * levels;
 		money += 20 * levels;
 		current_xp = levels * 25;
@@ -87,7 +87,7 @@ void creature::lvl_up(uint levels){
 
 	case GOLEM:
 		live_points += 15 * levels;
-		defense += 3 * levels;
+		defence += 3 * levels;
 		damage += 2 * levels;
 		money += 45 * levels;
 		current_xp = levels * 50;
@@ -95,7 +95,7 @@ void creature::lvl_up(uint levels){
 
 	case HARPY:
 		live_points += 5 * levels;
-		defense += 1 * levels;
+		defence += 1 * levels;
 		damage += 2 * levels;
 		agility += 3 * levels;
 		money += 15 * levels;
@@ -104,7 +104,7 @@ void creature::lvl_up(uint levels){
 
 	case MINOTAUR:
 		live_points += 12 * levels;
-		defense += 2 * levels;
+		defence += 2 * levels;
 		damage += 1 * levels;
 		agility += 1 * levels;
 		money += 30 * levels;
@@ -113,7 +113,7 @@ void creature::lvl_up(uint levels){
 
 	case CYCLOP:
 		live_points += 20 * levels;
-		defense += 2 * levels;
+		defence += 2 * levels;
 		damage += 5 * levels;
 		money += 60 * levels;
 		current_xp = levels * 45;
@@ -121,7 +121,7 @@ void creature::lvl_up(uint levels){
 
 	case GORGON:
 		live_points += 10 * levels;
-		defense += 2 * levels;
+		defence += 2 * levels;
 		damage += 2 * levels;
 		agility += 1 * levels;
 		money += 30 * levels;
@@ -149,7 +149,7 @@ void creature::look_it()const{
 	printf(" %s\n\n", description.get_string());
 	//Stats
 	slim_printf(WHITE, "STATS:\n");
-	slim_printf(LIGHT_GREEN, "live[%i]\nattack[%i]\ndefense[%i]\nagility[%i]\n\n", live_points, damage, defense, agility);
+	slim_printf(LIGHT_GREEN, "live[%i]\nattack[%i]\ndefense[%i]\nagility[%i]\n\n", live_points, damage, defence, agility);
 	//Storage
 	slim_printf(WHITE, "STORAGE:\n");
 	list_double<entity*>::node* temp = buffer.first_element;
@@ -298,7 +298,7 @@ void creature::attack(){
 	}
 	//Attack
 	else{
-		uint final_damage = (this->damage - target->defense);
+		uint final_damage = (this->damage - target->defence);
 		this->state = ATTACK;
 		//Focus the other creature to player
 		if (this->creature_type == PLAYER){ 
@@ -371,44 +371,5 @@ void creature::regen(){
 	//Regen the live points
 	while ((uint)current_live_points < live_points){
 		current_live_points++;
-	}
-}
-
-void creature::drink(){
-	if (entity_focused == nullptr)slim_printf(WHITE, "Invalid Name.\n");
-	else if (((object*)entity_focused)->object_type != POTION)slim_printf(WHITE, "Invalid Object.\n");
-	else{
-		//Stat pointer
-		uint* uint_stat_target = nullptr;
-		int* int_stat_target = nullptr;
-		switch (((potion*)this->entity_focused)->potion_type){
-		case HEAL_POTION:
-			int_stat_target = &current_live_points;
-			break;
-		case DEFENCE_POTION:
-			uint_stat_target = &defense;
-			break;
-		case ATTACK_POTION:
-			uint_stat_target = &damage;
-			break;
-		case AGILITY_POTION:
-			uint_stat_target = &agility;
-			break;
-		}
-		//Potion regen points
-		uint buff_number = ((potion*)entity_focused)->stat_regen;
-		if (((potion*)this->entity_focused)->potion_type == HEAL_POTION)
-		{
-			while (buff_number + current_live_points > live_points){
-				buff_number--;
-			}
-			*int_stat_target += buff_number;
-		}
-		//Apply the potion
-		else *uint_stat_target += buff_number;
-		//Show the result
-		if (this->creature_type == PLAYER)slim_printf(LIGHT_GREEN, "You");
-		else slim_printf(LIGHT_GREEN, "%s", this->name.get_string());
-		slim_printf(LIGHT_GREEN, " drink %s & regen %u stat points![current stat points %u]\n", ((potion*)this->entity_focused)->name.get_string(), buff_number, buff_number);
 	}
 }

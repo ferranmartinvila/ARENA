@@ -2,27 +2,28 @@
 #include "equipment.h"
 #include "object.h"
 #include "room.h"
+#include "potion.h"
 
 #include <stdlib.h>
 
-//CONSTRUCTOR------------------------
+//CONSTRUCTOR------------------------------------
 player::player(char* name, char* description, room* location, uint lvl) :creature(name, description, PLAYER, location, lvl){
 	//Initial Stats
 	live_points = 150;
-	defense = 0;
+	defence = 0;
 	damage = 5;
 	agility = 30;
 	lvl_up(lvl);
 }
 
 
-//SYSTEM-----------------------------
+//SYSTEM-----------------------------------------
 void player::update(){
 	//TODO
 	//Attack update
 	if (state == ATTACK)attack();
 	//Health update
-	else if (current_live_points < live_points && state != IN_ARENA)regen();
+	else if (current_live_points < (int)live_points && state != IN_ARENA)regen();
 	//Dead update
 	else if (state == DEAD)slim_printf(WHITE, "\n\nYou are dead enter RESET to respawn.\n\n");
 }
@@ -55,10 +56,14 @@ void player::look_it()const{
 	system("cls");
 	//Name & description
 	slim_printf(WHITE, "%s: %s\n\n", name.get_string(), description.get_string());
-	//Stats
+	//Stats & buffed stats
 	slim_printf(LIGHT_MAGENTA, "LEVEL[%u] -> next lvl (%u xp)\n\n", lvl, next_lvl_xp - current_xp);
 	slim_printf(WHITE, "STATS:\n");
-	slim_printf(LIGHT_GREEN, "live[%i]\nattack[%u]\ndefense[%u]\nagility[%u]\n\nmoney -> %u\n", live_points, damage, defense, agility, money);
+	slim_printf(LIGHT_GREEN, "live[%i]", live_points); slim_printf(LIGHT_MAGENTA, " +[%u]\n", const_live_buff);
+	slim_printf(LIGHT_GREEN, "attack[%u]", damage); slim_printf(LIGHT_MAGENTA, " +[%u]\n", const_attack_buff);
+	slim_printf(LIGHT_GREEN, "defense[%u]", defence); slim_printf(LIGHT_MAGENTA, " +[%u]\n", const_defense_buff);
+	slim_printf(LIGHT_GREEN, "agility[%u]", agility); slim_printf(LIGHT_MAGENTA, " +[%u]\n", const_agility_buff);
+	slim_printf(LIGHT_GREEN, "\nmoney -> %u\n", money);
 	//Equipation
 	slim_printf(WHITE, "\nEQUIPATION:\n");
 	if (helm)slim_printf(LIGHT_CYAN, "helm [%s]\n", helm->name.get_string());
@@ -145,7 +150,7 @@ void player::look(string instruction){
 }
 
 
-//INVENTORY--------------------------
+//INVENTORY--------------------------------------
 void player::equip_object(){
 	//Not entoty focused
 	if (entity_focused == nullptr)printf("Invalid Object\n");
@@ -206,7 +211,43 @@ void player::unequip_object(){
 }
 
 
-//NPC ACTIONS------------------------
+//LIVE-------------------------------------------
+void player::drink(){
+	//Wrong cases
+	if (this->entity_focused == nullptr)slim_printf(WHITE, "Invalid Name.\n");
+	else if (((object*)entity_focused)->object_type != POTION)slim_printf(WHITE, "Invalid Object.\n");
+	//Correct case
+	else{
+		//Stat buff
+		uint buff_points = ((potion*)entity_focused)->stat_buff;
+		//Show result
+		slim_printf(LIGHT_GREEN, "You drink %s & buff %u stat points!", ((potion*)this->entity_focused)->name.get_string(), buff_points);
+		//Pointer focus 
+		switch (((potion*)this->entity_focused)->potion_type){
+		case HEAL_POTION:
+			const_live_buff +=buff_points;
+			slim_printf(LIGHT_MAGENTA, "[LIVE BUFF %u]\n\n", this->const_live_buff);
+			break;
+		case DEFENCE_POTION:
+			const_defense_buff += buff_points;
+			slim_printf(LIGHT_MAGENTA, "[DEFENCE BUFF %u]\n\n", this->const_defense_buff);
+			break;
+		case ATTACK_POTION:
+			const_attack_buff += buff_points;
+			slim_printf(LIGHT_MAGENTA, "[ATTACK BUFF %u]\n\n", this->const_attack_buff);
+			break;
+		case AGILITY_POTION:
+			const_agility_buff += buff_points;
+			slim_printf(LIGHT_MAGENTA, "[AGILITY BUFF %u]\n\n", this->const_agility_buff);
+			break;
+		}
+		//Delete the potion
+		this->buffer.erase_data(entity_focused);
+	}
+}
+
+
+//NPC ACTIONS------------------------------------
 object* player::choose_item(char option, OBJECT_TYPE type){
 	//Temp data
 	list_double<entity*>::node* temp = nullptr;

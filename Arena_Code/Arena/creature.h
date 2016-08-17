@@ -24,7 +24,7 @@ public:
 	uint live_points;
 	int current_live_points;
 	uint damage;
-	uint defense;
+	uint defence;
 	uint agility;
 	//Inventory
 	uint money;
@@ -56,6 +56,5 @@ public:
 	//Live
 	virtual void die();
 	void regen();
-	void drink();
 };
 #endif
