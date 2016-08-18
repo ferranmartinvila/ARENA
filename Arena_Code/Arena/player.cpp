@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 //CONSTRUCTOR------------------------------------
-player::player(char* name, char* description, room* location, uint lvl) :creature(name, description, PLAYER, location, lvl){
+player::player(char* name, char* description, room* location, uint lvl) :creature(name, description, PLAYER, location, lvl, 125){
 	//Initial Stats
 	live_points = 150;
 	defence = 0;
@@ -19,7 +19,8 @@ player::player(char* name, char* description, room* location, uint lvl) :creatur
 
 //SYSTEM-----------------------------------------
 void player::update(){
-	//TODO
+	//Check level (you only lvl up when idle)
+	if(this->state == IDLE)this->check_lvl();
 	//Attack update
 	if (state == ATTACK)attack();
 	//Health update
@@ -173,14 +174,16 @@ void player::equip_object(){
 		else if (type_check == WEAPON){ item_focused = weapon, weapon = (object*)entity_focused;}
 		//If there was other item equiped before replace buffs & push it to the bag
 		if (item_focused != nullptr){
+			slim_printf(LIGHT_GREEN, "[%s] has been unequiped!\n", item_focused->name.get_string());
 			((equip*)item_focused)->rest_buffs(this);
 			this->buffer.push_back(item_focused);
-			printf("[%s] has been unequiped.\n", item_focused->name.get_string());
+			
 		}
 		//Add the equip buffs & erase it from bag
+		slim_printf(LIGHT_GREEN, "[%s] has been equiped!\n", entity_focused->name.get_string());
 		((equip*)entity_focused)->add_buffs(this);
 		buffer.erase_data(entity_focused);
-		printf("[%s] has been equiped\n", entity_focused->name.get_string());
+		
 	}
 }
 

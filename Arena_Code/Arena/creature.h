@@ -13,7 +13,7 @@ public:
 	//Type
 	CREATURE_TYPE creature_type;
 	//Lvl
-	uint lvl;
+	uint lvl = 0;
 	uint current_xp;
 	uint next_lvl_xp;
 	//State
@@ -32,7 +32,7 @@ public:
 	entity* entity_focused = nullptr;
 
 	//Constructor
-	creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl);
+	creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl, uint next_lvl_xp);
 
 	//FUNCTIONS
 	//System

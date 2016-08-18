@@ -12,7 +12,7 @@ public:
 	equip* item_choosed;
 
 	//Constructor
-	runner(entity* location, uint lvl) : creature(source.get_random_name(), "The runner is the only in Arena that can fuse materials", RUNNER, location, lvl){
+	runner(entity* location, uint lvl) : creature(source.get_random_name(), "The runner is the only in Arena that can fuse materials", RUNNER, location, lvl, 100){
 		current_live_points = live_points = 500;
 		damage = 50;
 		lvl_up(lvl);

@@ -151,16 +151,19 @@ vector<string> tokenize(char* phrase){
 	//array with the different words
 	char*word[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
 	word[0] = strtok(phrase, " ");
-	instruction.push_back(word[0]);
-	for (int k = 1; k < 5; k++){
-		if (word[k - 1] != NULL){
-			word[k] = strtok(NULL, " ");
-			if (word[k] != NULL){
-				instruction.push_back(word[k]);
+	if (word[0] != NULL)
+	{
+		instruction.push_back(word[0]);
+		for (int k = 1; k < 5; k++){
+			if (word[k - 1] != NULL){
+				word[k] = strtok(NULL, " ");
+				if (word[k] != NULL){
+					instruction.push_back(word[k]);
+				}
 			}
 		}
 	}
-
+	else instruction.push_back("error");
 	return instruction;
 }
 

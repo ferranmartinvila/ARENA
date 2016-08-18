@@ -22,18 +22,18 @@ void equip::pauted_look_it()const{
 //BUFFS----------------------
 void equip::add_buffs(creature* target){
 	//Adds all the object buffs to the creature and output the result
-	if (live_buff > 0){ target->live_points += live_buff, printf("+%u live", live_buff); }
-	if (defence_buff > 0){ target->defence += defence_buff, printf("+%u defence", defence_buff); }
-	if (attack_buff > 0){ target->damage += attack_buff, printf("+%u attack", attack_buff); }
-	if (agility_buff > 0){ target->agility += agility_buff, printf("+%u agility", agility_buff); }
-	printf("\n");
+	if (live_buff > 0){ target->live_points += live_buff, slim_printf(LIGHT_MAGENTA, " +%u live ", live_buff); }
+	if (defence_buff > 0){ target->defence += defence_buff, slim_printf(LIGHT_MAGENTA, " +%u defence ", defence_buff); }
+	if (attack_buff > 0){ target->damage += attack_buff, slim_printf(LIGHT_MAGENTA, " +%u attack ", attack_buff); }
+	if (agility_buff > 0){ target->agility += agility_buff, slim_printf(LIGHT_MAGENTA, " +%u agility ", agility_buff); }
+	printf("\n\n");
 }
 
 void equip::rest_buffs(creature* target){
 	//Rest all the object buffs to the creature and output the result
-	if (live_buff > 0){ target->live_points -= live_buff, printf("-%u live", live_buff); }
-	if (defence_buff > 0){ target->defence -= defence_buff, printf("-%u defence", defence_buff); }
-	if (attack_buff > 0){ target->damage -= attack_buff, printf("-%u attack", attack_buff); }
-	if (agility_buff > 0){ target->agility -= agility_buff, printf("-%u agility", agility_buff); }
-	printf("\n");
+	if (live_buff > 0){ target->live_points -= live_buff, slim_printf(LIGHT_RED, " -%u live ", live_buff); }
+	if (defence_buff > 0){ target->defence -= defence_buff, slim_printf(LIGHT_RED, " -%u defence ", defence_buff); }
+	if (attack_buff > 0){ target->damage -= attack_buff, slim_printf(LIGHT_RED, " -%u attack ", attack_buff); }
+	if (agility_buff > 0){ target->agility -= agility_buff, slim_printf(LIGHT_RED, " -%u agility ", agility_buff); }
+	printf("\n\n");
 }

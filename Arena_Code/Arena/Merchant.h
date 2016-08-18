@@ -9,7 +9,7 @@ public:
 	//NON EXTRA DATA
 
 	//Constructor
-	merchant(entity* location, uint lvl) : creature(source.get_random_name(), "Merchants are especialized in buy and sell things.", MERCHANT, location, lvl){
+	merchant(entity* location, uint lvl) : creature(source.get_random_name(), "Merchants are especialized in buy and sell things.", MERCHANT, location, lvl, 100){
 		//Initial Stats
 		current_live_points = live_points = 500;
 		damage = 50;

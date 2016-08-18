@@ -2,11 +2,13 @@
 #include "object.h"
 #include "room.h"
 #include "potion.h"
+#include "player.h"
+
 #include <time.h>
 #include <stdlib.h>
 
 //SYSTEM-----------------------------------------
-creature::creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl) :entity(name, description, CREATURE), creature_type(type), location(location), state(IDLE), lvl(lvl), current_xp(0), next_lvl_xp(100){}
+creature::creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl, uint next_lvl_xp) :entity(name, description, CREATURE), creature_type(type), location(location), state(IDLE), lvl(lvl), current_xp(0), next_lvl_xp(next_lvl_xp){}
 
 void creature::update(){
 	//Attack update
@@ -19,7 +21,7 @@ void creature::check_lvl(){
 	if (current_xp >= next_lvl_xp){
 		lvl++;
 		current_xp -= next_lvl_xp;
-		slim_printf(LIGHT_MAGENTA, "[%s] lvl up!\n");
+		slim_printf(LIGHT_GREEN, "\nYou lvl up! lvl %u!\n\n",this->lvl);
 		lvl_up(1);
 	}
 }
@@ -39,6 +41,14 @@ void creature::lvl_up(uint levels){
 		defence += 3 * levels;
 		damage += 4 * levels;
 		agility += 1 * levels;
+
+		//Lvl up show
+		if (this->lvl > 1){
+			slim_printf(LIGHT_MAGENTA, "\n+ %u live", 20 * levels);
+			slim_printf(LIGHT_MAGENTA, "\n+ %u defence", 3 * levels);
+			slim_printf(LIGHT_MAGENTA, "\n+ %u attack", 4 * levels);
+			slim_printf(LIGHT_MAGENTA, "\n+ %u agility\n\n", 1 * levels);
+		}
 		break;
 	
 	//Fight NPCs
@@ -298,7 +308,10 @@ void creature::attack(){
 	}
 	//Attack
 	else{
-		uint final_damage = (this->damage - target->defence);
+		int final_damage;
+		if(this->creature_type == PLAYER)final_damage = ((this->damage + ((player*)this)->const_attack_buff) - target->defence);
+		else if(target->creature_type == PLAYER)final_damage = ((this->damage - target->defence + ((player*)target)->const_defense_buff));
+		if (final_damage < 0)final_damage = 0;
 		this->state = ATTACK;
 		//Focus the other creature to player
 		if (this->creature_type == PLAYER){ 
@@ -313,8 +326,11 @@ void creature::attack(){
 		while (last_rand_agility == rand_agility){
 			rand_agility = rand() % 100;
 		}
+		uint target_agility;
+		if (target->creature_type == PLAYER)target_agility = (target->agility + ((player*)target)->const_agility_buff);
+		else target_agility = target->agility;
 		//Hit case---------------------
-		if (rand_agility > target->agility){
+		if (rand_agility > target_agility){
 			target->current_live_points -= final_damage;
 			//User case
 			if (this->creature_type == PLAYER)slim_printf(LIGHT_GREEN, "You damage %i to %s\n", final_damage, target->name.get_string());
