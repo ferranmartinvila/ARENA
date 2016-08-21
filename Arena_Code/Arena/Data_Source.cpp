@@ -2,6 +2,7 @@
 #include "equipment.h"
 #include "potion.h"
 #include "rune.h"
+#include "Pet.h"
 
 //CONSTRUCTOR------------------------------------
 data_source::data_source(){
@@ -52,7 +53,29 @@ data_source::data_source(){
 	//35
 	
 		
-		
+	
+	//PETS-----------------------------
+	pet* Hell_Horse = new pet(nullptr, "Hell Horse", "Magic horse with flames in the tail", HELL_HORSE, nullptr, 1, 50, 0, 4, 15, 12, 2750);
+	pets.push_back(Hell_Horse);
+	pet* Turtle_of_Wind = new pet(nullptr, "Turtle of Wind", "A rare turtle with a wind shield", TURTLE_OF_WIND, nullptr, 1, 50, 65, 18, 8, 15, 3250);
+	pets.push_back(Turtle_of_Wind);
+	pet* Golden_Fox = new pet(nullptr, "Golden Fox", "A common golden fox fast as fuck", GOLDEN_FOX, nullptr, 1, 50, 80, 4, 4, 25, 1500);
+	pets.push_back(Golden_Fox);
+	pet* Unicorn = new pet(nullptr, "Unicorn", "Magic white shiny horse with wings", UNICORN, nullptr, 1, 50, 50, 2, 8, 15, 2000);
+	pets.push_back(Unicorn);
+	pet* Artic_Horse = new pet(nullptr, "Artic Horse", "Rare hore with a shield of ice aroun his body", ARTIC_HORSE, nullptr, 1, 50, 35, 15, 10, 10, 2250);
+	pets.push_back(Artic_Horse);
+	pet* Flying_Koi = new pet(nullptr, "Flying Koi", "Large magic fish with the hability of fly", FLYING_KOI, nullptr, 1, 50, 85, 0, 4, 18, 3000);
+	pets.push_back(Flying_Koi);
+	pet* Iron_Goat = new pet(nullptr, "Iron Goat", "Common goat with a metallic shield ready for the war", IRON_GOAT, nullptr, 1, 50, 35, 4, 4, 6, 5);
+	pets.push_back(Iron_Goat);
+	pet* Magic_Yak = new pet(nullptr, "Magic Yak", "A strong and calm magic yak whit heal powers", MAGIC_YAK, nullptr, 1, 50, 100, 4, 2, 0, 1850);
+	pets.push_back(Magic_Yak);
+	pet* Flying_Goldenfish = new pet(nullptr, "Flying Goldenfish", "Magic golden fish with the hability of fly", FLYING_GOLDFISH, nullptr, 1, 50, 75, 2, 8, 16, 2150);
+	pets.push_back(Flying_Goldenfish);
+	pet* Giant_Turtle = new pet(nullptr, "Giant Turtle", "The oldest and biggest creature you will ever see", GIANT_TURTLE, nullptr, 1, 50, 150, 16,15, 8, 3250);
+	pets.push_back(Giant_Turtle);
+
 
 
 	//EQUIPATION-----------------------
@@ -166,6 +189,11 @@ char* data_source::get_random_name(){
 	return names[temp].get_string();
 };
 
+pet* data_source::get_random_pet(){
+	srand((unsigned int)time(NULL));
+	return pets.buffer[rand() % PETS_STUFF];
+}
+
 equip* data_source::get_random_equip(){
 	srand((unsigned int)time(NULL));
 	return equips.buffer[rand() % EQUIP_STUFF];
@@ -180,4 +208,3 @@ potion* data_source::get_random_potion(){
 	srand((unsigned int)time(NULL));
 	return potions.buffer[rand() % POTIONS_STUFF];
 }
-

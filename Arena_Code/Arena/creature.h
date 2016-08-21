@@ -32,7 +32,7 @@ public:
 	entity* entity_focused = nullptr;
 
 	//Constructor
-	creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl, uint next_lvl_xp);
+	creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl, uint next_lvl_xp, uint live_points, uint defence, uint damage, uint agility);
 
 	//FUNCTIONS
 	//System

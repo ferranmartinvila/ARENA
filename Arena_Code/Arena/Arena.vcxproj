@@ -88,6 +88,8 @@
     <ClInclude Include="Merchant.h" />
     <ClInclude Include="Monsters.h" />
     <ClInclude Include="object.h" />
+    <ClInclude Include="Tamer.h" />
+    <ClInclude Include="Pet.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="potion.h" />
     <ClInclude Include="room.h" />

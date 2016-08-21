@@ -2,12 +2,12 @@
 #include "string.h"
 //Creatures
 #include "player.h"
-#include "Monsters.h"
 #include "Merchant.h"
 #include "Runner.h"
+#include "Tamer.h"
+
 //Objects
 #include "room.h"
-#include "object.h"
 #include "Data_source.h"
 
 void world::Initialize(){
@@ -69,7 +69,9 @@ void world::Initialize(){
 	//Runner
 	runner*Runner = new runner(Black_Market, 25);
 	data.push_back(Runner);
-	
+	//Tamer
+	tamer*Tamer = new tamer(House, 25);
+	data.push_back(Tamer);
 
 
 	//PLAYER AVATAR------------------------------
@@ -99,8 +101,11 @@ void world::Initialize(){
 	for (int k = 0; k < h; k++){
 		data.push_back((entity*)source.potions.buffer[k]);
 	}
-	
-
+	//Push pets
+	h = source.pets.get_size();
+	for (int k = 0; k < h; k++){
+		data.push_back((entity*)source.pets.buffer[k]);
+	}
 
 	//GAME DATA STRUCT---------------------------
 	//Data Pointers----------
@@ -124,6 +129,11 @@ void world::Initialize(){
 	h = source.potions.get_size();
 	for (int k = 0; k < h; k++){
 		Potions_Merchant->buffer.push_back((entity*)source.potions.buffer[k]);
+	}
+	//Pets Tamer
+	h = source.pets.get_size();
+	for (int k = 0; k < h; k++){
+		data.push_back((entity*)source.pets.buffer[k]);
 	}
 	
 

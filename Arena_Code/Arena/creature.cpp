@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 //SYSTEM-----------------------------------------
-creature::creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl, uint next_lvl_xp) :entity(name, description, CREATURE), creature_type(type), location(location), state(IDLE), lvl(lvl), current_xp(0), next_lvl_xp(next_lvl_xp){}
+creature::creature(char* name, char* description, CREATURE_TYPE type, entity* location, uint lvl, uint next_lvl_xp, uint live_points, uint defence, uint damage, uint agility) :entity(name, description, CREATURE), creature_type(type), location(location), state(IDLE), lvl(lvl), current_xp(0), next_lvl_xp(next_lvl_xp), live_points(live_points), current_live_points(live_points), defence(defence), damage(damage), agility(agility){}
 
 void creature::update(){
 	//Attack update

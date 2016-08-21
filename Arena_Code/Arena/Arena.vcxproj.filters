@@ -36,10 +36,7 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="World\Entities\Creatures\Fight NPCs">
-      <UniqueIdentifier>{0bcc7ee1-4d32-4fac-81db-bef33b4f80c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="World\Entities\Creatures\Trade NPCs">
+    <Filter Include="World\Entities\Creatures\NPCs">
       <UniqueIdentifier>{09c05e1a-e5f7-47ad-8477-b54a9466a532}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -128,13 +125,19 @@
       <Filter>Global_Code</Filter>
     </ClInclude>
     <ClInclude Include="Runner.h">
-      <Filter>World\Entities\Creatures\Trade NPCs</Filter>
+      <Filter>World\Entities\Creatures\NPCs</Filter>
     </ClInclude>
     <ClInclude Include="Merchant.h">
-      <Filter>World\Entities\Creatures\Trade NPCs</Filter>
+      <Filter>World\Entities\Creatures\NPCs</Filter>
     </ClInclude>
     <ClInclude Include="Monsters.h">
-      <Filter>World\Entities\Creatures\Fight NPCs</Filter>
+      <Filter>World\Entities\Creatures\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Tamer.h">
+      <Filter>World\Entities\Creatures\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Pet.h">
+      <Filter>World\Entities\Creatures\NPCs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

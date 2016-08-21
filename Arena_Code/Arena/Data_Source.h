@@ -8,8 +8,10 @@
 class equip;
 class potion;
 class rune;
+class pet;
 
 #define NAMES_STUFF 35
+#define PETS_STUFF 10
 #define EQUIP_STUFF 12
 #define RUNES_STUFF 12
 #define POTIONS_STUFF 12
@@ -58,6 +60,23 @@ public:
 	*/
 	string names[NAMES_STUFF];
 	
+
+
+	//PETS DATA-----------------------------
+	/*
+		[0]hell_horse
+		[1]turtle_of_wind
+		[2]golden_fox
+		[3]unicorn
+		[4]artic_horse
+		[5]flying_koi
+		[6]iron_goat
+		[7]magic_yak
+		[8]flying_goldenfish
+		[9]giant_turtle
+	*/
+	vector<pet*>pets;
+
 	//EQUIP DATA----------------------------
 	/*
 		//Fighter Equip
@@ -125,9 +144,11 @@ public:
 
 	//FUNCTIONS
 	char* get_random_name();
+	pet* get_random_pet();
 	equip* get_random_equip();
 	rune* get_random_rune();
 	potion* get_random_potion();
+	
 };
 #ifdef MAIN_FILE
 data_source source;

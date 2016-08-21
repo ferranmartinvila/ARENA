@@ -7,14 +7,7 @@
 #include <stdlib.h>
 
 //CONSTRUCTOR------------------------------------
-player::player(char* name, char* description, room* location, uint lvl) :creature(name, description, PLAYER, location, lvl, 125){
-	//Initial Stats
-	live_points = 150;
-	defence = 0;
-	damage = 5;
-	agility = 30;
-	lvl_up(lvl);
-}
+player::player(char* name, char* description, room* location, uint lvl) :creature(name, description, PLAYER, location, lvl, 125,150,0,5,30){lvl_up(lvl);}
 
 
 //SYSTEM-----------------------------------------
