@@ -3,6 +3,7 @@
 #include "room.h"
 #include "potion.h"
 #include "player.h"
+#include "pet.h"
 
 #include <time.h>
 #include <stdlib.h>
@@ -185,7 +186,8 @@ bool creature::show_storage_for_class(OBJECT_TYPE type, bool show)const{
 			//Show all the type object states
 			if (show){
 				slim_printf(WHITE, "[ %c ] - ",k);
-				((object*)temp->data)->pauted_look_it();
+			if(this->creature_type != TAMER)((object*)temp->data)->pauted_look_it();
+			else ((pet*)temp->data)->pauted_look_it();
 			}
 			k++;
 			elements++;
@@ -262,30 +264,42 @@ void creature::pull(){
 	}
 }
 
-bool creature::buy(object* to_buy){
+bool creature::buy(entity* to_buy){
 	if (to_buy != nullptr){
+		//Correct price focus
+		uint correct_price = 0;
+		if (to_buy->type == CREATURE)correct_price = ((pet*)to_buy)->price;
+		else correct_price = ((object*)to_buy)->price;
 		//Invalid situations
-		if (to_buy->price > this->money){ printf("You don't have enough money for [%s].\n", to_buy->name.get_string()); return false; }
+		if (correct_price > this->money){
+			printf("You don't have enough money for [%s]. ", to_buy->name.get_string()); 
+			slim_printf(WHITE, "Your money [%u]\n", this->money);
+			return false; 
+		}
 		else{
 			//Rest user money and push the object
-			this->money -= to_buy->price;
+			this->money -= correct_price;
 			this->buffer.push_back(to_buy);
 			//Erase the item from the merchant
 			this->entity_focused->buffer.erase_data(to_buy);
 			slim_printf(LIGHT_GREEN, "You buy [%s]", to_buy->name.get_string());
-			slim_printf(LIGHT_RED, " -%u money\n\n", to_buy->price);
+			slim_printf(LIGHT_RED, " -%u money\n\n", correct_price);
 			return true;
 		}
 	}
 	else return false;
 }
 
-bool creature::sell(object* to_sell){
+bool creature::sell(entity* to_sell){
 	if (to_sell != nullptr){
+		//Correct price focus
+		uint correct_price = 0;
+		if (to_sell->type == CREATURE)correct_price = ((pet*)to_sell)->price;
+		else correct_price = ((object*)to_sell)->price;
 		//Adds user money and push the object to merchant
-		this->money += to_sell->price;
+		this->money += correct_price;
 		this->buffer.erase_data(to_sell);
-		slim_printf(LIGHT_GREEN, "You sell [%s] +%u money\n\n", to_sell->name.get_string(), to_sell->price);
+		slim_printf(LIGHT_GREEN, "You sell [%s] +%u money\n\n", to_sell->name.get_string(), correct_price);
 		return true;
 	}
 	return false;

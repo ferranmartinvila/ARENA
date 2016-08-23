@@ -31,6 +31,9 @@ void entity::look_it()const{
 			case RUNNER:
 				slim_printf(LIGHT_MAGENTA, "[runner]\n");
 				break;
+			case TAMER:
+				slim_printf(LIGHT_MAGENTA, "[tamer]\n");
+				break;
 			}
 			k++;
 		}

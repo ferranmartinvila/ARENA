@@ -244,12 +244,12 @@ void player::drink(){
 
 
 //NPC ACTIONS------------------------------------
-object* player::choose_item(char option, OBJECT_TYPE type){
+entity* player::choose_item(char option, OBJECT_TYPE type){
 	//Temp data
 	list_double<entity*>::node* temp = nullptr;
 	char init = '`';
 	//In extern buffer action
-	if (state == BUY)temp = this->entity_focused->buffer.first_element;
+	if (state == BUY || state == PET_TRADE)temp = this->entity_focused->buffer.first_element;
 	//In intern buffer action
 	else if (state == SELL || state == EXTRACT_RUNES || state == FUSE_RUNES)temp = this->buffer.first_element;
 	if (temp == nullptr){ printf("Invalid Selection.\n");return false; }
@@ -267,5 +267,5 @@ object* player::choose_item(char option, OBJECT_TYPE type){
 		return nullptr;
 	}
 	//Valid Selection
-	else return (object*)temp->data;
+	else return temp->data;
 }

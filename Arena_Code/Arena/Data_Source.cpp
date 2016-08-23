@@ -80,7 +80,7 @@ data_source::data_source(){
 
 	//EQUIPATION-----------------------
 	//Fighter equipation
-	equip* Fighter_Helm = new equip("Helm", "Basic but light helm", HELM, 10, 2, 0, 2, 60);
+	equip* Fighter_Helm = new equip("Fighter Helm", "Basic but light helm", HELM, 10, 2, 0, 2, 60);
 	equips.push_back(Fighter_Helm);
 	equip* Fighter_Armor = new equip("Fighter Armor", "Basic but light Armor", ARMOR, 25, 4, 0, 2, 150);
 	equips.push_back(Fighter_Armor);

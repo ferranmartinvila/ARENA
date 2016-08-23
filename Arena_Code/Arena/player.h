@@ -42,6 +42,6 @@ public:
 	//Live
 	void drink();
 	//NPC ACTIONS
-	object* choose_item(char , OBJECT_TYPE);
+	entity* choose_item(char , OBJECT_TYPE);
 };
 #endif

@@ -133,7 +133,7 @@ void world::Initialize(){
 	//Pets Tamer
 	h = source.pets.get_size();
 	for (int k = 0; k < h; k++){
-		data.push_back((entity*)source.pets.buffer[k]);
+		Tamer->buffer.push_back((entity*)source.pets.buffer[k]);
 	}
 	
 
@@ -155,6 +155,7 @@ void world::Initialize(){
 	Black_Market->buffer.push_back(Runner);
 	//House
 	House->buffer.push_back(House_to_Principal_Square);
+	House->buffer.push_back(Tamer);
 	//Arena
 	Arena->buffer.push_back(Arena_to_Principal_Square);
 }
@@ -222,7 +223,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 
 	//STATE ACTIONS------------------------------
 	//NPC Talk(Buy/Sell/Fuse/Extract)
-	else if (user->state == BUY || user->state == SELL  || user->state == FUSE_RUNES || user->state == EXTRACT_RUNES)((creature*)user->entity_focused)->talk(instruction.buffer[0]);
+	else if (user->state == BUY || user->state == SELL  || user->state == FUSE_RUNES || user->state == EXTRACT_RUNES || user->state == PET_TRADE)((creature*)user->entity_focused)->talk(instruction.buffer[0]);
 	
 	//ARENA FIGHT--------------------------------
 	else if (user->state == IN_ARENA){

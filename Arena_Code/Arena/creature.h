@@ -48,8 +48,8 @@ public:
 	//Inventory
 	void pick();
 	void pull();
-	bool buy(object* );
-	bool sell(object* );
+	bool buy(entity*);
+	bool sell(entity*);
 	//Fight
 	void attack();
 	void drop(creature* );
