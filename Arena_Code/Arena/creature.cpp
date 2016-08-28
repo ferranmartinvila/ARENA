@@ -45,10 +45,10 @@ void creature::lvl_up(uint levels){
 
 		//Lvl up show
 		if (this->lvl > 1){
-			slim_printf(LIGHT_MAGENTA, "\n+ %u live", 20 * levels);
-			slim_printf(LIGHT_MAGENTA, "\n+ %u defence", 3 * levels);
-			slim_printf(LIGHT_MAGENTA, "\n+ %u attack", 4 * levels);
-			slim_printf(LIGHT_MAGENTA, "\n+ %u agility\n\n", 1 * levels);
+			slim_printf(LIGHT_GREEN, "\n+ %u live", 20 * levels);
+			slim_printf(LIGHT_GREEN, "\n+ %u defence", 3 * levels);
+			slim_printf(LIGHT_GREEN, "\n+ %u attack", 4 * levels);
+			slim_printf(LIGHT_GREEN, "\n+ %u agility\n\n", 1 * levels);
 		}
 		break;
 	
@@ -239,28 +239,29 @@ void creature::move(string instruction){
 void creature::pick(){
 	//Invalid situations
 	if (entity_focused == nullptr)slim_printf(WHITE, "Invalid Name.\n");
-	else if (entity_focused->type != OBJECT)slim_printf(WHITE, "Invalid entity.\n");
+	else if (entity_focused->type != OBJECT && entity_focused->type != CREATURE)slim_printf(WHITE, "Invalid entity.\n");
+	else if (location->buffer.find_data(entity_focused) == false)printf("This object isn't here\n");
+	else if (entity_focused->type == CREATURE && (((creature*)entity_focused)->creature_type != HELL_HORSE &&
+		((creature*)entity_focused)->creature_type != GOLDEN_FOX && ((creature*)entity_focused)->creature_type != UNICORN &&
+		((creature*)entity_focused)->creature_type != ARTIC_HORSE && ((creature*)entity_focused)->creature_type != FLYING_KOI &&
+		((creature*)entity_focused)->creature_type != IRON_GOAT && ((creature*)entity_focused)->creature_type != MAGIC_YAK &&
+		((creature*)entity_focused)->creature_type != FLYING_GOLDFISH && ((creature*)entity_focused)->creature_type != GIANT_TURTLE))
+		printf("Invalid creature\n");
 	else{
-		if (location->buffer.find_data(entity_focused)){
-			//Swap the object allocation for user 
-			this->buffer.pass_entity(entity_focused, buffer, location->buffer);
-			slim_printf(LIGHT_GREEN, "%s is now in your inventory.\n", entity_focused->name.get_string());
-		}
-		else printf("This object isn't here\n");
+		//Swap the object allocation for user 
+		this->buffer.pass_entity(entity_focused, buffer, location->buffer);
+		slim_printf(LIGHT_GREEN, "%s is now in your inventory.\n", entity_focused->name.get_string());
 	}
 }
 
 void creature::pull(){
 	//Invalid situations
 	if (entity_focused == nullptr)slim_printf(WHITE, "Invalid Name.\n");
-	else if (entity_focused->type != OBJECT)slim_printf(WHITE, "Invalid entity.\n");
+	else if (this->buffer.find_data(entity_focused) == false)printf("You don't have this entity in your bag.");
 	else{
-		if (this->buffer.find_data(entity_focused) == true){
-			//Swap the object allocation for user 
-			this->buffer.pass_entity(entity_focused, location->buffer, buffer);
-			slim_printf(LIGHT_GREEN, "You throw the %s.\n", entity_focused->name.get_string());
-		}
-		else printf("This object isn't in your inventory\n");
+		//Swap the object allocation for user 
+		this->buffer.pass_entity(entity_focused, location->buffer, buffer);
+		slim_printf(LIGHT_GREEN, "You throw the %s.\n", entity_focused->name.get_string());
 	}
 }
 

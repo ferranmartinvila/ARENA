@@ -251,6 +251,8 @@ bool world::Apply_Instruction(vector<string> instruction){
 		slim_printf(WHITE, "throw + item name"); printf(" -> Throw the choosed item\n");
 		slim_printf(WHITE, "equip + item name"); printf(" -> Equip the choosed item\n");
 		slim_printf(WHITE, "unequip + item name"); printf(" -> Unequip the choosed item\n");
+		slim_printf(WHITE, "spawn + pet name"); printf(" -> Spawn the choosed pet\n");
+		slim_printf(WHITE, "unspawn + pet name"); printf(" -> Unspawn the choosed pet\n");
 		slim_printf(WHITE, "drink + potion name"); printf(" -> Drink the selected potion\n");
 		slim_printf(WHITE, "attack + NPC name"); printf(" -> Attack the focused NPC\n");
 		slim_printf(WHITE, "change"); printf("(in talk with Merchant) -> Swap between SELL & BUY mode\n");
@@ -275,6 +277,10 @@ bool world::Apply_Instruction(vector<string> instruction){
 		else if (instruction.buffer[0] == "equip")user->equip_object();
 		//UNEQUIP instruction
 		else if (instruction.buffer[0] == "unequip")user->unequip_object();
+		//SPAWN instruction
+		else if (instruction.buffer[0] == "spawn")user->spawn_creature();
+		//UNSPAWN instruction
+		else if (instruction.buffer[0] == "unspawn")user->unspawn_creature();
 		//DRINK instruction
 		else if (instruction.buffer[0] == "drink")user->drink();
 		//TALK instruction

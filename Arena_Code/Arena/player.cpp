@@ -3,11 +3,12 @@
 #include "object.h"
 #include "room.h"
 #include "potion.h"
+#include "Pet.h"
 
 #include <stdlib.h>
 
 //CONSTRUCTOR------------------------------------
-player::player(char* name, char* description, room* location, uint lvl) :creature(name, description, PLAYER, location, lvl, 125,150,0,5,30){lvl_up(lvl);}
+player::player(char* name, char* description, room* location, uint lvl) :creature(name, description, PLAYER, location, lvl, 125, 150, 0, 5, 30), monster(nullptr){lvl_up(lvl); }
 
 
 //SYSTEM-----------------------------------------
@@ -72,6 +73,10 @@ void player::look_it()const{
 	else printf("boots none\n");
 	if (weapon)slim_printf(LIGHT_CYAN, "weapon [%s]\n", weapon->name.get_string());
 	else printf("weapon none\n");
+	//Monster
+	slim_printf(WHITE, "\n\MONSTER:\n");
+	if (monster != nullptr)slim_printf(LIGHT_CYAN, "%s\n", monster->name.get_string());
+	else printf("empty\n");
 	//Storage
 	slim_printf(WHITE, "\nSTORAGE:\n");
 	list_double<entity*>::node* temp = buffer.first_element;
@@ -206,6 +211,55 @@ void player::unequip_object(){
 	else printf("This object isn't equiped.\n");
 }
 
+void player::spawn_creature(){
+	//Wrong cases
+	if (entity_focused == nullptr)printf("Invalid name\n");
+	else if (entity_focused->type != CREATURE)printf("Invalid entity\n");
+	else{
+	//Pet type pointer
+	CREATURE_TYPE target_type = ((creature*)entity_focused)->creature_type;
+	if (target_type == HELL_HORSE || target_type == GOLDEN_FOX || target_type == UNICORN || target_type == ARTIC_HORSE || target_type == FLYING_KOI || target_type == IRON_GOAT || target_type == MAGIC_YAK || target_type == FLYING_GOLDFISH || target_type == GIANT_TURTLE){
+		pet* future_pet = (pet*)entity_focused;
+		//Auto unspawn old creature
+		if (this->monster != nullptr){ entity_focused = monster; this->unspawn_creature(); }
+		//Link new creature
+		monster = future_pet;
+		monster->owner = this;
+		this->buffer.erase_data(entity_focused);
+		//Show the result
+		slim_printf(LIGHT_GREEN, "%s now fight with you!", monster->name.get_string());
+		//Add creature buffs
+		if (monster->live_points > 0){ const_live_buff += monster->live_points; slim_printf(LIGHT_MAGENTA, " + %u live", monster->live_points); }
+		if (monster->defence > 0){ const_defense_buff += monster->defence; slim_printf(LIGHT_MAGENTA, " + %u defence", monster->defence); }
+		if (monster->damage > 0){ const_attack_buff += monster->damage; slim_printf(LIGHT_MAGENTA, " + %u attack", monster->damage); }
+		if (monster->agility > 0){ const_agility_buff += monster->agility; slim_printf(LIGHT_MAGENTA, " + %u agility", monster->agility); }
+		printf("\n\n");
+		}
+	}
+}
+
+void player::unspawn_creature(){
+	//Wrong cases
+	if (entity_focused == nullptr)printf("Invalid name\n");
+	else if (entity_focused->type != CREATURE)printf("Invalid entity\n");
+	else if (monster == nullptr)printf("You don't have any pet spawned\n");
+	else if (entity_focused != monster)printf("You don't have %s as pet\n", this->entity_focused->name.get_string());
+	else{
+		//Show the result
+		slim_printf(LIGHT_CYAN, "%s is now in yor bag!", monster->name.get_string());
+		//Delete the buffs
+		if (monster->live_points > 0){ const_live_buff -= monster->live_points; slim_printf(LIGHT_RED, " - %u live", monster->live_points); }
+		if (monster->defence > 0){ const_defense_buff -= monster->defence; slim_printf(LIGHT_RED, " - %u defence", monster->defence); }
+		if (monster->damage > 0){ const_attack_buff -= monster->damage; slim_printf(LIGHT_RED, " - %u attack", monster->damage); }
+		if (monster->agility > 0){ const_agility_buff -= monster->agility; slim_printf(LIGHT_RED, " - %u agility", monster->agility); }
+		printf("\n\n");
+		//Unlink the creature
+		this->buffer.push_back(monster);
+		monster->owner = nullptr;
+		monster = nullptr;
+		
+	}
+}
 
 //LIVE-------------------------------------------
 void player::drink(){

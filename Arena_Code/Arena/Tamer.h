@@ -23,7 +23,9 @@ public:
 		}
 		//Sell pet
 		else if (instruction.lenght() == 1){
-			((creature*)this->entity_focused)->buy(((player*)entity_focused)->choose_item(instruction.get_string()[0], UNDEFINED));
+			if (((creature*)this->entity_focused)->buy(((player*)entity_focused)->choose_item(instruction.get_string()[0], UNDEFINED)) == true){
+				this->show_storage_for_class(UNDEFINED, true);
+			}
 		}
 	}
 };

@@ -1,7 +1,7 @@
 #ifndef _PETS_
 #define _PETS_
 
-#include "creature.h"
+#include "player.h"
 #include "equipment.h"
 
 //PET DATA BASE----------------------------------

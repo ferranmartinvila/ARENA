@@ -4,6 +4,7 @@
 #include "creature.h"
 class object;
 class room;
+class pet;
 
 class player :public creature{
 public:
@@ -20,10 +21,10 @@ public:
 	object* pants = nullptr;
 	object* boots = nullptr;
 	object* weapon = nullptr;
-	//Inventory size
-	uint inventory_size = 6;
 	//Spawn location
 	room* hub;
+	//Pet pointer
+	pet* monster;
 
 	//Constructor
 	player(char* name, char* description, room* location, uint lvl);
@@ -39,6 +40,8 @@ public:
 	//Inventory
 	void equip_object();
 	void unequip_object();
+	void spawn_creature();
+	void unspawn_creature();
 	//Live
 	void drink();
 	//NPC ACTIONS
