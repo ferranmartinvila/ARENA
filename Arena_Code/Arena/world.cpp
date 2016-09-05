@@ -169,28 +169,29 @@ bool world::Apply_Instruction(vector<string> instruction){
 	if (user->state == IDLE)user->entity_focused = nullptr;
 	if ((user->state == IDLE || user->state == ATTACK || user->state == IN_ARENA) && instruction.get_size() > 1){
 		
-		//Diferent phrase compose
-		if (instruction.buffer[1] == "to"){
+		//to instructions
+		if (instruction.buffer[1] == "to" && instruction.get_size() > 2){
 			position++;
-			if (instruction.get_size() > 3)instruction.buffer[position] += instruction.buffer[position + 1];
 		}
-		else if (instruction.get_size() > 4){
-			if (instruction.buffer[2] == "of"){
-				instruction.buffer[position] += instruction.buffer[position + 1];
-				instruction.buffer[position] += instruction.buffer[position + 2];
-				instruction.buffer[position] += instruction.buffer[position + 3];
-			}
+		//entity names that content of
+		else if (instruction.get_size() > 4 && instruction.buffer[2] == "of"){
+			instruction.buffer[position] += instruction.buffer[position + 1];
+			instruction.buffer[position] += instruction.buffer[position + 2];
+			instruction.buffer[position] += instruction.buffer[position + 3];
 		}
+		//general large instructions
 		else
 		{
 			if (instruction.get_size() > 2) instruction.buffer[position] += instruction.buffer[position + 1];
 		}
+		//Arena buffer focus
 		if (user->location == arena){
 			//Find data in temp arena data
 			for (uint k = 0; k < arena->buffer.get_size(); k++){
 				if (instruction.buffer[position] == arena->buffer[k]->name)user->entity_focused = arena->buffer[k];
 			}
 		}
+		//Game buffer focus
 		else {
 			//Find the entity in world data
 			for (uint k = 0; k < MAX_ENTITY; k++){
@@ -246,6 +247,7 @@ bool world::Apply_Instruction(vector<string> instruction){
 		slim_printf(WHITE, "go + direction"); printf(" -> Move around the rooms\n");
 		slim_printf(WHITE, "look + me"); printf(" -> Look avatar\n");
 		slim_printf(WHITE, "look + room"); printf(" -> Look current location\n");
+		slim_printf(WHITE, "look + direction"); printf(" -> Look in the choosed direction\n");
 		slim_printf(WHITE, "look + entity name"); printf(" -> Look the entity\n");
 		slim_printf(WHITE, "pick + item name"); printf(" -> Pick the choosed item\n");
 		slim_printf(WHITE, "throw + item name"); printf(" -> Throw the choosed item\n");
@@ -255,9 +257,10 @@ bool world::Apply_Instruction(vector<string> instruction){
 		slim_printf(WHITE, "unspawn + pet name"); printf(" -> Unspawn the choosed pet\n");
 		slim_printf(WHITE, "drink + potion name"); printf(" -> Drink the selected potion\n");
 		slim_printf(WHITE, "attack + NPC name"); printf(" -> Attack the focused NPC\n");
-		slim_printf(WHITE, "change"); printf("(in talk with Merchant) -> Swap between SELL & BUY mode\n");
+		slim_printf(WHITE, "talk to + NPC name"); printf(" -> Start a conversation with a NPC\n");
 		slim_printf(WHITE, "buy + item name"); printf("(in talk with Merchant) -> Buy the choosed item\n");
 		slim_printf(WHITE, "sell + item name"); printf("(in talk with Merchant)->Sell the choosed item\n");
+		slim_printf(WHITE, "change"); printf("(in talk with Merchant) -> Swap between SELL & BUY mode\n");
 		slim_printf(WHITE, "change"); printf("(in talk with Runner) -> Swap between FUSE & EXTRACT mode\n");
 		slim_printf(WHITE, "a...z"); printf("(in talk with NPC) -> Choose option\n");
 		slim_printf(WHITE, "RESET"); printf("(in dead state) -> Reset the user bag, money & current xp\n\n");
