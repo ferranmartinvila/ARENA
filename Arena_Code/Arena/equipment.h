@@ -12,6 +12,8 @@ public:
 	uint attack_buff;
 	uint agility_buff;
 
+	uint level;
+
 	//Constructor
 	equip(char*, char*, OBJECT_TYPE, uint, uint, uint, uint ,uint);
 

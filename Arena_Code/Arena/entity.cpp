@@ -32,8 +32,10 @@ void entity::look_it()const{
 				slim_printf(LIGHT_MAGENTA, "[runner]\n");
 				break;
 			case TAMER:
-				slim_printf(LIGHT_MAGENTA, "[tamer]\n");
+				slim_printf(LIGHT_GREEN, "[tamer]\n");
 				break;
+			case ENCHANTER:
+				slim_printf(YELLOW, "[enchanter]\n");
 			}
 			k++;
 		}

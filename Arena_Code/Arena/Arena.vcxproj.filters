@@ -139,5 +139,8 @@
     <ClInclude Include="Pet.h">
       <Filter>World\Entities\Creatures\NPCs</Filter>
     </ClInclude>
+    <ClInclude Include="Enchanter.h">
+      <Filter>World\Entities\Creatures\NPCs</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

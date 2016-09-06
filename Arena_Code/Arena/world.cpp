@@ -1,10 +1,12 @@
 #include "World.h"
 #include "string.h"
+
 //Creatures
 #include "player.h"
 #include "Merchant.h"
 #include "Runner.h"
 #include "Tamer.h"
+#include "Enchanter.h"
 
 //Objects
 #include "room.h"
@@ -72,6 +74,9 @@ void world::Initialize(){
 	//Tamer
 	tamer*Tamer = new tamer(House, 25);
 	data.push_back(Tamer);
+	//Enchanter
+	enchanter*Enchanter = new enchanter(Black_Market, 25);
+	data.push_back(Enchanter);
 
 
 	//PLAYER AVATAR------------------------------
@@ -153,6 +158,7 @@ void world::Initialize(){
 	Black_Market->buffer.push_back(Black_Market_to_Principal_Square);
 	Black_Market->buffer.push_back(Runes_Merchant);
 	Black_Market->buffer.push_back(Runner);
+	Black_Market->buffer.push_back(Enchanter);
 	//House
 	House->buffer.push_back(House_to_Principal_Square);
 	House->buffer.push_back(Tamer);
@@ -223,8 +229,8 @@ bool world::Apply_Instruction(vector<string> instruction){
 	 
 
 	//STATE ACTIONS------------------------------
-	//NPC Talk(Buy/Sell/Fuse/Extract)
-	else if (user->state == BUY || user->state == SELL  || user->state == FUSE_RUNES || user->state == EXTRACT_RUNES || user->state == PET_TRADE)((creature*)user->entity_focused)->talk(instruction.buffer[0]);
+	//NPC Talk(Buy/Sell/Fuse_Runes/Extract_Runes/Pet_Trade/Upgrade)
+	else if (user->state == BUY || user->state == SELL  || user->state == FUSE_RUNES || user->state == EXTRACT_RUNES || user->state == PET_TRADE || user->state == UPGRADE)((creature*)user->entity_focused)->talk(instruction.buffer[0]);
 	
 	//ARENA FIGHT--------------------------------
 	else if (user->state == IN_ARENA){

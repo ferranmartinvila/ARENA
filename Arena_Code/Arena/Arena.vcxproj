@@ -82,6 +82,7 @@
     <ClInclude Include="creature.h" />
     <ClInclude Include="Data_Source.h" />
     <ClInclude Include="double_list.h" />
+    <ClInclude Include="Enchanter.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="equipment.h" />
     <ClInclude Include="Globals.h" />

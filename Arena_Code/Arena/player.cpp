@@ -305,7 +305,7 @@ entity* player::choose_item(char option, OBJECT_TYPE type){
 	//In extern buffer action
 	if (state == BUY || state == PET_TRADE)temp = this->entity_focused->buffer.first_element;
 	//In intern buffer action
-	else if (state == SELL || state == EXTRACT_RUNES || state == FUSE_RUNES)temp = this->buffer.first_element;
+	else if (state == SELL || state == EXTRACT_RUNES || state == FUSE_RUNES || state == UPGRADE)temp = this->buffer.first_element;
 	if (temp == nullptr){ printf("Invalid Selection.\n");return false; }
 	//Find the item position in the focused buffer
 	OBJECT_TYPE ob_type = ((object*)temp->data)->object_type;

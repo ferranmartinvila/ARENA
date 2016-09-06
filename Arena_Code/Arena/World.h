@@ -8,7 +8,7 @@ class entity;
 class player;
 class room;
 
-#define MAX_ENTITY 65
+#define MAX_ENTITY 66
 class world{
 public:
 
