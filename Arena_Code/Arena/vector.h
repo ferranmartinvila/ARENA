@@ -38,7 +38,7 @@ public:
 			for (unsigned int k = 0; k < elements; k++){
 				copy[k] = buffer[k];
 			}
-			delete[] buffer;
+			//delete[] buffer;
 			buffer = copy;
 		}
 		buffer[elements] = element;
